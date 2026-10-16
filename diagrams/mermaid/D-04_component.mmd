@@ -1,0 +1,25 @@
+%% D-04 UML component diagram - Mermaid auto-layout alternative generated from the same definition as the draw.io file
+flowchart TB
+  UI["M9 ui<br/>Streamlit pages"]
+  CLI["cli<br/>argparse entry points"]
+  M1["M1 config<br/>schema, presets, seeds"]
+  M6["M6 experiments<br/>runner, plans"]
+  M8["M8 visualization<br/>plots, tables, export"]
+  M7["M7 evaluation<br/>metrics, statistics"]
+  M2["M2 simulator<br/>dynamics, disturbance"]
+  M3["M3 controllers<br/>PD, PID, PID+DOB"]
+  M4["M4 residual_model<br/>data, MLP, predictor"]
+  M5["M5 gating<br/>DistanceGate, ConstantGate"]
+  UI -->|"ExperimentConfig.validate()"| M1
+  UI -->|"run() → RunHandle"| M6
+  UI -->|"plot_*(), render_table(), load_run()"| M8
+  CLI -->|"run(load_config())"| M6
+  M6 -->|"derive_trial_seeds()"| M1
+  M6 -->|"RunWriter, export_run()"| M8
+  M6 -->|"trial_metrics(), aggregate()"| M7
+  M6 -->|"Simulator.run()"| M2
+  M2 -->|"Controller.compute()"| M3
+  M2 -->|"Controller.compute()"| M4
+  M4 -->|"Simulator.run() (dataset)"| M2
+  M4 -->|"nominal Controller"| M3
+  M4 <-->|"Gate.sigma(H) / norm stats"| M5

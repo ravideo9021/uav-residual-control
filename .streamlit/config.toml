@@ -1,0 +1,69 @@
+# ResLand dashboard theme: same palette and type as the project hub (hub/src/index.css).
+# Light = cream "paper", dark = warm ink with gold/saffron. Streamlit follows the viewer's system setting.
+
+[server]
+enableStaticServing = true    # serves src/resland/ui/static/ (Barlow fonts) at app/static/
+
+[client]
+toolbarMode = "minimal"
+
+[theme]
+font = "Barlow, system-ui, sans-serif"
+headingFont = "'Barlow Condensed', 'Arial Narrow', sans-serif"
+headingFontWeights = [800, 700, 700, 700, 700, 700]
+baseRadius = "14px"
+buttonRadius = "full"
+showWidgetBorder = true
+chartCategoricalColors = ["#8c7a5b", "#c9a84c", "#5b8fd1", "#e8832a", "#2fa36b", "#b4481a", "#a9c8ee", "#f0d78a", "#7a5810", "#d42b2b"]
+
+[[theme.fontFaces]]
+family = "Barlow"
+url = "app/static/Barlow-400.woff2"
+weight = 400
+
+[[theme.fontFaces]]
+family = "Barlow"
+url = "app/static/Barlow-600.woff2"
+weight = 600
+
+[[theme.fontFaces]]
+family = "Barlow Condensed"
+url = "app/static/BarlowCondensed-700.woff2"
+weight = 700
+
+[[theme.fontFaces]]
+family = "Barlow Condensed"
+url = "app/static/BarlowCondensed-800.woff2"
+weight = 800
+
+[theme.light]
+primaryColor = "#7a5810"
+backgroundColor = "#f5eddf"
+secondaryBackgroundColor = "#efe3cd"
+textColor = "#1f1812"
+borderColor = "#dccab0"
+linkColor = "#7a5810"
+redColor = "#9a2412"
+orangeColor = "#a3420f"
+greenColor = "#1d5a32"
+blueColor = "#1e4670"
+yellowColor = "#6b4200"
+
+[theme.light.sidebar]
+backgroundColor = "#fffaf1"
+
+[theme.dark]
+primaryColor = "#d9b95c"
+backgroundColor = "#0d0b09"
+secondaryBackgroundColor = "#1a1612"
+textColor = "#f2e8d5"
+borderColor = "#3a3024"
+linkColor = "#f0d78a"
+redColor = "#ff9c86"
+orangeColor = "#ee9447"
+greenColor = "#8fdcaa"
+blueColor = "#a9c8ee"
+yellowColor = "#f2c46a"
+
+[theme.dark.sidebar]
+backgroundColor = "#1a1612"

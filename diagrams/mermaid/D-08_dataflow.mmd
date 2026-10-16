@@ -1,0 +1,33 @@
+%% D-08 Data-flow diagram (level 1) - Mermaid auto-layout alternative generated from the same definition as the draw.io file
+flowchart LR
+  E1["Experimenter"]
+  E2["ML Developer"]
+  P1(("1.0<br/>Configure &<br/>validate"))
+  P3(("3.0<br/>Simulate<br/>trials"))
+  P2(("2.0<br/>Generate data<br/>& train"))
+  P4(("4.0<br/>Compute trial<br/>metrics"))
+  P5(("5.0<br/>Aggregate &<br/>compare"))
+  P6(("6.0<br/>Visualise &<br/>export"))
+  D1[("D1  configs/")]
+  D2[("D2  models/")]
+  D3[("D3  data/ (datasets)")]
+  D4[("D4  results/<run_id>/")]
+  D5[("D5  data/paper_reference/")]
+  E1 -->|"parameters"| P1
+  P1 -->|"validation messages"| E1
+  E2 -->|"training config"| P1
+  P1 <-->|"YAML"| D1
+  P1 -->|"resolved config + seeds"| P3
+  P1 -->|"resolved config"| P2
+  P2 -->|"PID run request"| P3
+  P3 -->|"trajectories + tau_DAGE, a_GE"| P2
+  P2 -->|"model artefact"| D2
+  P2 -->|"windows X, Y"| D3
+  D2 -->|"predictor + d0"| P3
+  P3 -->|"TrajectoryBatch"| P4
+  P4 -->|"metrics"| D4
+  D4 -->|"trials.csv"| P5
+  P5 -->|"aggregate.csv, paired_diffs.csv"| D4
+  D4 -->|"results"| P6
+  D5 -->|"paper values (labelled)"| P6
+  P6 -->|"plots, tables, exported files"| E1

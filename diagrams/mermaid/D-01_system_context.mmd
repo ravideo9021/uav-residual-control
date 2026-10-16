@@ -1,0 +1,17 @@
+%% D-01 System context diagram - Mermaid auto-layout alternative generated from the same definition as the draw.io file
+flowchart LR
+  EXP["«actor»<br/>Experimenter<br/>(student / researcher)"]
+  DEV["«actor»<br/>ML Developer<br/>(CLI user)"]
+  REV["«actor»<br/>Project Guide /<br/>Evaluation Panel"]
+  SYS["ResLand<br/>UAV moving-platform landing<br/>simulator with residual<br/>dynamics compensation<br/>(modules M1-M9)"]
+  FS[("Local file system<br/>configs/  models/<br/>data/  results/")]
+  REF[("Paper reference values<br/>data/paper_reference/<br/>(read-only, labelled)")]
+  GH["Git / GitHub Actions<br/>version control, CI"]
+  PY["Python runtime<br/>NumPy, PyTorch, pandas,<br/>Streamlit, Plotly"]
+  EXP <-->|"in: settings, run / cancel, export out: progress, plots, tables"| SYS
+  DEV <-->|"in: CLI commands out: logs, model artefacts"| SYS
+  REV <-->|"in: reload saved run out: read-only views"| SYS
+  SYS <-->|"configs, models, results CSV"| FS
+  REF -->|"cited values"| SYS
+  GH -.->|"lint + tests on push"| SYS
+  PY -.-|"executes on"| SYS

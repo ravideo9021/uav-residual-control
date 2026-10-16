@@ -1,0 +1,738 @@
+{
+ "file": "docs/presentation/UAV_DAGE_Residual_Control_Evaluation2.pptx",
+ "slides": [
+  {
+   "n": 1,
+   "title": "B.Tech Project Evaluation-2, VIIth Sem",
+   "groups": [
+    [
+     {
+      "text": "Project Title:",
+      "level": 0
+     },
+     {
+      "text": "Residual Compensation of Dynamic Asymmetric Ground Effect",
+      "level": 0
+     },
+     {
+      "text": "for UAV Landing on Moving Platforms",
+      "level": 0
+     }
+    ],
+    [
+     {
+      "text": "Why State-Space Safety Gating Fails",
+      "level": 0
+     }
+    ],
+    [
+     {
+      "text": "Presented by :",
+      "level": 0
+     },
+     {
+      "text": "Ravi Deo (2023458249)",
+      "level": 0
+     },
+     {
+      "text": "Arjun Saharawat (2023243500)",
+      "level": 0
+     },
+     {
+      "text": "Yash Bhadauria (2023314335)",
+      "level": 0
+     }
+    ],
+    [
+     {
+      "text": "Under the Supervision of :",
+      "level": 0
+     },
+     {
+      "text": "Dr. Dharmendra Kumar",
+      "level": 0
+     },
+     {
+      "text": "Assistant Professor, CSE",
+      "level": 0
+     },
+     {
+      "text": "Sharda University",
+      "level": 0
+     }
+    ],
+    [
+     {
+      "text": "DEPARTMENT OF COMPUTER SCIENCE & ENGINEERING",
+      "level": 0
+     },
+     {
+      "text": "SHARDA SCHOOL OF ENGINEERING AND TECHNOLOGY",
+      "level": 0
+     },
+     {
+      "text": "October 2026",
+      "level": 0
+     }
+    ]
+   ],
+   "tables": [],
+   "notes": ""
+  },
+  {
+   "n": 2,
+   "title": "Contents of the Presentation",
+   "groups": [
+    [
+     {
+      "text": "1. Introduction to the Project",
+      "level": 0
+     },
+     {
+      "text": "2. Motivation for the Project",
+      "level": 0
+     },
+     {
+      "text": "3. Problem Statement / Objectives",
+      "level": 0
+     },
+     {
+      "text": "4. Problem Domain",
+      "level": 0
+     },
+     {
+      "text": "5. Literature Survey / Existing System",
+      "level": 0
+     },
+     {
+      "text": "6. Proposed System",
+      "level": 0
+     },
+     {
+      "text": "7. Team Members & Workload Distribution",
+      "level": 0
+     },
+     {
+      "text": "8. Meeting Details",
+      "level": 0
+     },
+     {
+      "text": "9. Project Planning / Timeline",
+      "level": 0
+     },
+     {
+      "text": "10. Uniqueness of the Idea",
+      "level": 0
+     },
+     {
+      "text": "11. Expected Outcome",
+      "level": 0
+     },
+     {
+      "text": "12. Conclusion",
+      "level": 0
+     }
+    ]
+   ],
+   "tables": [],
+   "notes": ""
+  },
+  {
+   "n": 3,
+   "title": "Introduction to the Project",
+   "groups": [
+    [
+     {
+      "text": "Goal: land a multirotor UAV accurately on a laterally moving platform, such as a vehicle or a boat deck.",
+      "level": 0
+     },
+     {
+      "text": "Ground effect is normally treated as a symmetric increase in thrust as a rotor nears a surface.",
+      "level": 0
+     },
+     {
+      "text": "That model is adequate for hover over a static pad, but not for a descent onto a translating platform.",
+      "level": 0
+     },
+     {
+      "text": "Two mechanisms break the left–right symmetry of the airflow and create a roll torque: rotor airspeed asymmetry and platform surface slip.",
+      "level": 0
+     },
+     {
+      "text": "We name this combined disturbance dynamic asymmetric ground effect (DAGE).",
+      "level": 0
+     },
+     {
+      "text": "Approach: keep a stable PID cascade and learn only the correction it is missing — a gated residual controller.",
+      "level": 0
+     }
+    ]
+   ],
+   "tables": [],
+   "notes": ""
+  },
+  {
+   "n": 4,
+   "title": "Motivation for the Project",
+   "groups": [
+    [
+     {
+      "text": "A 2026 survey of moving-platform landing reports that aerodynamic disturbances grow stronger and faster as platform speed rises.",
+      "level": 0
+     },
+     {
+      "text": "Classical PID and SE(3) controllers assume nominal aerodynamics — an assumption that fails in the final metre of descent.",
+      "level": 0
+     },
+     {
+      "text": "Model predictive control depends on an internal model that DAGE violates exactly where precision matters.",
+      "level": 0
+     },
+     {
+      "text": "End-to-end reinforcement learning gives no stability guarantee outside its training distribution.",
+      "level": 0
+     },
+     {
+      "text": "The disturbance does not vanish under perfect tracking: matching the platform means flying at its speed through still air.",
+      "level": 0
+     },
+     {
+      "text": "Published learning results are often compared with weak baselines and tested on the same disturbance they were trained on.",
+      "level": 0
+     }
+    ]
+   ],
+   "tables": [],
+   "notes": ""
+  },
+  {
+   "n": 5,
+   "title": "Problem Statement / Objectives",
+   "groups": [
+    [
+     {
+      "text": "Problem Statement:",
+      "level": 0
+     }
+    ],
+    [
+     {
+      "text": "When a multirotor descends onto a laterally moving platform, an altitude- and velocity-dependent roll torque appears that symmetric ground-effect models cannot predict, and classical controllers lose touchdown accuracy because of it.",
+      "level": 0
+     }
+    ],
+    [
+     {
+      "text": "Objectives:",
+      "level": 0
+     }
+    ],
+    [
+     {
+      "text": "1. Formalise DAGE through its two mechanisms — airspeed asymmetry and surface slip — and design a gated residual controller that cancels it while the PID cascade keeps authority.",
+      "level": 0
+     },
+     {
+      "text": "2. Evaluate it fairly: against a tuned PID and a disturbance observer, on a disturbance field unseen in training, and test whether the state-space safety gate actually provides safety.",
+      "level": 0
+     }
+    ]
+   ],
+   "tables": [],
+   "notes": ""
+  },
+  {
+   "n": 6,
+   "title": "Problem Domain",
+   "groups": [
+    [
+     {
+      "text": "Nonlinear Flight Control — cascaded PID loops, geometric control on SE(3), input-to-state stability.",
+      "level": 0
+     },
+     {
+      "text": "Rotor Aerodynamics — ground effect, wall-jet formation, advance-ratio asymmetry near a surface.",
+      "level": 0
+     },
+     {
+      "text": "Residual Learning — learning only the additive correction to a fixed, stable base controller.",
+      "level": 0
+     },
+     {
+      "text": "Machine Learning — multilayer perceptron regression over sliding state windows.",
+      "level": 0
+     },
+     {
+      "text": "Out-of-Distribution Detection — distance gates, uncertainty estimation, safe policy adaptation.",
+      "level": 0
+     },
+     {
+      "text": "Statistical Evaluation — Monte Carlo trials, Wilson score intervals, paired bootstrap tests.",
+      "level": 0
+     },
+     {
+      "text": "Embedded Computing — running inference inside a 100 Hz flight-control loop.",
+      "level": 0
+     }
+    ]
+   ],
+   "tables": [],
+   "notes": ""
+  },
+  {
+   "n": 7,
+   "title": "Literature Survey / Existing System",
+   "groups": [
+    [
+     {
+      "text": "Research Gap:",
+      "level": 0
+     }
+    ],
+    [
+     {
+      "text": "No existing model of the roll torque caused by platform translation; ground-effect work assumes a static surface.",
+      "level": 0
+     },
+     {
+      "text": "Learned compensators are usually tested on the disturbance they were trained on, against weak PD baselines.",
+      "level": 0
+     },
+     {
+      "text": "Safety gating is assumed to work, never tested: no study compares state-space gating with output-uncertainty gating.",
+      "level": 0
+     },
+     {
+      "text": "Fast platforms remain unsolved, which is exactly where the disturbance is strongest.",
+      "level": 0
+     },
+     {
+      "text": "Most validation is simulation-only or on static pads; moving-platform flight data is scarce.",
+      "level": 0
+     }
+    ]
+   ],
+   "tables": [
+    [
+     [
+      "Study (2025–2026)",
+      "Focus & Core Method",
+      "Limitation"
+     ],
+     [
+      "Zhang & Wu (2026),J. Vibration and Control",
+      "Survey of anti-disturbance control for quadrotors landing on moving platforms",
+      "Disturbance estimation for fast platforms is still an open problem"
+     ],
+     [
+      "Colombo, Beckers & Giribet (2026), arXiv",
+      "Gaussian-process oracle compensates unmodelled forces on SE(3); correction gated by predicted variance",
+      "Generic disturbances in simulation; no near-ground or moving-surface model"
+     ],
+     [
+      "Banday, Sah & Keshavan (2025), arXiv",
+      "Koopman model with event-triggered MPC for optic-flow landing on dynamic platforms",
+      "Ground effect lumped into a linear surrogate; simulation only"
+     ],
+     [
+      "Wu et al. (2025),IEEE Trans. Control Syst. Tech.",
+      "L1Quad: L1 adaptive augmentation of geometric control with performance guarantees",
+      "Adapts to disturbances but does not model moving-surface asymmetry"
+     ],
+     [
+      "Danesh et al. (2025), arXiv",
+      "Uncertainty-aware out-of-distribution detection to gate policy corrections",
+      "Critic ensembles in RL; state-space distance gating untested"
+     ]
+    ]
+   ],
+   "notes": ""
+  },
+  {
+   "n": 8,
+   "title": "Proposed System",
+   "groups": [
+    [
+     {
+      "text": "Gated residual architecture:",
+      "level": 0
+     }
+    ],
+    [
+     {
+      "text": "1. Nominal cascade — vertical PID, lateral outer loop and roll PID, with integral action.",
+      "level": 0
+     },
+     {
+      "text": "2. Residual network — predicts the DAGE roll torque and the vertical lift anomaly.",
+      "level": 0
+     },
+     {
+      "text": "3. Safety gate — scales the network output by a factor between 0 and 1.",
+      "level": 0
+     },
+     {
+      "text": "4. Final command = nominal command − gate × network output; at gate 0 the loop is exactly the PID cascade.",
+      "level": 0
+     },
+     {
+      "text": "5. Boundedness follows from an input-to-state-stability argument on the nominal loop.",
+      "level": 0
+     }
+    ],
+    [
+     {
+      "text": "Implementation:",
+      "level": 0
+     }
+    ],
+    [
+     {
+      "text": "Input: 40 ms sliding window of roll, roll rate, altitude, climb rate and commands (24 features).",
+      "level": 0
+     },
+     {
+      "text": "Network: three hidden layers [64, 64, 32] with tanh activations; 7,906 parameters, NumPy only.",
+      "level": 0
+     },
+     {
+      "text": "Training: 400 PID trajectories, platform speed 0–4 m/s, split by trajectory; validation MSE 0.0072.",
+      "level": 0
+     },
+     {
+      "text": "Gate: per-feature standardised distance, threshold at the 99th percentile of training data.",
+      "level": 0
+     },
+     {
+      "text": "Testing: reduced-order 100 Hz simulator, 500 randomised Monte Carlo trials per condition.",
+      "level": 0
+     }
+    ]
+   ],
+   "tables": [],
+   "notes": ""
+  },
+  {
+   "n": 9,
+   "title": "Team Members & Workload Distribution",
+   "groups": [
+    [
+     {
+      "text": "Ravi Deo (2023458249) — Modelling & Simulation",
+      "level": 0
+     },
+     {
+      "text": "DAGE disturbance formulation and reduced-order simulator",
+      "level": 1
+     },
+     {
+      "text": "Evaluation harness, Monte Carlo protocol and statistical analysis",
+      "level": 1
+     },
+     {
+      "text": "Arjun Saharawat (2023243500) — Learning Pipeline",
+      "level": 0
+     },
+     {
+      "text": "Residual network design, training and validation in NumPy",
+      "level": 1
+     },
+     {
+      "text": "Data generation, trajectory-level splitting and hyperparameter tuning",
+      "level": 1
+     },
+     {
+      "text": "Yash Bhadauria (2023314335) — Control & Analysis",
+      "level": 0
+     },
+     {
+      "text": "PID, PD and disturbance-observer baselines; safety gate implementation",
+      "level": 1
+     },
+     {
+      "text": "Gate ablation study, result figures and paper documentation",
+      "level": 1
+     }
+    ]
+   ],
+   "tables": [],
+   "notes": ""
+  },
+  {
+   "n": 10,
+   "title": "Meeting Details",
+   "groups": [
+    [
+     {
+      "text": "Total meetings held with the guide this semester: 10",
+      "level": 0
+     }
+    ]
+   ],
+   "tables": [
+    [
+     [
+      "S. No.",
+      "Date",
+      "Agenda",
+      "Outcome"
+     ],
+     [
+      "1",
+      "09 July 2026",
+      "Problem selection and project scope",
+      "DAGE topic approved"
+     ],
+     [
+      "2",
+      "16 July 2026",
+      "Literature survey plan and paper shortlist",
+      "Recent 2025–2026 work identified"
+     ],
+     [
+      "3",
+      "23 July 2026",
+      "Disturbance model: airspeed and slip mechanisms",
+      "Two-mechanism model accepted"
+     ],
+     [
+      "4",
+      "04 August 2026",
+      "Simulator design and parameter selection",
+      "Reduced-order model finalised"
+     ],
+     [
+      "5",
+      "13 August 2026",
+      "Baseline controllers: PD, PID and DOB",
+      "PID chosen as reference baseline"
+     ],
+     [
+      "6",
+      "22 August 2026",
+      "Residual network and training protocol",
+      "Trajectory-level data split adopted"
+     ],
+     [
+      "7",
+      "01 September 2026",
+      "Evaluation metrics and landing envelope",
+      "500-trial Monte Carlo protocol set"
+     ],
+     [
+      "8",
+      "08 September 2026",
+      "Gate calibration and ablation results",
+      "Negative gate result accepted"
+     ],
+     [
+      "9",
+      "13 September 2026",
+      "Disturbance-model mismatch experiment",
+      "Robustness study approved"
+     ],
+     [
+      "10",
+      "20 September 2026",
+      "Review of full paper draft",
+      "Corrections suggested by guide"
+     ]
+    ]
+   ],
+   "notes": ""
+  },
+  {
+   "n": 11,
+   "title": "Project Planning / Timeline",
+   "groups": [],
+   "tables": [
+    [
+     [
+      "Phase",
+      "Period",
+      "Work",
+      "Status"
+     ],
+     [
+      "I",
+      "July 2026",
+      "Literature survey and problem formulation",
+      "Completed"
+     ],
+     [
+      "II",
+      "July – August 2026",
+      "DAGE model derivation and simulator development",
+      "Completed"
+     ],
+     [
+      "III",
+      "August 2026",
+      "Residual network training and baseline controllers",
+      "Completed"
+     ],
+     [
+      "IV",
+      "September 2026",
+      "Monte Carlo evaluation, mismatch and gate ablation",
+      "Completed"
+     ],
+     [
+      "V",
+      "October 2026",
+      "Paper writing, review and conference submission",
+      "In progress"
+     ],
+     [
+      "VI",
+      "November 2026 – March 2027",
+      "Software-in-the-loop study and tethered flight tests",
+      "Planned"
+     ]
+    ]
+   ],
+   "notes": ""
+  },
+  {
+   "n": 12,
+   "title": "Uniqueness of the Idea",
+   "groups": [
+    [
+     {
+      "text": "First formal model of the roll disturbance created by platform translation, with its two physical mechanisms separated.",
+      "level": 0
+     },
+     {
+      "text": "Shows the disturbance does not disappear under perfect tracking, so the problem is not self-solving.",
+      "level": 0
+     },
+     {
+      "text": "Honest baselines: against PD the gain looks like 2.4% → 100%; against a tuned PID it is 80.8% → 100% — we report the second.",
+      "level": 0
+     },
+     {
+      "text": "Tested on a disturbance field with different gains, decay and mechanism balance, so the result is not circular.",
+      "level": 0
+     },
+     {
+      "text": "Negative result: the standard state-space safety gate never fires as calibrated, and hurts performance when forced to.",
+      "level": 0
+     },
+     {
+      "text": "Explains why (self-masking) and supports gating on output uncertainty — the direction recent 2026 work also takes.",
+      "level": 0
+     }
+    ]
+   ],
+   "tables": [],
+   "notes": ""
+  },
+  {
+   "n": 13,
+   "title": "Expected Outcome",
+   "groups": [
+    [
+     {
+      "text": "Landing-envelope success (500 trials per condition):",
+      "level": 0
+     }
+    ],
+    [
+     {
+      "text": "RMS roll at 3.0 m/s falls from 0.0291 to 0.0134 rad; roll violations at 5.0 m/s fall from 53.6% to 0%.",
+      "level": 0
+     },
+     {
+      "text": "Inference cost is 7,744 multiply–accumulate operations per step, well inside a 100 Hz control budget.",
+      "level": 0
+     },
+     {
+      "text": "Deliverables: an IEEE-format paper, a reproducible simulator and the full evaluation harness.",
+      "level": 0
+     }
+    ]
+   ],
+   "tables": [
+    [
+     [
+      "Platform speed",
+      "PID baseline",
+      "Residual controller",
+      "Condition"
+     ],
+     [
+      "1.5 m/s",
+      "100.0%",
+      "100.0%",
+      "In training range"
+     ],
+     [
+      "3.0 m/s",
+      "80.8%",
+      "100.0%",
+      "In training range"
+     ],
+     [
+      "5.0 m/s",
+      "3.6%",
+      "96.2%",
+      "25% beyond range"
+     ],
+     [
+      "6.0 m/s",
+      "0.0%",
+      "67.0%",
+      "50% beyond range"
+     ],
+     [
+      "3.0 m/s",
+      "29.6%",
+      "100.0%",
+      "Unseen disturbance field"
+     ]
+    ]
+   ],
+   "notes": ""
+  },
+  {
+   "n": 14,
+   "title": "Conclusion",
+   "groups": [
+    [
+     {
+      "text": "DAGE is a real and predictable disturbance: an altitude- and velocity-dependent roll torque from rotor airspeed asymmetry and platform surface slip.",
+      "level": 0
+     },
+     {
+      "text": "The residual controller improves every touchdown metric at every nonzero platform speed and extrapolates usefully beyond its training range.",
+      "level": 0
+     },
+     {
+      "text": "The safety gate, expected to be the most defensible component, proved the weakest: inert as calibrated and harmful when forced to fire.",
+      "level": 0
+     },
+     {
+      "text": "Gating therefore belongs on the uncertainty of the residual output, not on input-space distance.",
+      "level": 0
+     },
+     {
+      "text": "Limitation: results come from a reduced-order simulator, and the disturbance model remains a physically motivated hypothesis.",
+      "level": 0
+     },
+     {
+      "text": "Next steps: full software-in-the-loop validation, then tethered flight tests over a moving ground vehicle.",
+      "level": 0
+     }
+    ],
+    [
+     {
+      "text": "Thank You",
+      "level": 0
+     }
+    ]
+   ],
+   "tables": [],
+   "notes": ""
+  }
+ ]
+}

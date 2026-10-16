@@ -1,0 +1,15 @@
+# Paper-reported values, transcribed from Deo et al. (reference [1]). source = Paper-reported. Read-only; never written into run results.
+# Table IV: disturbance-model mismatch, 500 trials per condition; v_p 5.0 = compound condition.
+v_p,controller,rms_phi,peak_phi,dvy,envelope_pct,envelope_lo,envelope_hi
+1.5,PD,0.0419,0.1059,1.014,22.4,19.0,26.3
+1.5,PID,0.0204,0.0406,0.410,100.0,99.2,100
+1.5,Res-NG,0.0072,0.0152,0.150,100.0,99.2,100
+1.5,Res-G,0.0072,0.0152,0.150,100.0,99.2,100
+3.0,PD,0.1570,0.5099,3.048,0.0,0.0,0.8
+3.0,PID,0.0515,0.1397,0.936,29.6,25.8,33.7
+3.0,Res-NG,0.0185,0.0360,0.392,100.0,99.2,100
+3.0,Res-G,0.0185,0.0360,0.392,100.0,99.2,100
+5.0,PD,0.3670,0.9235,6.528,0.0,0.0,0.8
+5.0,PID,0.1524,0.4543,2.390,0.0,0.0,0.8
+5.0,Res-NG,0.0349,0.0748,0.753,53.0,48.6,57.3
+5.0,Res-G,0.0561,0.1463,1.019,52.8,48.4,57.1

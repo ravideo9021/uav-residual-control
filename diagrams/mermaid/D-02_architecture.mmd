@@ -1,0 +1,29 @@
+%% D-02 High-level software architecture - Mermaid auto-layout alternative generated from the same definition as the draw.io file
+flowchart TB
+  CLI["CLI entry points<br/>generate · train · calibrate<br/>run · reproduce"]
+  UI["M9 User Interface (Streamlit)<br/>Setup · Simulation · Comparison<br/>Results & Analysis"]
+  M7["M7 Evaluation Engine<br/>metrics · Wilson CI<br/>paired bootstrap"]
+  M6["M6 Experiment Runner<br/>plans · randomiser<br/>paired seeds · batches"]
+  M8["M8 Visualization<br/>& Reporting: Plotly,<br/>Matplotlib, export"]
+  M2["M2 Dynamics Sim.<br/>z, v_z, y, v_y, phi, p<br/>dt 0.01 s, T 12 s<br/>DAGE + ground effect<br/>sensor/process noise<br/>touchdown,<br/>divergence<br/>vectorised trials"]
+  M3["M3 Baseline Controllers<br/>PD · PID · PID+DOB<br/>Controller interface"]
+  M4["M4 Residual Learning<br/>dataset · trainer<br/>MLP 24-64-64-32-2<br/>NumPy predictor<br/>ResidualAugmentedCtrl"]
+  M5["M5 Gate<br/>d(H), sigma(d)<br/>d0 calibration<br/>ConstantGate"]
+  M1["M1 Configuration<br/>Manager<br/>YAML schema<br/>validation · seeds<br/>presets"]
+  ST[("Storage<br/>configs/ models/<br/>data/ results/")]
+  LG["Logging<br/>run.log, manifest.json"]
+  CLI --> M6
+  UI --> M6
+  UI --> M8
+  M6 --> M7
+  M6 --> M8
+  M6 -->|"Simulator.run()"| M2
+  M2 -->|"compute()"| M3
+  M2 -->|"compute()"| M4
+  M4 -->|"nominal"| M3
+  M4 --> M5
+  PB --> M1
+  AB --> M1
+  AB --> ST
+  DB --> ST
+  DB --> LG

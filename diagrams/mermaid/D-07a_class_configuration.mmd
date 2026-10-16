@@ -1,0 +1,82 @@
+%% D-07a Class diagram - configuration - ResLand v0.9 (generated from diagrams_def.py; same content as the .drawio file)
+classDiagram
+  direction TB
+  class ExperimentConfig {
+    +schema_version: str
+    +sim: SimConfig
+    +noise: NoiseConfig
+    +profiles: dict~str, DisturbanceProfile~
+    +controllers: ControllerConfig
+    +residual: ResidualConfig
+    +gate: GateConfig
+    +plan: PlanConfig
+    +thresholds: EnvelopeThresholds
+    +validate() list~ValidationIssue~
+    +load_config(path)$
+    +load_preset(name)$
+  }
+  class SimConfig {
+    +dt: float = 0.01
+    +T: float = 12.0
+    +z0: float = 4.0
+    +v_des: float = 0.42
+    +m: float = 1.5
+    +J_x: float = 0.020
+  }
+  class NoiseConfig {
+    +sigma_z = 0.010
+    +sigma_vz = 0.030
+    +sigma_phi = 0.004
+    +sigma_p = 0.020
+    +process: ProcessNoise (TBC)
+  }
+  class DisturbanceProfile {
+    +K_phi = 0.12
+    +L = 0.35
+    +lambda_slip = 0.60
+    +n_phi = 2.0
+    +A_GE = 1.8
+    +R_z = 0.55
+    +n_z = 2.0
+  }
+  class ControllerConfig {
+    +vertical: PIDGains (2.2, 2.6, 1.6)
+    +roll: PIDGains (60, 11, 30)
+    +lateral: LateralGains (TBC)
+    +dob_tau: float = 1.0
+    +limits: Limits | None
+  }
+  class ResidualConfig {
+    +W: int = 4
+    +hidden: ~64, 64, 32~
+    +train: TrainingConfig
+    +artefact: Path
+  }
+  class GateConfig {
+    +mode: none | distance
+    +d0_quantile: 0.99
+    +kappa: float (TBC)
+    +d0_scale: float = 1.0
+  }
+  class PlanConfig {
+    +name: speed_sweep | mismatch | gate_ablation | custom
+    +controllers: list~str~
+    +speeds: list~float~
+    +n_trials: int = 500
+    +master_seed: int
+    +train_profile, eval_profile: str
+  }
+  class EnvelopeThresholds {
+    +phi_max = 0.10 rad
+    +vz_max = 0.75 m/s
+    +dvy_max = 0.75 m/s
+    +z_final = 1.0 m
+  }
+  ExperimentConfig *-- SimConfig
+  ExperimentConfig *-- NoiseConfig
+  ExperimentConfig *-- DisturbanceProfile
+  ExperimentConfig *-- ControllerConfig
+  ExperimentConfig *-- ResidualConfig
+  ExperimentConfig *-- GateConfig
+  ExperimentConfig *-- PlanConfig
+  ExperimentConfig *-- EnvelopeThresholds

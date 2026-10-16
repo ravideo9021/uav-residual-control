@@ -1,0 +1,63 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "resland"
+version = "0.0.1"
+description = "UAV moving-platform landing simulator with residual dynamics compensation (design-stage scaffold)"
+readme = "README.md"
+requires-python = ">=3.10,<3.13"
+authors = [{name = "Ravi Deo"}, {name = "Arjun Saharawat"}, {name = "Yash Bhadauria"}]
+dependencies = [
+  "numpy",
+  "pandas",
+  "torch",
+  "matplotlib",
+  "plotly",
+  "streamlit",
+  "pydantic>=2",
+  "pyyaml",
+]
+
+[project.optional-dependencies]
+dev = ["pytest", "pytest-cov", "ruff", "import-linter"]
+docs = ["openpyxl"]   # python tools/build_all.py --xlsx
+
+[project.scripts]
+resland = "resland.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["smoke: fast cross-platform subset", "slow: long-running system tests"]
+
+[tool.ruff]
+line-length = 120
+extend-exclude = ["hub"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# docstrings carry full requirement-ID lists (NFR-MAINT-02); do not wrap them
+"src/**" = ["E501"]
+"tests/**" = ["E501"]
+
+[tool.importlinter]
+root_package = "resland"
+
+[[tool.importlinter.contracts]]
+name = "Layered architecture (NFR-MAINT-01)"
+type = "layers"
+layers = [
+  "resland.ui",
+  "resland.experiments",
+  "resland.visualization | resland.evaluation",
+  "resland.residual_model",
+  "resland.gating | resland.controllers",
+  "resland.simulator",
+  "resland.config",
+]

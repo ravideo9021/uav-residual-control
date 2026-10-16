@@ -1,0 +1,67 @@
+%% D-07b Class diagram - simulation and experiments - ResLand v0.9 (generated from diagrams_def.py; same content as the .drawio file)
+classDiagram
+  direction TB
+  class ExperimentRunner {
+    +run(plan, on_progress, cancel) RunHandle
+  }
+  class ExperimentPlan {
+    +conditions: list~Condition~
+    +from_config(cfg)$
+  }
+  class Randomizer {
+    +sample(cfg, seeds) TrialBatch
+  }
+  class TrialBatch {
+    +seeds, v_p, scalings, x0: ndarray
+  }
+  class Simulator {
+    +dynamics: Dynamics
+    +disturbance: DisturbanceModel
+    +noise: NoiseModel
+    +touchdown: TouchdownDetector
+    +run(trials, controller: Controller) TrajectoryBatch
+  }
+  class Dynamics {
+    +dt: float = 0.01
+    +step(x, cmd, dist, rng)
+  }
+  class DisturbanceModel {
+    +profile: DisturbanceProfile
+    +tau_dage(z, v_y, v_p, phi)
+    +a_ge(z)
+  }
+  class NoiseModel {
+    +sigmas: NoiseConfig
+    +measure(state, rng) Observation
+  }
+  class TouchdownDetector {
+    +phi_div: float
+    +check(state) flags
+  }
+  class TrajectoryBatch {
+    +states, obs, u_nom, u
+    +sigma, d, tau_dage, a_ge
+    +outcome, t_touchdown
+  }
+  class Evaluator {
+    +trial_metrics(traj, thr)
+    +aggregate(trials)
+    +compare(trials, reference)
+  }
+  class RunWriter {
+    +run_dir: Path
+    +write_batch(df)
+    +finalize(manifest)
+  }
+  ExperimentRunner o-- ExperimentPlan
+  ExperimentRunner ..> Randomizer
+  ExperimentRunner ..> Simulator
+  ExperimentRunner ..> Evaluator
+  ExperimentRunner ..> RunWriter
+  Randomizer ..> TrialBatch
+  Simulator *-- Dynamics
+  Simulator *-- DisturbanceModel
+  Simulator *-- NoiseModel
+  Simulator *-- TouchdownDetector
+  Simulator ..> TrajectoryBatch
+  Evaluator ..> TrajectoryBatch

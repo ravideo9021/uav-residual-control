@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+/* Colour scheme: system by default; <meta name="color-scheme"> carries an optional user override
+   (see ThemeToggle). Colours use light-dark() so they follow color-scheme with no JS-applied classes. */
+/* Barlow / Barlow Condensed, self-hosted (SIL OFL, see assets/fonts/OFL.txt) — same type system as Flavours Of Punjab */
+@font-face { font-family: "Barlow"; src: url("./assets/fonts/Barlow-400.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Barlow"; src: url("./assets/fonts/Barlow-600.woff2") format("woff2"); font-weight: 600 700; font-display: swap; }
+@font-face { font-family: "Barlow Condensed"; src: url("./assets/fonts/BarlowCondensed-700.woff2") format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Barlow Condensed"; src: url("./assets/fonts/BarlowCondensed-800.woff2") format("woff2"); font-weight: 800; font-display: swap; }
+
+/* Colour scheme: system by default; <meta name="color-scheme"> carries an optional user override
+   (see ThemeToggle). Colours use light-dark() so they follow color-scheme with no JS-applied classes.
+   Dark = warm ink with gold/saffron (Flavours Of Punjab); light = cream "paper". All text pairs >= 4.5:1. */
+:root {
+  color-scheme: light dark;
+  &:has(> head > meta[name="color-scheme"][content="dark"]) { color-scheme: dark; }
+  &:has(> head > meta[name="color-scheme"][content="light"]) { color-scheme: light; }
+
+  --bg: light-dark(#f5eddf, #0d0b09);
+  --surface: light-dark(#fffaf1, #1a1612);
+  --surface-2: light-dark(#efe3cd, #262019);
+  --text: light-dark(#1f1812, #f2e8d5);
+  --muted: light-dark(#5e4b38, #b5a48a);
+  --border: light-dark(#dccab0, #3a3024);
+  --primary: light-dark(#7a5810, #d9b95c);
+  --primary-strong: light-dark(#5a410a, #f0d78a);
+  --primary-soft: light-dark(#f3e4bd, #2f2615);
+  --on-primary: light-dark(#fffaf1, #0d0b09);
+  --saffron: light-dark(#a3420f, #ee9447);
+  --paper-bg: light-dark(#fbe7bd, #3a2a0c);
+  --paper-fg: light-dark(#6b4200, #f2c46a);
+  --repro-bg: light-dark(#dcefdf, #11301e);
+  --repro-fg: light-dark(#1d5a32, #8fdcaa);
+  --tbc-bg: light-dark(#fbe1d9, #3e1914);
+  --tbc-fg: light-dark(#9a2412, #ff9c86);
+  --info-bg: light-dark(#e1ebf5, #172636);
+  --info-fg: light-dark(#1e4670, #a9c8ee);
+  --focus: light-dark(#a3420f, #f0d78a);
+  --glow: light-dark(rgb(201 168 76 / 0.22), rgb(139 105 20 / 0.30));
+  --glow-2: light-dark(rgb(232 131 42 / 0.10), rgb(139 105 20 / 0.20));
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  /* diamond motif strip (after the phulkari border of Flavours Of Punjab) */
+  --motif: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='44' height='14' viewBox='0 0 44 14'%3E%3Cpath d='M11 0l7 7-7 7-7-7z' fill='%23b4481a'/%3E%3Cpath d='M11 4l3 3-3 3-3-3z' fill='%23e8d48b'/%3E%3Cpath d='M33 2.5l4.5 4.5-4.5 4.5-4.5-4.5z' fill='%23c9a84c'/%3E%3Ccircle cx='22' cy='7' r='1.3' fill='%23d42b2b'/%3E%3Ccircle cx='0' cy='7' r='1.3' fill='%23d42b2b'/%3E%3Ccircle cx='44' cy='7' r='1.3' fill='%23d42b2b'/%3E%3C/svg%3E");
+  accent-color: var(--primary);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-soft: var(--primary-soft);
+  --color-on-primary: var(--on-primary);
+  --color-paper-bg: var(--paper-bg);
+  --color-paper-fg: var(--paper-fg);
+  --color-repro-bg: var(--repro-bg);
+  --color-repro-fg: var(--repro-fg);
+  --color-tbc-bg: var(--tbc-bg);
+  --color-tbc-fg: var(--tbc-fg);
+  --color-info-bg: var(--info-bg);
+  --color-info-fg: var(--info-fg);
+  --color-saffron: var(--saffron);
+  --font-sans: "Barlow", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Barlow Condensed", "Arial Narrow", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+}
+
+html { background: var(--bg); color: var(--text); -webkit-text-size-adjust: 100%; }
+body { font-family: var(--font-sans); font-size: 1rem; line-height: 1.6; min-height: 100dvh; overflow-wrap: break-word; overflow-x: clip; -webkit-font-smoothing: antialiased; }
+
+/* Static ambient glow + grain behind the page (no animation) */
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 55% at 18% 8%, var(--glow), transparent 60%),
+    radial-gradient(ellipse 60% 50% at 85% 92%, var(--glow-2), transparent 60%),
+    var(--bg);
+}
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+html { background: var(--bg); }
+
+.font-display { font-family: var(--font-display); }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.01em; }
+.eyebrow { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--saffron); }
+.motif { height: 14px; background: var(--motif) repeat-x left center / 44px 14px; opacity: 0.9; }
+.btn-pill {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 44px; padding: 0 1.4rem;
+  border-radius: 999px; border: 1.5px solid transparent; font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+  letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; cursor: pointer;
+  transition: background-color .2s, color .2s, border-color .2s, box-shadow .2s;
+}
+.btn-gold { background: var(--primary); color: var(--on-primary); }
+.btn-gold:hover { background: var(--primary-strong); box-shadow: 0 10px 28px rgb(201 168 76 / 0.28); }
+.btn-ghost { border-color: var(--primary); color: var(--primary-strong); }
+.btn-ghost:hover { background: var(--primary-soft); }
+math { font-size: 1.05em; }
+math[display="block"] { overflow-x: auto; overflow-y: hidden; max-width: 100%; padding-block: 0.25rem; }
+
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 4px; }
+
+/* Native dialogs used for the side panel, command palette and viewers */
+dialog { color: var(--text); background: transparent; padding: 0; border: 0; max-width: none; max-height: none; }
+dialog::backdrop { background: rgb(13 11 9 / 0.6); backdrop-filter: blur(3px); }
+html:has(dialog[open]) { overflow: hidden; }
+
+/* Responsive data table: sticky header; stacked cards when its container is narrow (labels injected per cell). */
+.table-wrap { overflow: auto; max-inline-size: 100%; container-type: inline-size; border: 1px solid var(--border); border-radius: 18px; background: var(--surface); }
+.table-wrap table { border-collapse: separate; border-spacing: 0; inline-size: 100%; font-size: 0.875rem; }
+.table-wrap thead th { position: sticky; inset-block-start: 0; z-index: 1; background: var(--surface-2); text-align: start; font-family: var(--font-display); font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; font-size: 0.8rem; color: var(--primary-strong); padding: 0.7rem 0.75rem; border-block-end: 1px solid var(--border); white-space: nowrap; }
+.table-wrap tbody td, .table-wrap tbody th { padding: 0.6rem 0.75rem; vertical-align: top; border-block-end: 1px solid var(--border); text-align: start; }
+.table-wrap tbody tr:last-child > * { border-block-end: 0; }
+@container (width < 640px) {
+  .table-wrap table, .table-wrap thead, .table-wrap tbody, .table-wrap tr, .table-wrap th, .table-wrap td { display: block; }
+  .table-wrap thead { display: none; }
+  .table-wrap tbody tr { border-block-end: 1px solid var(--border); padding-block: 0.5rem; }
+  .table-wrap tbody td, .table-wrap tbody th { border: 0; padding-block: 0.2rem; }
+  .table-wrap tbody td[data-label]::before { content: attr(data-label) ": " / attr(data-label); font-weight: 600; color: var(--muted); }
+}
+
+.prose-spec p + p { margin-top: 0.75rem; }
+.sr-only-focusable:not(:focus) { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+}
+
+/* The paper is set on a cream sheet in both themes (like the menu card on Flavours Of Punjab):
+   color-scheme: light makes every light-dark() token inside resolve to its light value. */
+.paper-sheet {
+  color-scheme: light; background: #fffaf1; color: #1f1812; border: 1px solid #dccab0;
+  /* custom properties resolve light-dark() where they are defined (:root), so pin the light values here */
+  --surface: #fffaf1; --surface-2: #efe3cd; --text: #1f1812; --muted: #5e4b38; --border: #dccab0;
+  --primary: #7a5810; --primary-strong: #5a410a; --primary-soft: #f3e4bd; --on-primary: #fffaf1; --saffron: #a3420f;
+  --paper-bg: #fbe7bd; --paper-fg: #6b4200; --repro-bg: #dcefdf; --repro-fg: #1d5a32; --focus: #a3420f;
+}
+.paper-sheet sup, .paper-sheet sub { line-height: 0; }
+.btn-pill:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+
+/* Static method strip styled like the Flavours Of Punjab ticker (no marquee motion) */
+.strip { background: var(--primary); color: var(--on-primary); font-family: var(--font-display); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; }

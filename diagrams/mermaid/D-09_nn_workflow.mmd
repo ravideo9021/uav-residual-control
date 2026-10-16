@@ -1,0 +1,35 @@
+%% D-09 Neural-network training and inference workflow - Mermaid auto-layout alternative generated from the same definition as the draw.io file
+flowchart LR
+  T1["1. Generate data<br/>400 PID trajectories<br/>v_p ~ U(0, 4.0) m/s, seed 42<br/>per-trial randomisation"]
+  T2["2. Build windows<br/>H_t (W = 4) → X [N, 24]<br/>targets Y = (τ_DAGE, a_GE)"]
+  T3["3. Split by trajectory<br/>340 train / 60 held-out<br/>sub-sample 200,000 windows"]
+  T4["4. Standardise<br/>fit μ, s on training set<br/>(inputs and targets)"]
+  T5["5. Train MLP 24-64-64-32-2, tanh<br/>MSE + 1e-5·‖θ‖²<br/>Adam 8e-4 × 0.94^epoch, batch 256<br/>dropout 0.05, input noise 0.02<br/>grad-norm clip 5.0, init seed 1"]
+  DX{"val. MSE improved<br/>in last 6 epochs?"}
+  T7["6. Restore<br/>best epoch"]
+  T8["7. Calibrate gate<br/>d0 = 99th percentile<br/>of d on held-out"]
+  T9[("Model artefact<br/>weights.pt / .npz<br/>norm_stats.json<br/>gate_calibration.json<br/>training_log.csv<br/>model_card.md, SHA-256")]
+  I1["Step k inputs<br/>obs_k, u_nom,k"]
+  I2["HistoryBuffer<br/>H_t [B, 24]"]
+  I3["Standardise<br/>(μ, s)"]
+  I4["MLP forward<br/>(NumPy)"]
+  I5["De-standardise<br/>→ tau_hat, a_hat"]
+  I6["Gate (M5): d(H_t) = max_i |H_t,i − μ_i| / s_i  →  σ = clip(exp(−max(0, d − d0)/κ), 0, 1)"]
+  I7["Apply<br/>u = u_nom<br/>− σ·r̂"]
+  T1 --> T2
+  T2 --> T3
+  T3 --> T4
+  T4 --> T5
+  T5 --> DX
+  DX -->|"yes: next epoch"| T5
+  DX -->|"no"| T7
+  T7 --> T8
+  T8 --> T9
+  I1 --> I2
+  I2 --> I3
+  I2 --> I6
+  I3 --> I4
+  I4 --> I5
+  I5 -->|"r̂"| I7
+  I6 -->|"σ"| I7
+  T9 -.->|"load after SHA-256 check: weights, μ, s, d0"| I4

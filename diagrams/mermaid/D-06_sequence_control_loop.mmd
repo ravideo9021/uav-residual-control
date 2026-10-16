@@ -1,0 +1,33 @@
+%% D-06 UML sequence diagram - one simulation step k for a residual controller (Res-NG / Res-G) - ResLand v0.9
+sequenceDiagram
+  participant R as Runner (M6)
+  participant S as Simulator (M2)
+  participant C as ResCtrl (M4)
+  participant P as PID (M3)
+  participant H as History (M4)
+  participant N as Predictor (M4)
+  participant G as Gate (M5)
+  R->>S: run(TrialBatch, controller)
+  S->>C: reset(B, rng)
+  loop each step k < 1200 (dt = 0.01 s), active trials only
+    S->>S: obs_k = measure(x_k) + noise
+    S->>C: compute(obs_k, ref_k)
+    C->>P: compute(obs_k, ref_k)
+    P-->>C: u_nom = (u_z, u_phi)
+    C->>H: push(obs_k, u_nom)
+    H-->>C: H_t [B, 24]
+    alt window full (k >= 3)
+      C->>N: predict(H_t)
+      N-->>C: tau_hat, a_hat
+      C->>G: sigma(H_t)
+      G-->>C: sigma, d
+      Note over C: u_phi = u_phi_nom - sigma*tau_hat<br/>u_z = u_z_nom - sigma*a_hat
+    else warm-up (k < 3)
+      Note over C: residual = 0
+    end
+    C-->>S: Command(u_z, u_phi, diag)
+    S->>S: tau_DAGE, a_GE = disturbance(x_k, v_p)
+    S->>S: x[k+1] = integrate(x_k, u, dist., noise)
+    S->>S: touchdown / divergence check, log step
+  end
+  S-->>R: TrajectoryBatch (states, commands, sigma, d, outcomes)

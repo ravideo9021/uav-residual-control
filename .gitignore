@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+.ruff_cache/
+.coverage
+
+# run outputs (regenerated from configs)
+data/generated/
+models/
+results/
+*.npz
+*.pt
+
+# on-request build outputs
+docs/generated/
+diagrams/rendered/mermaid/
+
+# hub
+hub/node_modules/
+hub/dist/
+.vercel/
+
+# local
+.DS_Store
+.claude/

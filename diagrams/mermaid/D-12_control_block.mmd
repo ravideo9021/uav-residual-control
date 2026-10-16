@@ -1,0 +1,25 @@
+%% D-12 Gated residual control-loop block diagram - Mermaid auto-layout alternative generated from the same definition as the draw.io file
+flowchart LR
+  REF["Reference<br/>z_ref(t), v_des<br/>lateral vel. ref."]
+  PID["Cascaded PID (M3)<br/>vertical PID<br/>lateral outer loop<br/>roll PID (Eq. 8)"]
+  SUM(("Σ"))
+  PL["Reduced-order plant (M2)<br/>dz/dt = v_z<br/>dv_z/dt = u_z + a_GE + w_z<br/>dv_y/dt = (u_z + g) tan φ<br/>J_x dp/dt = u_φ + τ_DAGE + τ_n"]
+  DI["Disturbance profile<br/>DAGE (Eq. 6), GE (Eq. 7)"]
+  SE["Sensors (M2)<br/>+ Gaussian noise"]
+  HB["History buffer (M4)<br/>W = 4 → H_t ∈ R^24"]
+  NN["Residual MLP (M4)<br/>24-64-64-32-2, tanh"]
+  GT["Gate (M5)<br/>σ = f(d(H_t); d0, κ)"]
+  MUL(("×"))
+  REF --> PID
+  PID -->|"u_nom"| SUM
+  SUM -->|"u"| PL
+  DI --> PL
+  PL -->|"x"| SE
+  SE -->|"obs (feedback)"| PID
+  SE -->|"obs"| HB
+  PID -->|"u_nom (to history)"| HB
+  HB -->|"H_t"| NN
+  HB -->|"H_t"| GT
+  NN -->|"r̂"| MUL
+  GT -->|"σ"| MUL
+  MUL -->|"σ·r̂"| SUM

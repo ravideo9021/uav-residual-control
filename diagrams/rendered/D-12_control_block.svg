@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="990" height="470" viewBox="0 0 990 470" font-family="Arial, Liberation Sans, Helvetica, sans-serif">
+<defs><marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11" fill="none" stroke="#3b4a60" stroke-width="1.6"/></marker><marker id="block" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11 Z" fill="#3b4a60"/></marker><marker id="inherit" viewBox="0 0 16 16" refX="15" refY="8" markerWidth="14" markerHeight="14" orient="auto-start-reverse"><path d="M1,1 L15,8 L1,15 Z" fill="#ffffff" stroke="#3b4a60" stroke-width="1.4"/></marker><marker id="compose" viewBox="0 0 20 12" refX="1" refY="6" markerWidth="16" markerHeight="10" orient="auto"><path d="M1,6 L10,1 L19,6 L10,11 Z" fill="#3b4a60"/></marker><marker id="aggregate" viewBox="0 0 20 12" refX="1" refY="6" markerWidth="16" markerHeight="10" orient="auto"><path d="M1,6 L10,1 L19,6 L10,11 Z" fill="#ffffff" stroke="#3b4a60" stroke-width="1.3"/></marker></defs>
+<rect width="990" height="470" fill="#ffffff"/>
+<path d="M170.0,190.0 L220.0,190.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M390.0,190.0 L452.0,190.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M488.0,190.0 L540.0,190.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M655.0,80.0 L655.0,120.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M770.0,190.0 L810.0,190.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M885.0,150.0 L885.0,104.0 L305.0,104.0 L305.0,140.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M885.0,230.0 L885.0,330.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M305.0,240.0 L305.0,445.0 L885.0,445.0 L885.0,390.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M810.0,348.0 L730.0,320.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M810.0,378.0 L730.0,390.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M560.0,315.0 L488.0,330.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M560.0,390.0 L470.0,390.0 L470.0,348.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M470.0,312.0 L470.0,208.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<rect x="20" y="150" width="150" height="80" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="95.0" y="177.39" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">Reference</text>
+<text x="95.0" y="194.02999999999997" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">z_ref(t), v_des</text>
+<text x="95.0" y="210.67" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">lateral vel. ref.</text>
+<rect x="220" y="140" width="170" height="100" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="305.0" y="169.07" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">Cascaded PID (M3)</text>
+<text x="305.0" y="185.70999999999998" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">vertical PID</text>
+<text x="305.0" y="202.35" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">lateral outer loop</text>
+<text x="305.0" y="218.99" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">roll PID (Eq. 8)</text>
+<circle cx="470.0" cy="190.0" r="18.0" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.6"/>
+<text x="470.0" y="194.95999999999998" text-anchor="middle" font-size="16" font-weight="normal" fill="#0d2240">Σ</text>
+<rect x="540" y="120" width="230" height="140" rx="3" fill="#fff4e0" stroke="#b26b00" stroke-width="1.4"/>
+<text x="655.0" y="160.75" text-anchor="middle" font-size="13" font-weight="bold" fill="#3d2600">Reduced-order plant (M2)</text>
+<text x="655.0" y="177.39" text-anchor="middle" font-size="12" font-weight="normal" fill="#3d2600">dz/dt = v_z</text>
+<text x="655.0" y="194.03" text-anchor="middle" font-size="12" font-weight="normal" fill="#3d2600">dv_z/dt = u_z + a_GE + w_z</text>
+<text x="655.0" y="210.67000000000002" text-anchor="middle" font-size="12" font-weight="normal" fill="#3d2600">dv_y/dt = (u_z + g) tan φ</text>
+<text x="655.0" y="227.31" text-anchor="middle" font-size="12" font-weight="normal" fill="#3d2600">J_x dp/dt = u_φ + τ_DAGE + τ_n</text>
+<rect x="555" y="20" width="200" height="60" rx="3" fill="#fdecec" stroke="#b3261e" stroke-width="1.4"/>
+<text x="655.0" y="45.71" text-anchor="middle" font-size="13" font-weight="bold" fill="#5c0f0b">Disturbance profile</text>
+<text x="655.0" y="62.35" text-anchor="middle" font-size="12" font-weight="normal" fill="#5c0f0b">DAGE (Eq. 6), GE (Eq. 7)</text>
+<rect x="810" y="150" width="150" height="80" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="885.0" y="185.71" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">Sensors (M2)</text>
+<text x="885.0" y="202.35000000000002" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">+ Gaussian noise</text>
+<rect x="810" y="330" width="150" height="60" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="885.0" y="356.03999999999996" text-anchor="middle" font-size="12" font-weight="bold" fill="#0d2240">History buffer (M4)</text>
+<text x="885.0" y="371.4" text-anchor="middle" font-size="11" font-weight="normal" fill="#0d2240">W = 4 → H_t ∈ R^24</text>
+<rect x="560" y="290" width="170" height="50" rx="3" fill="#e7f0fb" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="645.0" y="310.71000000000004" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">Residual MLP (M4)</text>
+<text x="645.0" y="327.35" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">24-64-64-32-2, tanh</text>
+<rect x="560" y="365" width="170" height="50" rx="3" fill="#eef6ee" stroke="#3a7d44" stroke-width="1.4"/>
+<text x="645.0" y="385.71000000000004" text-anchor="middle" font-size="13" font-weight="bold" fill="#173b1d">Gate (M5)</text>
+<text x="645.0" y="402.35" text-anchor="middle" font-size="12" font-weight="normal" fill="#173b1d">σ = f(d(H_t); d0, κ)</text>
+<circle cx="470.0" cy="330.0" r="18.0" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.6"/>
+<text x="470.0" y="334.96" text-anchor="middle" font-size="16" font-weight="normal" fill="#0d2240">×</text>
+<text x="440.0" y="182.34" text-anchor="middle" font-size="14" font-weight="normal" fill="#0d2240">+</text>
+<text x="484.0" y="224.95999999999998" text-anchor="middle" font-size="16" font-weight="normal" fill="#0d2240">−</text>
+<rect x="400.1" y="195.8" width="39.8" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="420.0" y="209.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">u_nom</text>
+<rect x="506.8" y="168.8" width="14.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="514.0" y="182.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">u</text>
+<rect x="782.8" y="168.8" width="14.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="790.0" y="182.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">x</text>
+<rect x="381.5" y="94.8" width="97.0" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="430.0" y="108.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">obs (feedback)</text>
+<rect x="871.5" y="270.8" width="27.1" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="885.0" y="284.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">obs</text>
+<rect x="538.8" y="435.8" width="122.5" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="600.0" y="449.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">u_nom (to history)</text>
+<rect x="756.5" y="320.8" width="27.1" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="770.0" y="334.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">H_t</text>
+<rect x="756.5" y="374.8" width="27.1" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="770.0" y="388.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">H_t</text>
+<rect x="511.6" y="292.8" width="20.7" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="522.0" y="306.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">r̂</text>
+<rect x="492.8" y="368.8" width="14.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="500.0" y="382.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">σ</text>
+<rect x="483.3" y="252.8" width="33.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="500.0" y="266.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">σ·r̂</text>
+</svg>

@@ -1,0 +1,5445 @@
+{
+ "provenance": "Paper-reported",
+ "file": "docs/paper/DAGE_Residual_Compensation_UAV_Moving_Platform_Landing.docx",
+ "blocks": [
+  {
+   "type": "title",
+   "runs": [
+    {
+     "t": "Residual Compensation of a Phenomenological Dynamic Asymmetric Ground-Effect Disturbance for UAV Landing on Moving Platforms: A Simulation Study of State-Space Safety Gating"
+    }
+   ]
+  },
+  {
+   "type": "authors",
+   "runs": [
+    {
+     "t": "Ravi Deo, Arjun Saharawat, Yash Bhadauria, Dharmendar Kumar and Ketan Anand"
+    }
+   ]
+  },
+  {
+   "type": "affil",
+   "runs": [
+    {
+     "t": "Department of Computer Science and Engineering",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "affil",
+   "runs": [
+    {
+     "t": "Sharda University, Greater Noida, Uttar Pradesh, India"
+    }
+   ]
+  },
+  {
+   "type": "email",
+   "runs": [
+    {
+     "t": "ravideo9021@gmail.com arjunsaharawat314@gmail.com bhadauriayash056@gmail.com"
+    }
+   ]
+  },
+  {
+   "type": "email",
+   "runs": [
+    {
+     "t": "malik.dharam@gmail.com anandketan13@gmail.com"
+    }
+   ]
+  },
+  {
+   "type": "abstract",
+   "runs": [
+    {
+     "t": "Abstract",
+     "b": true,
+     "i": true
+    },
+    {
+     "t": "—Landing a multirotor on a laterally moving platform introduces near-ground disturbances that symmetric ground-effect corrections do not represent. We propose a phenomenological dynamic asymmetric ground-effect (DAGE) disturbance model with hypothesized airspeed-dependent and platform-slip-dependent terms, and train a residual controller to compensate it while a cascaded PID controller retains baseline authority. The study is deliberately conducted in a reduced-order simulation so that each element can be isolated and reproduced. Over 500 randomized Monte Carlo trials per condition, against proportional–derivative, tuned PID, and vertical-channel disturbance-observer baselines, the residual controller improves touchdown-envelope success from 80.8% to 100% at 3.0 m s",
+     "b": true
+    },
+    {
+     "t": "−1",
+     "b": true,
+     "v": "sup"
+    },
+    {
+     "t": " and from 3.6% to 96.2% at 5.0 m s",
+     "b": true
+    },
+    {
+     "t": "−1",
+     "b": true,
+     "v": "sup"
+    },
+    {
+     "t": ", 25% beyond the training-speed range. It retains a substantial advantage under a separately parameterized disturbance field, but degrades when speed extrapolation and model mismatch combine. A state-space distance gate meant to limit residual authority outside the training distribution is largely inactive at its calibrated threshold and hurts performance when tightened, indicating that state-space distance can be poorly aligned with residual-prediction reliability in closed loop. The results support residual compensation as a promising simulation-level approach, while the disturbance’s aerodynamic origin and transfer to physical UAVs remain open.",
+     "b": true
+    }
+   ]
+  },
+  {
+   "type": "keywords",
+   "runs": [
+    {
+     "t": "Index Terms",
+     "b": true,
+     "i": true
+    },
+    {
+     "t": "—UAV landing, moving platform, ground effect, residual learning, disturbance rejection, out-of-distribution detection, nonlinear control",
+     "b": true
+    }
+   ]
+  },
+  {
+   "type": "h1",
+   "runs": [
+    {
+     "t": "I. Introduction"
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Landing a multirotor on a laterally moving platform requires regulating position, velocity, attitude, and descent rate close to a surface, where rotor–surface interactions modify the forces and moments on the vehicle. Classical ground-effect models treat this mainly as a near-surface thrust increase [4] and do not specify the disturbance produced when vehicle and platform translate together. We therefore introduce a "
+    },
+    {
+     "t": "phenomenological",
+     "i": true
+    },
+    {
+     "t": " model with two hypothesized contributions, one dependent on vehicle lateral airspeed and one on vehicle–platform lateral slip, and call the combined modeled disturbance "
+    },
+    {
+     "t": "dynamic asymmetric ground effect",
+     "i": true
+    },
+    {
+     "t": " (DAGE), a name for our model rather than an established aerodynamic phenomenon. Since matching the platform velocity can remove the slip term while airspeed remains, good platform-velocity tracking does not by itself imply zero disturbance."
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Model predictive control [3] depends on accurate near-ground dynamics, and end-to-end reinforcement learning offers no guarantees outside the training distribution without additional verification [10]. Residual learning keeps a nominal controller and learns only a correction around it [6]–[9]. Our contribution is as much methodological as architectural: residual-control results are easy to overstate in two ways, and we structure the evaluation to close both."
+    }
+   ]
+  },
+  {
+   "type": "li",
+   "runs": [
+    {
+     "t": "Baseline strength.",
+     "b": true
+    },
+    {
+     "t": " A PD comparison can exaggerate the benefit of residual learning when the disturbance has a sustained component, so we benchmark against a tuned PID cascade and a vertical-channel disturbance observer [11], [12] (Section VII-A)."
+    }
+   ]
+  },
+  {
+   "type": "li",
+   "runs": [
+    {
+     "t": "Model circularity.",
+     "b": true
+    },
+    {
+     "t": " Training and testing on the same disturbance family says little about robustness, so we also test a disturbance field with changed gains, length scales, altitude decay exponents, and mechanism weighting."
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Third, we report a negative result: a state-distance residual-authority gate calibrated at the 99th percentile of in-distribution distance stays near full authority ("
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mover accent=\"true\"><mrow><mi>σ</mi></mrow><mo>̅</mo></mover><mo>≥</mo><mn>0.97</mn></math>"
+    },
+    {
+     "t": ") even 50% beyond the training speed range, and tightening it reduces performance. We examine the distributional overlap behind this and a possible closed-loop self-masking effect."
+    }
+   ]
+  },
+  {
+   "type": "h1",
+   "runs": [
+    {
+     "t": "II. Related Work"
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "A. Classical flight control and moving-platform landing",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Cascaded PID remains the workhorse of multirotor control for its simplicity and predictable tuning [1], and geometric control on "
+    },
+    {
+     "t": "SE",
+     "i": true
+    },
+    {
+     "t": "(3) [2] avoids Euler-angle singularities in most modern attitude loops. Model predictive control suits moving-platform interception because it handles state and actuator constraints over a horizon [3], but relies on an accurate near-ground disturbance model."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "B. Ground effect and the present disturbance model",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "The classical result is Cheeseman and Bennett’s momentum-theory correction for a rotor in forward flight near a surface [4]. Sanchez-Cuevas "
+    },
+    {
+     "t": "et al.",
+     "i": true
+    },
+    {
+     "t": " [5] characterize multirotor ground effect experimentally and show that it matters near the surface; Yang "
+    },
+    {
+     "t": "et al.",
+     "i": true
+    },
+    {
+     "t": " [14] model ground-effect-induced leveling torque and validate compensation in hardware; and Li "
+    },
+    {
+     "t": "et al.",
+     "i": true
+    },
+    {
+     "t": " [15] study proximity effects on hovering multirotors. None of these establishes the moving-platform roll disturbance proposed here."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "C. Learned residual dynamics",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "The closest work is Neural Lander [6], which adds a learned near-ground aerodynamic residual to a nonlinear tracking controller, with a spectral-normalization Lipschitz bound for stability, validated in real flight; Neural-Fly [7] extends this to online adaptation under wind, and residual policy learning [8], [9] frames the general idea. We claim no novelty for this pattern; what differs is the disturbance model and the information constraint, since platform velocity is unobserved and must be inferred from state and control history."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "D. Classical alternatives and residual-authority gating",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Disturbance-observer-based control and active disturbance rejection [11], [12] are classical tools for unmodeled additive disturbances; we include a vertical-channel DOB as a reference. Peng and Xia [13] place a deep network in the force and torque loop of a moving-platform landing controller with a stability analysis establishing uniformly ultimately bounded tracking error. Danesh "
+    },
+    {
+     "t": "et al.",
+     "i": true
+    },
+    {
+     "t": " [16] consider uncertainty-aware policy adaptation under distribution shift, motivating our comparison of a state-distance gate with more direct uncertainty measures."
+    }
+   ]
+  },
+  {
+   "type": "h1",
+   "runs": [
+    {
+     "t": "III. Problem Formulation and Disturbance Model"
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "A. Rigid-body dynamics",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "With inertial frame "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mi mathvariant=\"normal\">F</mi></mrow><mrow><mi>W</mi></mrow></msub></math>"
+    },
+    {
+     "t": " and body frame "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mi mathvariant=\"normal\">F</mi></mrow><mrow><mi>B</mi></mrow></msub></math>"
+    },
+    {
+     "t": " at the center of mass, the state is position "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>ξ</mi><mo>=</mo><msup><mrow><mrow><mo fence=\"true\">[</mo><mrow><mi>x</mi><mo>,</mo><mi>y</mi><mo>,</mo><mi>z</mi></mrow><mo fence=\"true\">]</mo></mrow></mrow><mrow><mi>T</mi></mrow></msup></math>"
+    },
+    {
+     "t": " (so that "
+    },
+    {
+     "t": "p",
+     "i": true
+    },
+    {
+     "t": " denotes roll rate), velocity "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>v</mi><mo>∈</mo><msup><mrow><mi mathvariant=\"normal\">R</mi></mrow><mrow><mn>3</mn></mrow></msup></math>"
+    },
+    {
+     "t": ", attitude "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>R</mi><mo>∈</mo><mi>S</mi><mi>O</mi><mrow><mo fence=\"true\">(</mo><mrow><mn>3</mn></mrow><mo fence=\"true\">)</mo></mrow></math>"
+    },
+    {
+     "t": ", and body rate "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>ω</mi><mo>=</mo><msup><mrow><mrow><mo fence=\"true\">[</mo><mrow><mi>p</mi><mo>,</mo><mi>q</mi><mo>,</mo><mi>r</mi></mrow><mo fence=\"true\">]</mo></mrow></mrow><mrow><mi>T</mi></mrow></msup></math>"
+    },
+    {
+     "t": ", with roll, pitch, and yaw angles "
+    },
+    {
+     "t": "ϕ",
+     "i": true
+    },
+    {
+     "t": ", "
+    },
+    {
+     "t": "θ",
+     "i": true
+    },
+    {
+     "t": ", "
+    },
+    {
+     "t": "ψ",
+     "i": true
+    },
+    {
+     "t": ". The Newton–Euler equations are"
+    }
+   ]
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mover accent=\"true\"><mrow><mi>ξ</mi></mrow><mo>̇</mo></mover><mo>=</mo><mi>v</mi><mo>,</mo></math>",
+   "number": "1"
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>m</mi><mover accent=\"true\"><mrow><mi>v</mi></mrow><mo>̇</mo></mover><mo>=</mo><mo>−</mo><mi>m</mi><mi>g</mi><msub><mrow><mi>e</mi></mrow><mrow><mn>3</mn></mrow></msub><mo>+</mo><mi>R</mi><msub><mrow><mi>f</mi></mrow><mrow><mi mathvariant=\"normal\">t</mi><mi mathvariant=\"normal\">h</mi><mi mathvariant=\"normal\">r</mi><mi mathvariant=\"normal\">u</mi><mi mathvariant=\"normal\">s</mi><mi mathvariant=\"normal\">t</mi></mrow></msub><mo>+</mo><msub><mrow><mi>f</mi></mrow><mrow><mi mathvariant=\"normal\">e</mi><mi mathvariant=\"normal\">x</mi><mi mathvariant=\"normal\">t</mi></mrow></msub><mo>,</mo></math>",
+   "number": "2"
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mover accent=\"true\"><mrow><mi>R</mi></mrow><mo>̇</mo></mover><mo>=</mo><mi>R</mi><mover accent=\"true\"><mrow><mi>ω</mi></mrow><mo>̂</mo></mover><mo>,</mo></math>",
+   "number": "3"
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>J</mi><mover accent=\"true\"><mrow><mi>ω</mi></mrow><mo>̇</mo></mover><mo>=</mo><mo>−</mo><mi>ω</mi><mo>×</mo><mrow><mo fence=\"true\">(</mo><mrow><mi>J</mi><mi>ω</mi></mrow><mo fence=\"true\">)</mo></mrow><mo>+</mo><msub><mrow><mi>τ</mi></mrow><mrow><mi mathvariant=\"normal\">c</mi><mi mathvariant=\"normal\">t</mi><mi mathvariant=\"normal\">r</mi><mi mathvariant=\"normal\">l</mi></mrow></msub><mo>+</mo><msub><mrow><mi>τ</mi></mrow><mrow><mi mathvariant=\"normal\">e</mi><mi mathvariant=\"normal\">x</mi><mi mathvariant=\"normal\">t</mi></mrow></msub><mo>,</mo></math>",
+   "number": "4"
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "where "
+    },
+    {
+     "t": "m",
+     "i": true
+    },
+    {
+     "t": " is mass, "
+    },
+    {
+     "t": "J",
+     "i": true
+    },
+    {
+     "t": " the inertia tensor, "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mover accent=\"true\"><mrow><mi>ω</mi></mrow><mo>̂</mo></mover></math>"
+    },
+    {
+     "t": " the skew-symmetric matrix of "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>ω</mi></math>"
+    },
+    {
+     "t": ", and "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mi>f</mi></mrow><mrow><mi mathvariant=\"normal\">e</mi><mi mathvariant=\"normal\">x</mi><mi mathvariant=\"normal\">t</mi></mrow></msub></math>"
+    },
+    {
+     "t": ", "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mi>τ</mi></mrow><mrow><mi mathvariant=\"normal\">e</mi><mi mathvariant=\"normal\">x</mi><mi mathvariant=\"normal\">t</mi></mrow></msub></math>"
+    },
+    {
+     "t": " the unmodeled force and torque addressed here."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "B. The DAGE torque",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "A vehicle descends toward a platform translating with lateral velocity "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "p",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": "; with still ambient air, its inertial lateral velocity "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "y",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " is also its lateral airspeed. The "
+    },
+    {
+     "t": "airspeed-dependent",
+     "i": true
+    },
+    {
+     "t": " term is proportional to "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "y",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": ", motivated by the dependence of near-ground rotor loading on translational flow and advance ratio [4]; rather than deriving a rotor-by-rotor thrust differential from first principles, we represent its roll effect by the first term in (6). The "
+    },
+    {
+     "t": "platform-slip",
+     "i": true
+    },
+    {
+     "t": " term is proportional to "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "y",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " − "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "p",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " and represents a possible modification of the near-surface wake and wall-jet interaction when the platform translates; this mechanism is not simulated or measured here and remains a hypothesis. As a modeling choice, both terms share one proximity factor:"
+    }
+   ]
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mi>τ</mi></mrow><mrow><mi mathvariant=\"normal\">e</mi><mi mathvariant=\"normal\">x</mi><mi mathvariant=\"normal\">t</mi></mrow></msub><mo>=</mo><msub><mrow><mi>τ</mi></mrow><mrow><mi>ϕ</mi><mo>,</mo><mi mathvariant=\"normal\">D</mi><mi mathvariant=\"normal\">A</mi><mi mathvariant=\"normal\">G</mi><mi mathvariant=\"normal\">E</mi></mrow></msub><msub><mrow><mi>e</mi></mrow><mrow><mn>1</mn></mrow></msub><mo>+</mo><msub><mrow><mi>τ</mi></mrow><mrow><mi mathvariant=\"normal\">n</mi><mi mathvariant=\"normal\">o</mi><mi mathvariant=\"normal\">i</mi><mi mathvariant=\"normal\">s</mi><mi mathvariant=\"normal\">e</mi></mrow></msub><mo>,</mo></math>",
+   "number": "5"
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mi>τ</mi></mrow><mrow><mi>ϕ</mi><mo>,</mo><mi mathvariant=\"normal\">D</mi><mi mathvariant=\"normal\">A</mi><mi mathvariant=\"normal\">G</mi><mi mathvariant=\"normal\">E</mi></mrow></msub><mrow><mo fence=\"true\">(</mo><mrow><mi>z</mi><mo>,</mo><msub><mrow><mi>v</mi></mrow><mrow><mi>y</mi></mrow></msub><mo>,</mo><msub><mrow><mi>v</mi></mrow><mrow><mi>p</mi></mrow></msub><mo>,</mo><mi>ϕ</mi></mrow><mo fence=\"true\">)</mo></mrow><mo>=</mo><msub><mrow><mi>K</mi></mrow><mrow><mi>ϕ</mi></mrow></msub><mfrac><mrow><mrow><mo fence=\"true\">[</mo><mrow><msub><mrow><mi>v</mi></mrow><mrow><mi>y</mi></mrow></msub><mo>+</mo><mi>λ</mi><mrow><mo fence=\"true\">(</mo><mrow><msub><mrow><mi>v</mi></mrow><mrow><mi>y</mi></mrow></msub><mo>−</mo><msub><mrow><mi>v</mi></mrow><mrow><mi>p</mi></mrow></msub></mrow><mo fence=\"true\">)</mo></mrow></mrow><mo fence=\"true\">]</mo></mrow><mi mathvariant=\"normal\">cos</mi><mi>ϕ</mi></mrow><mrow><mn>1</mn><mo>+</mo><msup><mrow><mrow><mo fence=\"true\">(</mo><mrow><mi>z</mi><mo>/</mo><mi>L</mi></mrow><mo fence=\"true\">)</mo></mrow></mrow><mrow><mn>2</mn></mrow></msup></mrow></mfrac><mo>,</mo></math>",
+   "number": "6"
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "where "
+    },
+    {
+     "t": "K",
+     "i": true
+    },
+    {
+     "t": "ϕ",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " is a disturbance gain, "
+    },
+    {
+     "t": "λ",
+     "i": true
+    },
+    {
+     "t": " weights the slip contribution, and "
+    },
+    {
+     "t": "L",
+     "i": true
+    },
+    {
+     "t": " is a length scale setting the altitude dependence. The vertical channel uses a simplified symmetric ground-effect acceleration,"
+    }
+   ]
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mi>a</mi></mrow><mrow><mi mathvariant=\"normal\">G</mi><mi mathvariant=\"normal\">E</mi></mrow></msub><mrow><mo fence=\"true\">(</mo><mrow><mi>z</mi></mrow><mo fence=\"true\">)</mo></mrow><mo>=</mo><mfrac><mrow><msub><mrow><mi>A</mi></mrow><mrow><mi mathvariant=\"normal\">G</mi><mi mathvariant=\"normal\">E</mi></mrow></msub></mrow><mrow><mn>1</mn><mo>+</mo><msup><mrow><mrow><mo fence=\"true\">(</mo><mrow><mi>z</mi><mo>/</mo><msub><mrow><mi>R</mi></mrow><mrow><mi>z</mi></mrow></msub></mrow><mo fence=\"true\">)</mo></mrow></mrow><mrow><mn>2</mn></mrow></msup></mrow></mfrac><mo>.</mo></math>",
+   "number": "7"
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "The functional forms and parameter values in (6)–(7) are literature-motivated hypotheses and design choices, not identified aerodynamic constants, so the mismatch study tests robustness within this family, not its physical validity."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "C. Why this is a learning target",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Neither "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "p",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " nor "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "y",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " in (6) is supplied to the residual network (Table II), so residual prediction is a partially observed regression problem: the network must infer disturbance-correlated information from the recent history of the listed states and nominal commands. This constraint is imposed by the experiment, and the results show only that this history is predictive enough here, not that it uniquely reconstructs "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "p",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " or "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "y",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": "."
+    }
+   ]
+  },
+  {
+   "type": "h1",
+   "runs": [
+    {
+     "t": "IV. Control Architecture"
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "A. Nominal controller",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "The nominal controller assumes "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mi>f</mi></mrow><mrow><mi mathvariant=\"normal\">e</mi><mi mathvariant=\"normal\">x</mi><mi mathvariant=\"normal\">t</mi></mrow></msub><mo>≈</mo><mn>0</mn></math>"
+    },
+    {
+     "t": ", "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mi>τ</mi></mrow><mrow><mi mathvariant=\"normal\">e</mi><mi mathvariant=\"normal\">x</mi><mi mathvariant=\"normal\">t</mi></mrow></msub><mo>≈</mo><mn>0</mn></math>"
+    },
+    {
+     "t": " and is cascaded: an outer position/velocity loop sets a desired attitude that an inner loop tracks. In the reduced-order study this becomes a vertical PID loop, a lateral outer loop mapping lateral velocity error to a roll setpoint, and a roll PID inner loop with roll tracking error "
+    },
+    {
+     "t": "e",
+     "i": true
+    },
+    {
+     "t": "ϕ",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": ","
+    }
+   ]
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mi>u</mi></mrow><mrow><mi>ϕ</mi></mrow></msub><mo>=</mo><msub><mrow><mi>J</mi></mrow><mrow><mi>x</mi></mrow></msub><mrow><mo fence=\"true\">(</mo><mrow><msub><mrow><mi>K</mi></mrow><mrow><mi>P</mi><mo>,</mo><mi>ϕ</mi></mrow></msub><msub><mrow><mi>e</mi></mrow><mrow><mi>ϕ</mi></mrow></msub><mo>+</mo><msub><mrow><mi>K</mi></mrow><mrow><mi>D</mi><mo>,</mo><mi>ϕ</mi></mrow></msub><msub><mrow><mover accent=\"true\"><mrow><mi>e</mi></mrow><mo>̇</mo></mover></mrow><mrow><mi>ϕ</mi></mrow></msub><mo>+</mo><msub><mrow><mi>K</mi></mrow><mrow><mi>I</mi><mo>,</mo><mi>ϕ</mi></mrow></msub><mo>∫</mo><msub><mrow><mi>e</mi></mrow><mrow><mi>ϕ</mi></mrow></msub><mi>d</mi><mi>t</mi></mrow><mo fence=\"true\">)</mo></mrow><mo>.</mo></math>",
+   "number": "8"
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "The integral terms belong to the "
+    },
+    {
+     "t": "baseline",
+     "i": true
+    },
+    {
+     "t": ", not the proposed method; they can reduce the steady-state error a pure PD loop retains under a sustained disturbance (Section VII-A)."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "B. Gated residual correction",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "In Fig. 1, a residual network "
+    },
+    {
+     "t": "f",
+     "i": true
+    },
+    {
+     "t": "θ",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " observes the same state history as the nominal controller and predicts the disturbance; its outputs "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mover accent=\"true\"><mrow><mi>τ</mi></mrow><mo>̂</mo></mover></mrow><mrow><mi>ϕ</mi></mrow></msub></math>"
+    },
+    {
+     "t": " and "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mover accent=\"true\"><mrow><mi>a</mi></mrow><mo>̂</mo></mover></mrow><mrow><mi>z</mi></mrow></msub></math>"
+    },
+    {
+     "t": " (jointly "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mover accent=\"true\"><mrow><mi>τ</mi></mrow><mo>̂</mo></mover></mrow><mrow><mi mathvariant=\"normal\">r</mi><mi mathvariant=\"normal\">e</mi><mi mathvariant=\"normal\">s</mi></mrow></msub></math>"
+    },
+    {
+     "t": " in Fig. 1) are scaled by a gate "
+    },
+    {
+     "t": "σ",
+     "i": true
+    },
+    {
+     "t": " ∈ [0, 1] and subtracted from the nominal commands:"
+    }
+   ]
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mi>τ</mi></mrow><mrow><mi>ϕ</mi><mo>,</mo><mi mathvariant=\"normal\">t</mi><mi mathvariant=\"normal\">o</mi><mi mathvariant=\"normal\">t</mi><mi mathvariant=\"normal\">a</mi><mi mathvariant=\"normal\">l</mi></mrow></msub><mo>=</mo><msub><mrow><mi>τ</mi></mrow><mrow><mi>ϕ</mi><mo>,</mo><mi mathvariant=\"normal\">n</mi><mi mathvariant=\"normal\">o</mi><mi mathvariant=\"normal\">m</mi></mrow></msub><mo>−</mo><mi>σ</mi><mrow><mo fence=\"true\">(</mo><mrow><msub><mrow><mi>H</mi></mrow><mrow><mi>t</mi></mrow></msub></mrow><mo fence=\"true\">)</mo></mrow><msub><mrow><mover accent=\"true\"><mrow><mi>τ</mi></mrow><mo>̂</mo></mover></mrow><mrow><mi>ϕ</mi></mrow></msub><mrow><mo fence=\"true\">(</mo><mrow><msub><mrow><mi>H</mi></mrow><mrow><mi>t</mi></mrow></msub></mrow><mo fence=\"true\">)</mo></mrow><mo>,</mo></math>",
+   "number": "9"
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><msubsup><mrow><mi>u</mi></mrow><mrow><mi>z</mi></mrow><mrow><mi mathvariant=\"normal\">t</mi><mi mathvariant=\"normal\">o</mi><mi mathvariant=\"normal\">t</mi><mi mathvariant=\"normal\">a</mi><mi mathvariant=\"normal\">l</mi></mrow></msubsup><mo>=</mo><msubsup><mrow><mi>u</mi></mrow><mrow><mi>z</mi></mrow><mrow><mi mathvariant=\"normal\">n</mi><mi mathvariant=\"normal\">o</mi><mi mathvariant=\"normal\">m</mi></mrow></msubsup><mo>−</mo><mi>σ</mi><mrow><mo fence=\"true\">(</mo><mrow><msub><mrow><mi>H</mi></mrow><mrow><mi>t</mi></mrow></msub></mrow><mo fence=\"true\">)</mo></mrow><msub><mrow><mover accent=\"true\"><mrow><mi>a</mi></mrow><mo>̂</mo></mover></mrow><mrow><mi>z</mi></mrow></msub><mrow><mo fence=\"true\">(</mo><mrow><msub><mrow><mi>H</mi></mrow><mrow><mi>t</mi></mrow></msub></mrow><mo fence=\"true\">)</mo></mrow><mo>,</mo></math>",
+   "number": "10"
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "where "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mover accent=\"true\"><mrow><mi>a</mi></mrow><mo>̂</mo></mover></mrow><mrow><mi>z</mi></mrow></msub></math>"
+    },
+    {
+     "t": " is in the acceleration-command representation of the simulator. At "
+    },
+    {
+     "t": "σ",
+     "i": true
+    },
+    {
+     "t": " = 0 both channels reduce to the nominal controller, so the network corrects rather than replaces the baseline."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "C. Boundedness under partial gating",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "At "
+    },
+    {
+     "t": "σ",
+     "i": true
+    },
+    {
+     "t": " = 0 the nominal controller is recovered; for "
+    },
+    {
+     "t": "σ",
+     "i": true
+    },
+    {
+     "t": " ∈ (0, 1] we use a conditional input-to-state-stability argument rather than a combined Lyapunov proof. Suppose the nominal closed loop, with tracking error "
+    },
+    {
+     "t": "e",
+     "i": true
+    },
+    {
+     "t": ", is ISS with respect to an additive disturbance [17], [18], and let "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mover accent=\"true\"><mrow><mi>τ</mi></mrow><mo>̃</mo></mover><mo>=</mo><msub><mrow><mi>τ</mi></mrow><mrow><mi>ϕ</mi><mo>,</mo><mi mathvariant=\"normal\">D</mi><mi mathvariant=\"normal\">A</mi><mi mathvariant=\"normal\">G</mi><mi mathvariant=\"normal\">E</mi></mrow></msub><mo>−</mo><mi>σ</mi><msub><mrow><mover accent=\"true\"><mrow><mi>τ</mi></mrow><mo>̂</mo></mover></mrow><mrow><mi>ϕ</mi></mrow></msub></math>"
+    },
+    {
+     "t": ". Bounded tanh activations and finite weights bound the network output by some "
+    },
+    {
+     "t": "B",
+     "i": true
+    },
+    {
+     "t": ", so"
+    }
+   ]
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo>∥</mo><mover accent=\"true\"><mrow><mi>τ</mi></mrow><mo>̃</mo></mover><mo>∥</mo><mo>≤</mo><mo>∥</mo><msub><mrow><mi>τ</mi></mrow><mrow><mi>ϕ</mi><mo>,</mo><mi mathvariant=\"normal\">D</mi><mi mathvariant=\"normal\">A</mi><mi mathvariant=\"normal\">G</mi><mi mathvariant=\"normal\">E</mi></mrow></msub><mo>∥</mo><mo>+</mo><mi>σ</mi><mi>B</mi><mo>≤</mo><mo>∥</mo><msub><mrow><mi>τ</mi></mrow><mrow><mi>ϕ</mi><mo>,</mo><mi mathvariant=\"normal\">D</mi><mi mathvariant=\"normal\">A</mi><mi mathvariant=\"normal\">G</mi><mi mathvariant=\"normal\">E</mi></mrow></msub><mo>∥</mo><mo>+</mo><mi>B</mi><mo>,</mo></math>",
+   "number": "11"
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "and "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mo>∥</mo><mi>e</mi><mrow><mo fence=\"true\">(</mo><mrow><mi>t</mi></mrow><mo fence=\"true\">)</mo></mrow><mo>∥</mo><mo>≤</mo><mi>β</mi><mrow><mo fence=\"true\">(</mo><mrow><mo>∥</mo><mi>e</mi><mrow><mo fence=\"true\">(</mo><mrow><mn>0</mn></mrow><mo fence=\"true\">)</mo></mrow><mo>∥</mo><mo>,</mo><mi>t</mi></mrow><mo fence=\"true\">)</mo></mrow><mo>+</mo><mi>γ</mi><mrow><mo fence=\"true\">(</mo><mrow><msub><mrow><mi mathvariant=\"normal\">s</mi><mi mathvariant=\"normal\">u</mi><mi mathvariant=\"normal\">p</mi></mrow><mrow><mi>s</mi></mrow></msub><mo>∥</mo><mover accent=\"true\"><mrow><mi>τ</mi></mrow><mo>̃</mo></mover><mrow><mo fence=\"true\">(</mo><mrow><mi>s</mi></mrow><mo fence=\"true\">)</mo></mrow><mo>∥</mo></mrow><mo fence=\"true\">)</mo></mrow></math>"
+    },
+    {
+     "t": " for class-"
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi mathvariant=\"normal\">K</mi><mi mathvariant=\"normal\">L</mi></math>"
+    },
+    {
+     "t": " and class-"
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi mathvariant=\"normal\">K</mi></math>"
+    },
+    {
+     "t": " functions "
+    },
+    {
+     "t": "β",
+     "i": true
+    },
+    {
+     "t": ", "
+    },
+    {
+     "t": "γ",
+     "i": true
+    },
+    {
+     "t": ". This holds provided "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mi>τ</mi></mrow><mrow><mi>ϕ</mi><mo>,</mo><mi mathvariant=\"normal\">D</mi><mi mathvariant=\"normal\">A</mi><mi mathvariant=\"normal\">G</mi><mi mathvariant=\"normal\">E</mi></mrow></msub></math>"
+    },
+    {
+     "t": " stays bounded along the closed-loop trajectory and gives conditional boundedness only; stability improvement, safety, and convergence of the learned loop are evaluated empirically, not established."
+    }
+   ]
+  },
+  {
+   "type": "figure",
+   "src": "docs/paper/figures/fig-1.png",
+   "caption": [
+    {
+     "t": "Fig. 1. Gated residual architecture. The learned corrections are scaled by "
+    },
+    {
+     "t": "σ",
+     "i": true
+    },
+    {
+     "t": " ∈ [0, 1] before being applied to the nominal controller; at "
+    },
+    {
+     "t": "σ",
+     "i": true
+    },
+    {
+     "t": " = 0 the loop reduces to the nominal PID cascade. The tested state-distance gate remains close to full residual authority under its calibrated threshold."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "D. The distance gate",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "The gate uses a per-feature standardized distance between the current window and the training distribution, with "
+    },
+    {
+     "t": "µ",
+     "i": true
+    },
+    {
+     "t": "i",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": ", "
+    },
+    {
+     "t": "ς",
+     "i": true
+    },
+    {
+     "t": "i",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " the per-feature training mean and standard deviation:"
+    }
+   ]
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>d</mi><mrow><mo fence=\"true\">(</mo><mrow><msub><mrow><mi>H</mi></mrow><mrow><mi>t</mi></mrow></msub></mrow><mo fence=\"true\">)</mo></mrow><mo>=</mo><munder><mrow><mi mathvariant=\"normal\">m</mi><mi mathvariant=\"normal\">a</mi><mi mathvariant=\"normal\">x</mi></mrow><mrow><mi>i</mi></mrow></munder><mfrac><mrow><mrow><mo fence=\"true\">|</mo><mrow><msub><mrow><mi>H</mi></mrow><mrow><mi>t</mi><mo>,</mo><mi>i</mi></mrow></msub><mo>−</mo><msub><mrow><mi>μ</mi></mrow><mrow><mi>i</mi></mrow></msub></mrow><mo fence=\"true\">|</mo></mrow></mrow><mrow><msub><mrow><mi mathvariant=\"normal\">𝜍</mi></mrow><mrow><mi>i</mi></mrow></msub></mrow></mfrac><mo>,</mo></math>",
+   "number": "12"
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>σ</mi><mrow><mo fence=\"true\">(</mo><mrow><msub><mrow><mi>H</mi></mrow><mrow><mi>t</mi></mrow></msub></mrow><mo fence=\"true\">)</mo></mrow><mo>=</mo><mi mathvariant=\"normal\">c</mi><mi mathvariant=\"normal\">l</mi><mi mathvariant=\"normal\">i</mi><mi mathvariant=\"normal\">p</mi><mrow><mo fence=\"true\">(</mo><mrow><mi mathvariant=\"normal\">exp</mi><mrow><mo fence=\"true\">(</mo><mrow><mo>−</mo><mfrac><mrow><mi mathvariant=\"normal\">max</mi><mrow><mo fence=\"true\">(</mo><mrow><mn>0</mn><mo>,</mo><mi>d</mi><mo>−</mo><msub><mrow><mi>d</mi></mrow><mrow><mn>0</mn></mrow></msub></mrow><mo fence=\"true\">)</mo></mrow></mrow><mrow><mi>κ</mi></mrow></mfrac></mrow><mo fence=\"true\">)</mo></mrow><mo>,</mo><mn>0</mn><mo>,</mo><mn>1</mn></mrow><mo fence=\"true\">)</mo></mrow><mo>.</mo></math>",
+   "number": "13"
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Here "
+    },
+    {
+     "t": "κ",
+     "i": true
+    },
+    {
+     "t": " > 0 sets how quickly authority decays beyond "
+    },
+    {
+     "t": "d",
+     "i": true
+    },
+    {
+     "t": "0",
+     "v": "sub"
+    },
+    {
+     "t": ". The maximum keeps a single strongly out-of-range feature from being diluted by averaging; (12) is not a full or diagonal Mahalanobis distance. The threshold "
+    },
+    {
+     "t": "d",
+     "i": true
+    },
+    {
+     "t": "0",
+     "v": "sub"
+    },
+    {
+     "t": " is the 99th percentile of "
+    },
+    {
+     "t": "d",
+     "i": true
+    },
+    {
+     "t": " over held-out in-distribution data."
+    }
+   ]
+  },
+  {
+   "type": "h1",
+   "runs": [
+    {
+     "t": "V. Simulation Environment and Protocol"
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "A. Scope",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "The reduced-order simulator implements (6)–(7) directly: a three-channel model (vertical "
+    },
+    {
+     "t": "z",
+     "i": true
+    },
+    {
+     "t": ", "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "z",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": "; lateral "
+    },
+    {
+     "t": "y",
+     "i": true
+    },
+    {
+     "t": ", "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "y",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": "; roll "
+    },
+    {
+     "t": "ϕ",
+     "i": true
+    },
+    {
+     "t": ", "
+    },
+    {
+     "t": "p",
+     "i": true
+    },
+    {
+     "t": ") integrated at 100 Hz with the nominal cascade in the loop and sensor and process noise at every step. Lateral and roll dynamics are coupled through the small-angle thrust-vectoring relation "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mover accent=\"true\"><mrow><mi>v</mi></mrow><mo>̇</mo></mover></mrow><mrow><mi>y</mi></mrow></msub><mo>=</mo><mrow><mo fence=\"true\">(</mo><mrow><msub><mrow><mi>u</mi></mrow><mrow><mi>z</mi></mrow></msub><mo>+</mo><mi>g</mi></mrow><mo fence=\"true\">)</mo></mrow><mi mathvariant=\"normal\">tan</mi><mi>ϕ</mi></math>"
+    },
+    {
+     "t": ", so the disturbance torque propagates into lateral tracking error. This gives exact regression ground truth and full control over the mismatch experiment, at the cost of the omissions in Section VIII."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [
+      {
+       "t": "Symbol"
+      }
+     ],
+     [
+      {
+       "t": "Description"
+      }
+     ],
+     [
+      {
+       "t": "Value"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Δ"
+      },
+      {
+       "t": "t",
+       "i": true
+      }
+     ],
+     [
+      {
+       "t": "Integration step"
+      }
+     ],
+     [
+      {
+       "t": "0.01 s (100 Hz)"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "T",
+       "i": true
+      }
+     ],
+     [
+      {
+       "t": "Trajectory horizon"
+      }
+     ],
+     [
+      {
+       "t": "12 s"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "z",
+       "i": true
+      },
+      {
+       "t": "0",
+       "v": "sub"
+      }
+     ],
+     [
+      {
+       "t": "Initial relative altitude"
+      }
+     ],
+     [
+      {
+       "t": "4.0 m"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "v",
+       "i": true
+      },
+      {
+       "t": "des",
+       "v": "sub"
+      }
+     ],
+     [
+      {
+       "t": "Commanded descent rate"
+      }
+     ],
+     [
+      {
+       "t": "0.42 m s"
+      },
+      {
+       "t": "−1",
+       "v": "sup"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "m",
+       "i": true
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "J",
+       "i": true
+      },
+      {
+       "t": "x",
+       "i": true,
+       "v": "sub"
+      }
+     ],
+     [
+      {
+       "t": "Mass, roll inertia"
+      }
+     ],
+     [
+      {
+       "t": "1.5 kg, 0.020 kg m"
+      },
+      {
+       "t": "2",
+       "v": "sup"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "A",
+       "i": true
+      },
+      {
+       "t": "GE",
+       "v": "sub"
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "R",
+       "i": true
+      },
+      {
+       "t": "z",
+       "i": true,
+       "v": "sub"
+      }
+     ],
+     [
+      {
+       "t": "Vertical GE gain, scale"
+      }
+     ],
+     [
+      {
+       "t": "1.8 m s"
+      },
+      {
+       "t": "−2",
+       "v": "sup"
+      },
+      {
+       "t": ", 0.55 m"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "K",
+       "i": true
+      },
+      {
+       "t": "ϕ",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "L",
+       "i": true
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "λ",
+       "i": true
+      }
+     ],
+     [
+      {
+       "t": "DAGE gain, scale, slip weight"
+      }
+     ],
+     [
+      {
+       "t": "0.12, 0.35 m, 0.60"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "K",
+       "i": true
+      },
+      {
+       "t": "P",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ",",
+       "v": "sub"
+      },
+      {
+       "t": "z",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "K",
+       "i": true
+      },
+      {
+       "t": "D",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ",",
+       "v": "sub"
+      },
+      {
+       "t": "z",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "K",
+       "i": true
+      },
+      {
+       "t": "I",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ",",
+       "v": "sub"
+      },
+      {
+       "t": "z",
+       "i": true,
+       "v": "sub"
+      }
+     ],
+     [
+      {
+       "t": "Vertical PID gains"
+      }
+     ],
+     [
+      {
+       "t": "2.2, 2.6, 1.6"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "K",
+       "i": true
+      },
+      {
+       "t": "P",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ",",
+       "v": "sub"
+      },
+      {
+       "t": "ϕ",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "K",
+       "i": true
+      },
+      {
+       "t": "D",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ",",
+       "v": "sub"
+      },
+      {
+       "t": "ϕ",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "K",
+       "i": true
+      },
+      {
+       "t": "I",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ",",
+       "v": "sub"
+      },
+      {
+       "t": "ϕ",
+       "i": true,
+       "v": "sub"
+      }
+     ],
+     [
+      {
+       "t": "Roll PID gains"
+      }
+     ],
+     [
+      {
+       "t": "60, 11, 30"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "σ",
+       "i": true
+      },
+      {
+       "t": "z",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "σ",
+       "i": true
+      },
+      {
+       "t": "vz",
+       "i": true,
+       "v": "sub"
+      }
+     ],
+     [
+      {
+       "t": "Altitude, rate noise (s.d.)"
+      }
+     ],
+     [
+      {
+       "t": "0.010 m, 0.030 m s"
+      },
+      {
+       "t": "−1",
+       "v": "sup"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "σ",
+       "i": true
+      },
+      {
+       "t": "ϕ",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "σ",
+       "i": true
+      },
+      {
+       "t": "p",
+       "i": true,
+       "v": "sub"
+      }
+     ],
+     [
+      {
+       "t": "Roll, rate noise (s.d.)"
+      }
+     ],
+     [
+      {
+       "t": "0.004 rad, 0.020 rad s"
+      },
+      {
+       "t": "−1",
+       "v": "sup"
+      }
+     ]
+    ]
+   ],
+   "label": "TABLE I",
+   "caption": [
+    {
+     "t": "Simulator parameters. Design choices, not measured constants."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "B. Parameters and per-trial randomization",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Table I lists the constants. Mass and inertia represent a plausible small research multirotor; with no flight logs to fit against, the disturbance and controller parameters are design choices, and the disturbance becomes small above the near-surface region by construction. Each trial scales "
+    },
+    {
+     "t": "K",
+     "i": true
+    },
+    {
+     "t": "ϕ",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " and "
+    },
+    {
+     "t": "A",
+     "i": true
+    },
+    {
+     "t": "GE",
+     "v": "sub"
+    },
+    {
+     "t": " by "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi mathvariant=\"normal\">U</mi><mrow><mo fence=\"true\">(</mo><mrow><mn>0.80</mn><mo>,</mo><mn>1.20</mn></mrow><mo fence=\"true\">)</mo></mrow></math>"
+    },
+    {
+     "t": " and "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi mathvariant=\"normal\">U</mi><mrow><mo fence=\"true\">(</mo><mrow><mn>0.85</mn><mo>,</mo><mn>1.15</mn></mrow><mo fence=\"true\">)</mo></mrow></math>"
+    },
+    {
+     "t": ", and roll inertia and platform speed by "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi mathvariant=\"normal\">U</mi><mrow><mo fence=\"true\">(</mo><mrow><mn>0.90</mn><mo>,</mo><mn>1.10</mn></mrow><mo fence=\"true\">)</mo></mrow></math>"
+    },
+    {
+     "t": " (speeds below are nominal), and draws the initial lateral offset and roll angle from "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi mathvariant=\"normal\">N</mi><mrow><mo fence=\"true\">(</mo><mrow><mn>0</mn><mo>,</mo><msup><mrow><mn>0.5</mn></mrow><mrow><mn>2</mn></mrow></msup></mrow><mo fence=\"true\">)</mo></mrow></math>"
+    },
+    {
+     "t": " m and "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi mathvariant=\"normal\">N</mi><mrow><mo fence=\"true\">(</mo><mrow><mn>0</mn><mo>,</mo><msup><mrow><mn>0.03</mn></mrow><mrow><mn>2</mn></mrow></msup></mrow><mo fence=\"true\">)</mo></mrow></math>"
+    },
+    {
+     "t": " rad; without this, rate metrics would collapse to 0% or 100% and confidence intervals would be meaningless."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "C. Controllers compared",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "li",
+   "runs": [
+    {
+     "t": "PD",
+     "b": true
+    },
+    {
+     "t": ": vertical and roll proportional–derivative loops without integral action."
+    }
+   ]
+  },
+  {
+   "type": "li",
+   "runs": [
+    {
+     "t": "PID",
+     "b": true
+    },
+    {
+     "t": ": the same cascade with integral terms; the reference baseline throughout."
+    }
+   ]
+  },
+  {
+   "type": "li",
+   "runs": [
+    {
+     "t": "PID+DOB",
+     "b": true
+    },
+    {
+     "t": ": PID plus a first-order disturbance observer on the vertical channel, driven by the measured noisy vertical acceleration (time constant 1.0 s); a reference configuration, not a comparison against all DOB designs."
+    }
+   ]
+  },
+  {
+   "type": "li",
+   "runs": [
+    {
+     "t": "Res-NG",
+     "b": true
+    },
+    {
+     "t": ": PID plus the residual network, ungated ("
+    },
+    {
+     "t": "σ",
+     "i": true
+    },
+    {
+     "t": " ≡ 1)."
+    }
+   ]
+  },
+  {
+   "type": "li",
+   "runs": [
+    {
+     "t": "Res-G",
+     "b": true
+    },
+    {
+     "t": ": PID plus the residual network with the gate of (13)."
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Res-NG versus Res-G isolates the gate, Res-NG versus PID the residual controller, and PID versus PD the integral action."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "D. Metrics and landing envelope",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Since all controllers reach the surface, we measure touchdown "
+    },
+    {
+     "t": "quality",
+     "i": true
+    },
+    {
+     "t": ": RMS("
+    },
+    {
+     "t": "ϕ",
+     "i": true
+    },
+    {
+     "t": ") and peak |"
+    },
+    {
+     "t": "ϕ",
+     "i": true
+    },
+    {
+     "t": "| over the final approach ("
+    },
+    {
+     "t": "z",
+     "i": true
+    },
+    {
+     "t": " < 1.0 m); lateral velocity mismatch |Δ"
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "y",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": "| and impact speed |"
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "z",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": "| at contact; "
+    },
+    {
+     "t": "envelope success",
+     "b": true
+    },
+    {
+     "t": ", the fraction of trials with |"
+    },
+    {
+     "t": "ϕ",
+     "i": true
+    },
+    {
+     "t": "| ≤ 0.10 rad, |"
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "z",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": "| ≤ 0.75 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": ", and |Δ"
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "y",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": "| ≤ 0.75 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": "; and "
+    },
+    {
+     "t": "roll violation",
+     "b": true
+    },
+    {
+     "t": ", the fraction whose peak final-approach roll exceeds 0.10 rad. Each condition has 500 trials. Tables report scalar metrics as means and envelope rates with Wilson 95% score intervals [19], which behave better than the normal approximation near 0 and 1; paired differences against PID, with trials matched by random seed, are given with 95% paired-bootstrap intervals over 20,000 resamples [20]."
+    }
+   ]
+  },
+  {
+   "type": "h1",
+   "runs": [
+    {
+     "t": "VI. Learning the Residual"
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "A. Data",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Training data come from 400 trajectories under the "
+    },
+    {
+     "t": "PID",
+     "i": true
+    },
+    {
+     "t": " (deployment) baseline, with platform speed drawn from "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi mathvariant=\"normal\">U</mi><mrow><mo fence=\"true\">(</mo><mrow><mn>0</mn><mo>,</mo><mn>4.0</mn></mrow><mo fence=\"true\">)</mo></mrow></math>"
+    },
+    {
+     "t": " m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": " and the randomization above; 5.0 and 6.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": " are withheld entirely. "
+    },
+    {
+     "t": "The split is by trajectory, not by sample",
+     "i": true
+    },
+    {
+     "t": ", because consecutive 10 ms samples are near-duplicates that a random split would leak into validation. We hold out 60 complete trajectories (71,760 samples) and subsample 200,000 training points from the remaining 340."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [
+      {
+       "t": "Category"
+      }
+     ],
+     [
+      {
+       "t": "Variables"
+      }
+     ],
+     [
+      {
+       "t": "Role"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Attitude"
+      }
+     ],
+     [
+      {
+       "t": "ϕ",
+       "i": true
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "p",
+       "i": true
+      }
+     ],
+     [
+      {
+       "t": "roll angle and rate (noisy)"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Kinematics"
+      }
+     ],
+     [
+      {
+       "t": "z",
+       "i": true
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "v",
+       "i": true
+      },
+      {
+       "t": "z",
+       "i": true,
+       "v": "sub"
+      }
+     ],
+     [
+      {
+       "t": "relative altitude and rate (noisy)"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Control"
+      }
+     ],
+     [
+      {
+       "t": "u",
+       "i": true
+      },
+      {
+       "t": "ϕ",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "u",
+       "i": true
+      },
+      {
+       "t": "z",
+       "i": true,
+       "v": "sub"
+      }
+     ],
+     [
+      {
+       "t": "nominal PID commands"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Targets"
+      }
+     ],
+     [
+      {
+       "t": "τ",
+       "i": true
+      },
+      {
+       "t": "ϕ",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": ",DAGE",
+       "v": "sub"
+      },
+      {
+       "t": ", "
+      },
+      {
+       "t": "a",
+       "i": true
+      },
+      {
+       "t": "GE",
+       "v": "sub"
+      }
+     ],
+     [
+      {
+       "t": "injected roll torque, vertical accel."
+      }
+     ]
+    ]
+   ],
+   "label": "TABLE II",
+   "caption": [
+    {
+     "t": "Per-timestep feature vector and regression targets."
+    }
+   ]
+  },
+  {
+   "type": "figure",
+   "src": "docs/paper/figures/fig-2.png",
+   "caption": [
+    {
+     "t": "Fig. 2. Residual MLP: 7,906 parameters, 7,744 multiply–accumulate operations (15,488 FLOPs) per forward pass."
+    }
+   ]
+  },
+  {
+   "type": "figure",
+   "src": "docs/paper/figures/fig-3.png",
+   "caption": [
+    {
+     "t": "Fig. 3. Training curve. Training loss exceeds validation loss because dropout and input noise are active only during training. Early stopping restores epoch 37."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "B. Network",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "The network sees a sliding window "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mi>H</mi></mrow><mrow><mi>t</mi></mrow></msub><mo>=</mo><mrow><mo fence=\"true\">[</mo><mrow><msub><mrow><mi>x</mi></mrow><mrow><mi>t</mi><mo>−</mo><mi>W</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>,</mo><mo>…</mo><mo>,</mo><msub><mrow><mi>x</mi></mrow><mrow><mi>t</mi></mrow></msub><mo>;</mo><msub><mrow><mi>u</mi></mrow><mrow><mi>t</mi><mo>−</mo><mi>W</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>,</mo><mo>…</mo><mo>,</mo><msub><mrow><mi>u</mi></mrow><mrow><mi>t</mi></mrow></msub></mrow><mo fence=\"true\">]</mo></mrow></math>"
+    },
+    {
+     "t": " of the Table II variables with "
+    },
+    {
+     "t": "W",
+     "i": true
+    },
+    {
+     "t": " = 4 steps at 100 Hz (40 ms), a 24-dimensional input, processed by a flattened MLP with hidden widths [64, 64, 32] and tanh activations (Fig. 2) rather than a recurrent model, so the forward pass is a fixed sequence of dense layers. The output layer has "
+    },
+    {
+     "t": "two",
+     "i": true
+    },
+    {
+     "t": " units, "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mover accent=\"true\"><mrow><mi>τ</mi></mrow><mo>̂</mo></mover></mrow><mrow><mi>ϕ</mi></mrow></msub></math>"
+    },
+    {
+     "t": " and "
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><msub><mrow><mover accent=\"true\"><mrow><mi>a</mi></mrow><mo>̂</mo></mover></mrow><mrow><mi>z</mi></mrow></msub></math>"
+    },
+    {
+     "t": "; there is no pitch head, since pitch is identically zero in this model and a constant-zero target cannot be standardized and would deflate the reported loss by a third."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "C. Training",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "We minimize regularized MSE on standardized targets,"
+    }
+   ]
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi mathvariant=\"normal\">L</mi><mrow><mo fence=\"true\">(</mo><mrow><mi>θ</mi></mrow><mo fence=\"true\">)</mo></mrow><mo>=</mo><mfrac><mrow><mn>1</mn></mrow><mrow><mi>N</mi></mrow></mfrac><mrow><munderover><mo largeop=\"true\">∑</mo><mrow><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>N</mi></mrow></munderover><mrow><mo>∥</mo></mrow></mrow><msub><mrow><mi>f</mi></mrow><mrow><mi>θ</mi></mrow></msub><mrow><mo fence=\"true\">(</mo><mrow><msup><mrow><mi>H</mi></mrow><mrow><mrow><mo fence=\"true\">(</mo><mrow><mi>n</mi></mrow><mo fence=\"true\">)</mo></mrow></mrow></msup></mrow><mo fence=\"true\">)</mo></mrow><mo>−</mo><msup><mrow><mi>y</mi></mrow><mrow><mrow><mo fence=\"true\">(</mo><mrow><mi>n</mi></mrow><mo fence=\"true\">)</mo></mrow></mrow></msup><msup><mrow><mo>∥</mo></mrow><mrow><mn>2</mn></mrow></msup><mo>+</mo><msub><mrow><mi>λ</mi></mrow><mrow><mi mathvariant=\"normal\">r</mi><mi mathvariant=\"normal\">e</mi><mi mathvariant=\"normal\">g</mi></mrow></msub><mo>∥</mo><mi>θ</mi><msup><mrow><mo>∥</mo></mrow><mrow><mn>2</mn></mrow></msup><mo>,</mo></math>",
+   "number": "14"
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "over "
+    },
+    {
+     "t": "N",
+     "i": true
+    },
+    {
+     "t": " training windows "
+    },
+    {
+     "t": "H",
+     "i": true
+    },
+    {
+     "t": "(",
+     "v": "sup"
+    },
+    {
+     "t": "n",
+     "i": true,
+     "v": "sup"
+    },
+    {
+     "t": ")",
+     "v": "sup"
+    },
+    {
+     "t": " with targets "
+    },
+    {
+     "t": "y",
+     "b": true
+    },
+    {
+     "t": "(",
+     "v": "sup"
+    },
+    {
+     "t": "n",
+     "i": true,
+     "v": "sup"
+    },
+    {
+     "t": ")",
+     "v": "sup"
+    },
+    {
+     "t": ", where "
+    },
+    {
+     "t": "λ",
+     "i": true
+    },
+    {
+     "t": "reg",
+     "v": "sub"
+    },
+    {
+     "t": " = 10"
+    },
+    {
+     "t": "−5",
+     "v": "sup"
+    },
+    {
+     "t": ", Adam at "
+    },
+    {
+     "t": "η",
+     "i": true
+    },
+    {
+     "t": "0",
+     "v": "sub"
+    },
+    {
+     "t": " = 8×10"
+    },
+    {
+     "t": "−4",
+     "v": "sup"
+    },
+    {
+     "t": " decaying as 0.94"
+    },
+    {
+     "t": "epoch",
+     "v": "sup"
+    },
+    {
+     "t": ", batch size 256, dropout rate 0.05, Gaussian input noise (standard deviation 0.02 on standardized inputs), global gradient-norm clipping at 5.0, and early stopping on validation MSE with patience 6. Training stopped at epoch 43; the restored epoch-37 checkpoint has validation MSE 0.00723 in standardized units (Fig. 3). Seeds are 42 for data generation and 1 for network initialization."
+    }
+   ]
+  },
+  {
+   "type": "h1",
+   "runs": [
+    {
+     "t": "VII. Results"
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Table III reports all five controllers at five platform speeds, three inside the training range and two beyond it."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "A. How much of the result is the baseline",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "At 3.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": ", PD places 2.4% of landings inside the envelope versus 80.8% for PID, with larger RMS roll and lateral mismatch, consistent with the steady-state error a PD loop retains under a sustained disturbance (the gap’s size is specific to our gains and model). A PD-referenced result (2.4% → 100%) would conflate the learned correction with added integral action, so all comparisons below use PID (80.8% → 100%)."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "B. Vertical-channel disturbance-observer baseline",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "The vertical-channel DOB does not help in this configuration. At 3.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": ", PID+DOB lowers envelope success from 80.8% to 63.2% and raises RMS roll by 25% (paired difference +0.0073 rad, 95% CI [+0.0072, +0.0074], "
+    },
+    {
+     "t": "p",
+     "i": true
+    },
+    {
+     "t": " < 10"
+    },
+    {
+     "t": "−4",
+     "v": "sup"
+    },
+    {
+     "t": "). The observer acts only on the vertical channel, whereas the dominant DAGE term acts through roll; its higher impact speed (0.404 versus 0.335 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": ") is consistent with added vertical-command variation. A rotational or multivariable DOB was not evaluated, so this does not show DOB control to be inferior in general."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "C. In-distribution and extrapolation performance",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "The residual improves the principal touchdown metrics at every nonzero speed. At 3.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": ", RMS roll falls from 0.0291 to 0.0134 rad (paired −0.0157, CI [−0.0160, −0.0154], "
+    },
+    {
+     "t": "p",
+     "i": true
+    },
+    {
+     "t": " < 10"
+    },
+    {
+     "t": "−4",
+     "v": "sup"
+    },
+    {
+     "t": "), lateral mismatch from 0.632 to 0.287 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": ", and envelope success rises from 80.8% to 100%. At 5.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": " (25% beyond the maximum training speed), envelope success rises from 3.6% to 96.2% and roll violation falls from 53.6% to 0%; at 6.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": " (+50%), the baseline lands no trials inside the envelope, while the residual achieves 67.0% [62.8, 71.0]. This is parametric extrapolation within the chosen disturbance family, not general out-of-distribution robustness. Figs. 4 and 5 show a representative trial."
+    }
+   ]
+  },
+  {
+   "type": "figure",
+   "src": "docs/paper/figures/fig-4.png",
+   "caption": [
+    {
+     "t": "Fig. 4. Representative descent at "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "p",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " = 3 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": ". All three controllers reach the surface; the differences that matter are in touchdown "
+    },
+    {
+     "t": "quality",
+     "i": true
+    },
+    {
+     "t": " (Fig. 5), not in residual altitude. The PD trace lands 0.8 s later because of its steady-state offset against the ground-effect lift."
+    }
+   ]
+  },
+  {
+   "type": "figure",
+   "src": "docs/paper/figures/fig-5.png",
+   "caption": [
+    {
+     "t": "Fig. 5. Roll error on final approach for the trial of Fig. 4. Error grows as "
+    },
+    {
+     "t": "z",
+     "i": true
+    },
+    {
+     "t": " → 0, where DAGE is strongest. The residual-controlled trajectory exhibits greater high-frequency variation in roll during the final approach, consistent with the network-predicted correction being applied in the roll-control channel."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [
+      {
+       "t": "v",
+       "i": true
+      },
+      {
+       "t": "p",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": " (m/s)"
+      }
+     ],
+     [
+      {
+       "t": "Controller"
+      }
+     ],
+     [
+      {
+       "t": "RMS "
+      },
+      {
+       "t": "ϕ",
+       "i": true
+      },
+      {
+       "t": " (rad)"
+      }
+     ],
+     [
+      {
+       "t": "Peak "
+      },
+      {
+       "t": "ϕ",
+       "i": true
+      },
+      {
+       "t": " (rad)"
+      }
+     ],
+     [
+      {
+       "t": "|Δ"
+      },
+      {
+       "t": "v",
+       "i": true
+      },
+      {
+       "t": "y",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": "| (m/s)"
+      }
+     ],
+     [
+      {
+       "t": "|"
+      },
+      {
+       "t": "v",
+       "i": true
+      },
+      {
+       "t": "z",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": "| (m/s)"
+      }
+     ],
+     [
+      {
+       "t": "Envelope success (%)"
+      }
+     ],
+     [
+      {
+       "t": "Roll viol. (%)"
+      }
+     ],
+     [
+      {
+       "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mover accent=\"true\"><mrow><mi>σ</mi></mrow><mo>̅</mo></mover></math>"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "PD"
+      }
+     ],
+     [
+      {
+       "t": "0.0011"
+      }
+     ],
+     [
+      {
+       "t": "0.0026"
+      }
+     ],
+     [
+      {
+       "t": "0.004"
+      }
+     ],
+     [
+      {
+       "t": "0.246"
+      }
+     ],
+     [
+      {
+       "t": "100.0 [99.2, 100]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "PID"
+      }
+     ],
+     [
+      {
+       "t": "0.0012"
+      }
+     ],
+     [
+      {
+       "t": "0.0027"
+      }
+     ],
+     [
+      {
+       "t": "0.003"
+      }
+     ],
+     [
+      {
+       "t": "0.334"
+      }
+     ],
+     [
+      {
+       "t": "100.0 [99.2, 100]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "PID+DOB"
+      }
+     ],
+     [
+      {
+       "t": "0.0012"
+      }
+     ],
+     [
+      {
+       "t": "0.0026"
+      }
+     ],
+     [
+      {
+       "t": "0.003"
+      }
+     ],
+     [
+      {
+       "t": "0.404"
+      }
+     ],
+     [
+      {
+       "t": "100.0 [99.2, 100]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-NG"
+      }
+     ],
+     [
+      {
+       "t": "0.0063"
+      }
+     ],
+     [
+      {
+       "t": "0.0159"
+      }
+     ],
+     [
+      {
+       "t": "0.036"
+      }
+     ],
+     [
+      {
+       "t": "0.374"
+      }
+     ],
+     [
+      {
+       "t": "100.0 [99.2, 100]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "1.000"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-G"
+      }
+     ],
+     [
+      {
+       "t": "0.0063"
+      }
+     ],
+     [
+      {
+       "t": "0.0159"
+      }
+     ],
+     [
+      {
+       "t": "0.036"
+      }
+     ],
+     [
+      {
+       "t": "0.374"
+      }
+     ],
+     [
+      {
+       "t": "100.0 [99.2, 100]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "1.000"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1.5"
+      }
+     ],
+     [
+      {
+       "t": "PD"
+      }
+     ],
+     [
+      {
+       "t": "0.0217"
+      }
+     ],
+     [
+      {
+       "t": "0.0388"
+      }
+     ],
+     [
+      {
+       "t": "0.573"
+      }
+     ],
+     [
+      {
+       "t": "0.246"
+      }
+     ],
+     [
+      {
+       "t": "92.4 [89.7, 94.4]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "PID"
+      }
+     ],
+     [
+      {
+       "t": "0.0145"
+      }
+     ],
+     [
+      {
+       "t": "0.0263"
+      }
+     ],
+     [
+      {
+       "t": "0.314"
+      }
+     ],
+     [
+      {
+       "t": "0.335"
+      }
+     ],
+     [
+      {
+       "t": "100.0 [99.2, 100]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "PID+DOB"
+      }
+     ],
+     [
+      {
+       "t": "0.0182"
+      }
+     ],
+     [
+      {
+       "t": "0.0362"
+      }
+     ],
+     [
+      {
+       "t": "0.352"
+      }
+     ],
+     [
+      {
+       "t": "0.404"
+      }
+     ],
+     [
+      {
+       "t": "100.0 [99.2, 100]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-NG"
+      }
+     ],
+     [
+      {
+       "t": "0.0065",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.0141",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.105",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.378"
+      }
+     ],
+     [
+      {
+       "t": "100.0",
+       "b": true
+      },
+      {
+       "t": " [99.2, 100]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "1.000"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-G"
+      }
+     ],
+     [
+      {
+       "t": "0.0065"
+      }
+     ],
+     [
+      {
+       "t": "0.0141"
+      }
+     ],
+     [
+      {
+       "t": "0.105"
+      }
+     ],
+     [
+      {
+       "t": "0.378"
+      }
+     ],
+     [
+      {
+       "t": "100.0 [99.2, 100]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "0.998"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "3.0"
+      }
+     ],
+     [
+      {
+       "t": "PD"
+      }
+     ],
+     [
+      {
+       "t": "0.0465"
+      }
+     ],
+     [
+      {
+       "t": "0.0932"
+      }
+     ],
+     [
+      {
+       "t": "1.198"
+      }
+     ],
+     [
+      {
+       "t": "0.246"
+      }
+     ],
+     [
+      {
+       "t": "2.4 [1.4, 4.1]"
+      }
+     ],
+     [
+      {
+       "t": "28.8"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "PID"
+      }
+     ],
+     [
+      {
+       "t": "0.0291"
+      }
+     ],
+     [
+      {
+       "t": "0.0525"
+      }
+     ],
+     [
+      {
+       "t": "0.632"
+      }
+     ],
+     [
+      {
+       "t": "0.335"
+      }
+     ],
+     [
+      {
+       "t": "80.8 [77.1, 84.0]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "PID+DOB"
+      }
+     ],
+     [
+      {
+       "t": "0.0364"
+      }
+     ],
+     [
+      {
+       "t": "0.0726"
+      }
+     ],
+     [
+      {
+       "t": "0.705"
+      }
+     ],
+     [
+      {
+       "t": "0.404"
+      }
+     ],
+     [
+      {
+       "t": "63.2 [58.9, 67.3]"
+      }
+     ],
+     [
+      {
+       "t": "6.4"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-NG"
+      }
+     ],
+     [
+      {
+       "t": "0.0134",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.0263",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.287",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.375"
+      }
+     ],
+     [
+      {
+       "t": "100.0",
+       "b": true
+      },
+      {
+       "t": " [99.2, 100]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "1.000"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-G"
+      }
+     ],
+     [
+      {
+       "t": "0.0134"
+      }
+     ],
+     [
+      {
+       "t": "0.0263"
+      }
+     ],
+     [
+      {
+       "t": "0.287"
+      }
+     ],
+     [
+      {
+       "t": "0.375"
+      }
+     ],
+     [
+      {
+       "t": "100.0 [99.2, 100]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "0.971"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "5.0"
+      },
+      {
+       "t": "†",
+       "v": "sup"
+      }
+     ],
+     [
+      {
+       "t": "PD"
+      }
+     ],
+     [
+      {
+       "t": "0.1166"
+      }
+     ],
+     [
+      {
+       "t": "0.3445"
+      }
+     ],
+     [
+      {
+       "t": "2.596"
+      }
+     ],
+     [
+      {
+       "t": "0.246"
+      }
+     ],
+     [
+      {
+       "t": "0.0 [0.0, 0.8]"
+      }
+     ],
+     [
+      {
+       "t": "96.2"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "PID"
+      }
+     ],
+     [
+      {
+       "t": "0.0546"
+      }
+     ],
+     [
+      {
+       "t": "0.1185"
+      }
+     ],
+     [
+      {
+       "t": "1.138"
+      }
+     ],
+     [
+      {
+       "t": "0.335"
+      }
+     ],
+     [
+      {
+       "t": "3.6 [2.3, 5.6]"
+      }
+     ],
+     [
+      {
+       "t": "53.6"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "PID+DOB"
+      }
+     ],
+     [
+      {
+       "t": "0.0630"
+      }
+     ],
+     [
+      {
+       "t": "0.1365"
+      }
+     ],
+     [
+      {
+       "t": "1.214"
+      }
+     ],
+     [
+      {
+       "t": "0.404"
+      }
+     ],
+     [
+      {
+       "t": "0.0 [0.0, 0.8]"
+      }
+     ],
+     [
+      {
+       "t": "76.6"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-NG"
+      }
+     ],
+     [
+      {
+       "t": "0.0253",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.0471",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.561",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.369"
+      }
+     ],
+     [
+      {
+       "t": "96.2",
+       "b": true
+      },
+      {
+       "t": " [94.1, 97.6]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "1.000"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-G"
+      }
+     ],
+     [
+      {
+       "t": "0.0253"
+      }
+     ],
+     [
+      {
+       "t": "0.0471"
+      }
+     ],
+     [
+      {
+       "t": "0.561"
+      }
+     ],
+     [
+      {
+       "t": "0.369"
+      }
+     ],
+     [
+      {
+       "t": "96.2 [94.1, 97.6]"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ],
+     [
+      {
+       "t": "0.978"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "6.0"
+      },
+      {
+       "t": "†",
+       "v": "sup"
+      }
+     ],
+     [
+      {
+       "t": "PD"
+      }
+     ],
+     [
+      {
+       "t": "0.1653"
+      }
+     ],
+     [
+      {
+       "t": "0.4877"
+      }
+     ],
+     [
+      {
+       "t": "3.530"
+      }
+     ],
+     [
+      {
+       "t": "0.245"
+      }
+     ],
+     [
+      {
+       "t": "0.0 [0.0, 0.8]"
+      }
+     ],
+     [
+      {
+       "t": "100.0"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "PID"
+      }
+     ],
+     [
+      {
+       "t": "0.0729"
+      }
+     ],
+     [
+      {
+       "t": "0.1800"
+      }
+     ],
+     [
+      {
+       "t": "1.455"
+      }
+     ],
+     [
+      {
+       "t": "0.334"
+      }
+     ],
+     [
+      {
+       "t": "0.0 [0.0, 0.8]"
+      }
+     ],
+     [
+      {
+       "t": "83.8"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "PID+DOB"
+      }
+     ],
+     [
+      {
+       "t": "0.0787"
+      }
+     ],
+     [
+      {
+       "t": "0.1881"
+      }
+     ],
+     [
+      {
+       "t": "1.494"
+      }
+     ],
+     [
+      {
+       "t": "0.404"
+      }
+     ],
+     [
+      {
+       "t": "0.0 [0.0, 0.8]"
+      }
+     ],
+     [
+      {
+       "t": "95.6"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-NG"
+      }
+     ],
+     [
+      {
+       "t": "0.0312",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.0572",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.701",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.370"
+      }
+     ],
+     [
+      {
+       "t": "67.0",
+       "b": true
+      },
+      {
+       "t": " [62.8, 71.0]"
+      }
+     ],
+     [
+      {
+       "t": "0.4"
+      }
+     ],
+     [
+      {
+       "t": "1.000"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-G"
+      }
+     ],
+     [
+      {
+       "t": "0.0312"
+      }
+     ],
+     [
+      {
+       "t": "0.0572"
+      }
+     ],
+     [
+      {
+       "t": "0.702"
+      }
+     ],
+     [
+      {
+       "t": "0.370"
+      }
+     ],
+     [
+      {
+       "t": "66.8 [62.6, 70.8]"
+      }
+     ],
+     [
+      {
+       "t": "0.4"
+      }
+     ],
+     [
+      {
+       "t": "0.982"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "†",
+       "v": "sup"
+      },
+      {
+       "t": "Out-of-distribution: platform speed exceeds the training range."
+      }
+     ]
+    ]
+   ],
+   "label": "TABLE III",
+   "caption": [
+    {
+     "t": "Aggregate evaluation, 500 randomized Monte Carlo trials per condition. Scalar entries are means; envelope success gives Wilson 95% score intervals. Nominal speeds 5.0 and 6.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": " lie outside the training range [0, 4.0] m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": "."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "D. Robustness to disturbance-model mismatch",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Since training and test share one disturbance family, we re-ran the evaluation against a field not used for training: "
+    },
+    {
+     "t": "K",
+     "i": true
+    },
+    {
+     "t": "ϕ",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " scaled by 1.40, "
+    },
+    {
+     "t": "A",
+     "i": true
+    },
+    {
+     "t": "GE",
+     "v": "sub"
+    },
+    {
+     "t": " by 1.35, "
+    },
+    {
+     "t": "L",
+     "i": true
+    },
+    {
+     "t": " and "
+    },
+    {
+     "t": "R",
+     "i": true
+    },
+    {
+     "t": "z",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " by 1.30 and 1.40, altitude decay exponents changed from 2.0 to 1.6 in both channels, and "
+    },
+    {
+     "t": "λ",
+     "i": true
+    },
+    {
+     "t": " raised from 0.60 to 1.00, giving a stronger, more slowly decaying disturbance with a different mechanism balance."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [
+      {
+       "t": "v",
+       "i": true
+      },
+      {
+       "t": "p",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": " (m/s)"
+      }
+     ],
+     [
+      {
+       "t": "Controller"
+      }
+     ],
+     [
+      {
+       "t": "RMS "
+      },
+      {
+       "t": "ϕ",
+       "i": true
+      }
+     ],
+     [
+      {
+       "t": "Peak "
+      },
+      {
+       "t": "ϕ",
+       "i": true
+      }
+     ],
+     [
+      {
+       "t": "|Δ"
+      },
+      {
+       "t": "v",
+       "i": true
+      },
+      {
+       "t": "y",
+       "i": true,
+       "v": "sub"
+      },
+      {
+       "t": "|"
+      }
+     ],
+     [
+      {
+       "t": "Envelope (%)"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1.5"
+      }
+     ],
+     [
+      {
+       "t": "PD"
+      }
+     ],
+     [
+      {
+       "t": "0.0419"
+      }
+     ],
+     [
+      {
+       "t": "0.1059"
+      }
+     ],
+     [
+      {
+       "t": "1.014"
+      }
+     ],
+     [
+      {
+       "t": "22.4 [19.0, 26.3]"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "PID"
+      }
+     ],
+     [
+      {
+       "t": "0.0204"
+      }
+     ],
+     [
+      {
+       "t": "0.0406"
+      }
+     ],
+     [
+      {
+       "t": "0.410"
+      }
+     ],
+     [
+      {
+       "t": "100.0 [99.2, 100]"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-NG"
+      }
+     ],
+     [
+      {
+       "t": "0.0072"
+      }
+     ],
+     [
+      {
+       "t": "0.0152"
+      }
+     ],
+     [
+      {
+       "t": "0.150"
+      }
+     ],
+     [
+      {
+       "t": "100.0 [99.2, 100]"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-G"
+      }
+     ],
+     [
+      {
+       "t": "0.0072"
+      }
+     ],
+     [
+      {
+       "t": "0.0152"
+      }
+     ],
+     [
+      {
+       "t": "0.150"
+      }
+     ],
+     [
+      {
+       "t": "100.0 [99.2, 100]"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "3.0"
+      }
+     ],
+     [
+      {
+       "t": "PD"
+      }
+     ],
+     [
+      {
+       "t": "0.1570"
+      }
+     ],
+     [
+      {
+       "t": "0.5099"
+      }
+     ],
+     [
+      {
+       "t": "3.048"
+      }
+     ],
+     [
+      {
+       "t": "0.0 [0.0, 0.8]"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "PID"
+      }
+     ],
+     [
+      {
+       "t": "0.0515"
+      }
+     ],
+     [
+      {
+       "t": "0.1397"
+      }
+     ],
+     [
+      {
+       "t": "0.936"
+      }
+     ],
+     [
+      {
+       "t": "29.6 [25.8, 33.7]"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-NG"
+      }
+     ],
+     [
+      {
+       "t": "0.0185",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.0360",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.392",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "100.0",
+       "b": true
+      },
+      {
+       "t": " [99.2, 100]"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-G"
+      }
+     ],
+     [
+      {
+       "t": "0.0185"
+      }
+     ],
+     [
+      {
+       "t": "0.0360"
+      }
+     ],
+     [
+      {
+       "t": "0.392"
+      }
+     ],
+     [
+      {
+       "t": "100.0 [99.2, 100]"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "5.0"
+      },
+      {
+       "t": "†",
+       "v": "sup"
+      }
+     ],
+     [
+      {
+       "t": "PD"
+      }
+     ],
+     [
+      {
+       "t": "0.3670"
+      }
+     ],
+     [
+      {
+       "t": "0.9235"
+      }
+     ],
+     [
+      {
+       "t": "6.528"
+      }
+     ],
+     [
+      {
+       "t": "0.0 [0.0, 0.8]"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "PID"
+      }
+     ],
+     [
+      {
+       "t": "0.1524"
+      }
+     ],
+     [
+      {
+       "t": "0.4543"
+      }
+     ],
+     [
+      {
+       "t": "2.390"
+      }
+     ],
+     [
+      {
+       "t": "0.0 [0.0, 0.8]"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-NG"
+      }
+     ],
+     [
+      {
+       "t": "0.0349",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.0748",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "0.753",
+       "b": true
+      }
+     ],
+     [
+      {
+       "t": "53.0",
+       "b": true
+      },
+      {
+       "t": " [48.6, 57.3]"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "Res-G"
+      }
+     ],
+     [
+      {
+       "t": "0.0561"
+      }
+     ],
+     [
+      {
+       "t": "0.1463"
+      }
+     ],
+     [
+      {
+       "t": "1.019"
+      }
+     ],
+     [
+      {
+       "t": "52.8 [48.4, 57.1]"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "†",
+       "v": "sup"
+      },
+      {
+       "t": "Compound condition: out-of-distribution speed "
+      },
+      {
+       "t": "and",
+       "i": true
+      },
+      {
+       "t": " model mismatch."
+      }
+     ]
+    ]
+   ],
+   "label": "TABLE IV",
+   "caption": [
+    {
+     "t": "Disturbance-model mismatch. The test-time disturbance field differs from the one used to generate training data in gains, length scales, altitude decay exponents and mechanism balance. 500 trials per condition."
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "The residual keeps a substantial advantage (Table IV). At 3.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": ", envelope success is 29.6% for PID and 100% for Res-NG, with RMS roll 64% lower (paired −0.0331 rad, CI [−0.0345, −0.0317], "
+    },
+    {
+     "t": "p",
+     "i": true
+    },
+    {
+     "t": " < 10"
+    },
+    {
+     "t": "−4",
+     "v": "sup"
+    },
+    {
+     "t": "). Since the field keeps the qualitative structure of the training model, this is robustness within the family, not generalization to arbitrary aerodynamic disturbances. In the compound condition (5.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": " with mismatch), envelope success rises only from 0% to 53.0% [48.6, 57.3]: a large gain over a failing baseline but far from deployable, and a clear operating limit of the method as configured."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "E. State-distance gating and closed-loop self-masking",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Across Table III the mean gate value stays high ("
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mover accent=\"true\"><mrow><mi>σ</mi></mrow><mo>̅</mo></mover><mo>≥</mo><mn>0.971</mn></math>"
+    },
+    {
+     "t": ") and Res-G stays within 0.2 percentage points of Res-NG in envelope success, so the calibrated gate is approximately a no-op. The measured statistics point to a distributional overlap that a threshold alone cannot resolve: the mean of "
+    },
+    {
+     "t": "d",
+     "i": true
+    },
+    {
+     "t": "("
+    },
+    {
+     "t": "H",
+     "i": true
+    },
+    {
+     "t": "t",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": ") along an uncompensated trajectory rises from 1.20 at "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "p",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " = 0 to 2.73 at 6.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": ", but the 90th percentile of "
+    },
+    {
+     "t": "d",
+     "i": true
+    },
+    {
+     "t": " "
+    },
+    {
+     "t": "within",
+     "i": true
+    },
+    {
+     "t": " the training distribution is already 3.06, and the 99th percentile, which sets "
+    },
+    {
+     "t": "d",
+     "i": true
+    },
+    {
+     "t": "0",
+     "v": "sub"
+    },
+    {
+     "t": ", is 5.60. Since larger speeds also produce larger roll excursions inside the training range, there is no distributional cliff at the boundary to key on."
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "rows": [
+    [
+     [
+      {
+       "t": "κ",
+       "i": true
+      }
+     ],
+     [
+      {
+       "t": "d",
+       "i": true
+      },
+      {
+       "t": "0",
+       "v": "sub"
+      },
+      {
+       "t": " scale"
+      }
+     ],
+     [
+      {
+       "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mover accent=\"true\"><mrow><mi>σ</mi></mrow><mo>̅</mo></mover></math>"
+      }
+     ],
+     [
+      {
+       "t": "RMS "
+      },
+      {
+       "t": "ϕ",
+       "i": true
+      },
+      {
+       "t": " (rad)"
+      }
+     ],
+     [
+      {
+       "t": "Envelope (%)"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "No gate ("
+      },
+      {
+       "t": "σ",
+       "i": true
+      },
+      {
+       "t": " ≡ 1)"
+      }
+     ],
+     [
+      {
+       "t": "1.000"
+      }
+     ],
+     [
+      {
+       "t": "0.0312"
+      }
+     ],
+     [
+      {
+       "t": "67.0"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "0.4"
+      }
+     ],
+     [
+      {
+       "t": "×0.6"
+      }
+     ],
+     [
+      {
+       "t": "0.690"
+      }
+     ],
+     [
+      {
+       "t": "0.0950"
+      }
+     ],
+     [
+      {
+       "t": "34.0"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "×0.8"
+      }
+     ],
+     [
+      {
+       "t": "0.813"
+      }
+     ],
+     [
+      {
+       "t": "0.0405"
+      }
+     ],
+     [
+      {
+       "t": "61.7"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "×1.0"
+      }
+     ],
+     [
+      {
+       "t": "0.969"
+      }
+     ],
+     [
+      {
+       "t": "0.0314"
+      }
+     ],
+     [
+      {
+       "t": "63.7"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "0.8"
+      }
+     ],
+     [
+      {
+       "t": "×0.6"
+      }
+     ],
+     [
+      {
+       "t": "0.721"
+      }
+     ],
+     [
+      {
+       "t": "0.0897"
+      }
+     ],
+     [
+      {
+       "t": "37.0"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "×0.8"
+      }
+     ],
+     [
+      {
+       "t": "0.858"
+      }
+     ],
+     [
+      {
+       "t": "0.0384"
+      }
+     ],
+     [
+      {
+       "t": "62.7"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "×1.0"
+      }
+     ],
+     [
+      {
+       "t": "0.977"
+      }
+     ],
+     [
+      {
+       "t": "0.0314"
+      }
+     ],
+     [
+      {
+       "t": "63.7"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "1.2"
+      }
+     ],
+     [
+      {
+       "t": "×0.6"
+      }
+     ],
+     [
+      {
+       "t": "0.756"
+      }
+     ],
+     [
+      {
+       "t": "0.0829"
+      }
+     ],
+     [
+      {
+       "t": "40.7"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "×0.8"
+      }
+     ],
+     [
+      {
+       "t": "0.887"
+      }
+     ],
+     [
+      {
+       "t": "0.0365"
+      }
+     ],
+     [
+      {
+       "t": "63.0"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "×1.0"
+      }
+     ],
+     [
+      {
+       "t": "0.982"
+      }
+     ],
+     [
+      {
+       "t": "0.0314"
+      }
+     ],
+     [
+      {
+       "t": "63.7"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "2.4"
+      }
+     ],
+     [
+      {
+       "t": "×0.6"
+      }
+     ],
+     [
+      {
+       "t": "0.845"
+      }
+     ],
+     [
+      {
+       "t": "0.0565"
+      }
+     ],
+     [
+      {
+       "t": "49.0"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "×0.8"
+      }
+     ],
+     [
+      {
+       "t": "0.932"
+      }
+     ],
+     [
+      {
+       "t": "0.0329"
+      }
+     ],
+     [
+      {
+       "t": "63.7"
+      }
+     ]
+    ],
+    [
+     [],
+     [
+      {
+       "t": "×1.0"
+      }
+     ],
+     [
+      {
+       "t": "0.989"
+      }
+     ],
+     [
+      {
+       "t": "0.0314"
+      }
+     ],
+     [
+      {
+       "t": "64.0"
+      }
+     ]
+    ],
+    [
+     [
+      {
+       "t": "Baseline PID (no residual)"
+      }
+     ],
+     [
+      {
+       "t": "—"
+      }
+     ],
+     [
+      {
+       "t": "0.0729"
+      }
+     ],
+     [
+      {
+       "t": "0.0"
+      }
+     ]
+    ]
+   ],
+   "label": "TABLE V",
+   "caption": [
+    {
+     "t": "Gate ablation at "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "p",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " = 6.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": " (out-of-distribution), 300 trials per cell. "
+    },
+    {
+     "t": "d",
+     "i": true
+    },
+    {
+     "t": "0",
+     "v": "sub"
+    },
+    {
+     "t": " is scaled relative to the calibrated 99th-percentile value of 5.60. In this sweep, tighter gating reduces performance."
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "Tightening the gate does not help (Table V). At "
+    },
+    {
+     "t": "d",
+     "i": true
+    },
+    {
+     "t": "0",
+     "v": "sub"
+    },
+    {
+     "t": "×0.6 and "
+    },
+    {
+     "t": "κ",
+     "i": true
+    },
+    {
+     "t": " = 0.4, for example, the mean gate value falls to 0.690, envelope success drops from 67.0% (ungated) to 34.0%, and RMS roll rises from 0.0312 to 0.0950 rad; no setting in the sweep improves performance. This is consistent with the gate withdrawing a correction that remains beneficial within the tested family: the state-distance signal is poorly aligned with residual reliability here, which does not imply that distribution-shift gating is harmful in general."
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "A second effect is consistent with closed-loop self-masking. At 6.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": ", the mean gate distance is 2.43 along the "
+    },
+    {
+     "t": "compensated",
+     "i": true
+    },
+    {
+     "t": " trajectory but 2.75 along the "
+    },
+    {
+     "t": "uncompensated",
+     "i": true
+    },
+    {
+     "t": " one: successful compensation suppresses roll excursions that feed the detector, so the trajectory looks less out-of-distribution even while the residual provides substantial correction. At 3.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": " the ordering reverses (1.85 compensated versus 1.72 uncompensated), so the effect is condition-dependent; we report it as an observation for this detector and architecture, not an established mechanism. The gate fires appreciably only in the compound mismatch case at 5.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": " ("
+    },
+    {
+     "m": "<math xmlns=\"http://www.w3.org/1998/Math/MathML\"><mover accent=\"true\"><mrow><mi>σ</mi></mrow><mo>̅</mo></mover><mo>=</mo><mn>0.963</mn></math>"
+    },
+    {
+     "t": "), where it degrades performance: RMS roll rises from 0.0349 to 0.0561 (Table IV) and the roll-violation rate from 17.6% to 24.2% (not tabulated), with no gain in envelope success. Ensemble disagreement or a learned predictive variance may be less susceptible to self-masking, a hypothesis that requires future evaluation."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "F. Residual behavior under negligible modeled disturbance",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "At "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "p",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " = 0 and "
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "y",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": " ≈ 0 the modeled DAGE torque is approximately zero, yet the residual raises RMS roll from 0.0012 to 0.0063 rad (paired +0.0051, CI [+0.0050, +0.0053], "
+    },
+    {
+     "t": "p",
+     "i": true
+    },
+    {
+     "t": " < 10"
+    },
+    {
+     "t": "−4",
+     "v": "sup"
+    },
+    {
+     "t": ") and lateral mismatch from 0.003 to 0.036 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": ": all trials stay inside the envelope and the absolute level (0.0063 rad ≈ 0.36°) is far below the 0.10 rad limit, but the roughly fivefold increase is consistent with residual prediction noise when little disturbance is present. Impact speed is also modestly higher at nonzero speed (0.375 versus 0.335 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": " at 3.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": "), a separate trade-off from the vertical head."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "G. Terminal-error statistics",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "For the proposed controller at 3.0 m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": ", the empirical covariance of impact speed |"
+    },
+    {
+     "t": "v",
+     "i": true
+    },
+    {
+     "t": "z",
+     "i": true,
+     "v": "sub"
+    },
+    {
+     "t": "| (m s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": ") and terminal roll |"
+    },
+    {
+     "t": "ϕ",
+     "i": true
+    },
+    {
+     "t": "| (rad) over 500 trials is"
+    }
+   ]
+  },
+  {
+   "type": "equation",
+   "math": "<math display=\"block\" xmlns=\"http://www.w3.org/1998/Math/MathML\"><mi>Σ</mi><mo>=</mo><mrow><mo fence=\"true\">[</mo><mrow><mtable><mtr><mtd><mrow><mn>4.78</mn><mo>×</mo><msup><mrow><mn>10</mn></mrow><mrow><mo>−</mo><mn>5</mn></mrow></msup></mrow></mtd><mtd><mrow><mo>−</mo><mn>1.16</mn><mo>×</mo><msup><mrow><mn>10</mn></mrow><mrow><mo>−</mo><mn>6</mn></mrow></msup></mrow></mtd></mtr><mtr><mtd><mrow><mo>−</mo><mn>1.16</mn><mo>×</mo><msup><mrow><mn>10</mn></mrow><mrow><mo>−</mo><mn>6</mn></mrow></msup></mrow></mtd><mtd><mrow><mn>3.47</mn><mo>×</mo><msup><mrow><mn>10</mn></mrow><mrow><mo>−</mo><mn>5</mn></mrow></msup></mrow></mtd></mtr></mtable></mrow><mo fence=\"true\">]</mo></mrow><mo>,</mo></math>",
+   "number": "15"
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "a correlation of "
+    },
+    {
+     "t": "ρ",
+     "i": true
+    },
+    {
+     "t": " = −0.028, i.e., little linear association. This is descriptive only and does not imply independent failure mechanisms or output heads; we report "
+    },
+    {
+     "t": "ρ",
+     "i": true
+    },
+    {
+     "t": " because the raw covariance entry has no interpretable scale."
+    }
+   ]
+  },
+  {
+   "type": "h2",
+   "runs": [
+    {
+     "t": "H. Computational cost",
+     "i": true
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "The network (24 → 64 → 64 → 32 → 2) has 7,906 parameters and needs 7,744 multiply–accumulate operations (15,488 FLOPs) per pass. Lacking STM32H7 hardware, we use published throughput: Garofalo "
+    },
+    {
+     "t": "et al.",
+     "i": true
+    },
+    {
+     "t": " [21] report 1.066 GMAC s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": " on GAP-8, 7.45× an STM32H7 running CMSIS-NN [22], implying about 0.143 GMAC s"
+    },
+    {
+     "t": "−1",
+     "v": "sup"
+    },
+    {
+     "t": " and roughly 54 µs per pass, well inside the 10,000 µs budget of a 100 Hz loop. This is only an order-of-magnitude estimate: the cited figure is for an INT8 convolutional network, not float32 dense layers, excludes runtime overheads, and was not measured on the target."
+    }
+   ]
+  },
+  {
+   "type": "h1",
+   "runs": [
+    {
+     "t": "VIII. Limitations"
+    }
+   ]
+  },
+  {
+   "type": "li",
+   "runs": [
+    {
+     "t": "Reduced-order simulator.",
+     "b": true
+    },
+    {
+     "t": " Rotor aerodynamics, motor models, actuator saturation, platform geometry, and six-degree-of-freedom airframe dynamics are omitted, so aerodynamic validity and real-flight performance are not established."
+    }
+   ]
+  },
+  {
+   "type": "li",
+   "runs": [
+    {
+     "t": "Phenomenological disturbance model.",
+     "b": true
+    },
+    {
+     "t": " Equations (6)–(7) are not derived from blade-element momentum theory, validated against CFD, or fitted to flight data. The mismatch study shows robustness within the chosen family, not that its structure or physical interpretation is correct."
+    }
+   ]
+  },
+  {
+   "type": "li",
+   "runs": [
+    {
+     "t": "Partial observability of platform motion.",
+     "b": true
+    },
+    {
+     "t": " Predictive utility from a 40 ms history does not establish observability or identifiability of platform motion; a history-length ablation and comparisons with explicit lateral- and platform-velocity measurements are needed."
+    }
+   ]
+  },
+  {
+   "type": "h1",
+   "runs": [
+    {
+     "t": "IX. Conclusion and Future Work"
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "We introduced a phenomenological DAGE disturbance model for UAV landing on a laterally translating platform and evaluated residual compensation for it in reduced-order simulation. The residual controller substantially improves touchdown quality over PID, including beyond the training speed range, and keeps a substantial advantage under model mismatch, although it degrades when mismatch and speed extrapolation combine; the state-distance gate provides little benefit, consistent with self-masking specific to this detector and architecture. Future work should use a higher-fidelity simulator with rotor and motor dynamics, compare the disturbance against CFD or measured force and torque data, vary the history length, and test uncertainty-aware gating under controlled distribution shift."
+    }
+   ]
+  },
+  {
+   "type": "h1",
+   "runs": [
+    {
+     "t": "Acknowledgment"
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "This work was carried out in the Department of Computer Science and Engineering, Sharda University, under the supervision of Dharmendar Kumar."
+    }
+   ]
+  },
+  {
+   "type": "h1",
+   "runs": [
+    {
+     "t": "Reproducibility"
+    }
+   ]
+  },
+  {
+   "type": "p",
+   "runs": [
+    {
+     "t": "All code uses NumPy only. Every constant, hyperparameter, and seed needed to reproduce Tables III–V and Figs. 3–5 is given in Sections V–VII; the implementation is available on request."
+    }
+   ]
+  },
+  {
+   "type": "h1",
+   "runs": [
+    {
+     "t": "References"
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[1]\tR. Mahony, V. Kumar, and P. Corke, “Multirotor aerial vehicles: Modeling, estimation, and control of quadrotor,” "
+    },
+    {
+     "t": "IEEE Robot. Autom. Mag.",
+     "i": true
+    },
+    {
+     "t": ", vol. 19, no. 3, pp. 20–32, Sep. 2012."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[2]\tT. Lee, M. Leok, and N. H. McClamroch, “Geometric tracking control of a quadrotor UAV on SE(3),” in "
+    },
+    {
+     "t": "Proc. 49th IEEE Conf. Decision and Control (CDC)",
+     "i": true
+    },
+    {
+     "t": ", 2010, pp. 5420–5425."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[3]\tM. Kamel, T. Stastny, K. Alexis, and R. Siegwart, “Model predictive control for trajectory tracking of unmanned aerial vehicles using robot operating system,” in "
+    },
+    {
+     "t": "Robot Operating System (ROS)",
+     "i": true
+    },
+    {
+     "t": ". Cham, Switzerland: Springer, 2017, pp. 3–39."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[4]\tI. C. Cheeseman and W. E. Bennett, “The effect of the ground on a helicopter rotor in forward flight,” Aeronautical Research Council, London, U.K., R&M 3021, 1955."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[5]\tP. J. Sanchez-Cuevas, G. Heredia, and A. Ollero, “Characterization of the aerodynamic ground effect and its influence in multirotor control,” "
+    },
+    {
+     "t": "Int. J. Aerosp. Eng.",
+     "i": true
+    },
+    {
+     "t": ", vol. 2017, art. 1823056, 2017."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[6]\tG. Shi, X. Shi, M. O’Connell, R. Yu, K. Azizzadenesheli, A. Anandkumar, Y. Yue, and S.-J. Chung, “Neural Lander: Stable drone landing control using learned dynamics,” in "
+    },
+    {
+     "t": "Proc. IEEE Int. Conf. Robotics and Automation (ICRA)",
+     "i": true
+    },
+    {
+     "t": ", 2019, pp. 9784–9790."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[7]\tM. O’Connell, G. Shi, X. Shi, K. Azizzadenesheli, A. Anandkumar, Y. Yue, and S.-J. Chung, “Neural-Fly enables rapid learning for agile flight in strong winds,” "
+    },
+    {
+     "t": "Sci. Robot.",
+     "i": true
+    },
+    {
+     "t": ", vol. 7, no. 66, art. eabm6597, 2022."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[8]\tT. Silver, K. Allen, J. Tenenbaum, and L. Kaelbling, “Residual policy learning,” arXiv:1812.06298, 2018."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[9]\tT. Johannink, S. Bahl, A. Nair, J. Luo, A. Kumar, M. Loskyll, J. A. Ojea, E. Solowjow, and S. Levine, “Residual reinforcement learning for robot control,” in "
+    },
+    {
+     "t": "Proc. IEEE Int. Conf. Robotics and Automation (ICRA)",
+     "i": true
+    },
+    {
+     "t": ", 2019, pp. 6023–6029."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[10]\tW. Koch, R. Mancuso, R. West, and A. Bestavros, “Reinforcement learning for UAV attitude control,” "
+    },
+    {
+     "t": "ACM Trans. Cyber-Phys. Syst.",
+     "i": true
+    },
+    {
+     "t": ", vol. 3, no. 2, pp. 1–21, 2019."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[11]\tW.-H. Chen, J. Yang, L. Guo, and S. Li, “Disturbance-observer-based control and related methods—An overview,” "
+    },
+    {
+     "t": "IEEE Trans. Ind. Electron.",
+     "i": true
+    },
+    {
+     "t": ", vol. 63, no. 2, pp. 1083–1095, Feb. 2016."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[12]\tJ. Han, “From PID to active disturbance rejection control,” "
+    },
+    {
+     "t": "IEEE Trans. Ind. Electron.",
+     "i": true
+    },
+    {
+     "t": ", vol. 56, no. 3, pp. 900–906, Mar. 2009."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[13]\tJ. Peng and K. Xia, “A deep learning neural network control approach for quadrotor UAV landing on a moving platform,” in "
+    },
+    {
+     "t": "Advances in Guidance, Navigation and Control (ICGNC 2024)",
+     "i": true
+    },
+    {
+     "t": ", Lecture Notes in Electrical Engineering, vol. 1337. Singapore: Springer, 2025, pp. 486–495."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[14]\tT. Yang, K. Chai, J. Ji, Y. Wu, C. Xu, and F. Gao, “Ground-effect-aware modeling and control for multicopters,” arXiv:2506.19424, 2025."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[15]\tX. Li, G. Qi, S. Wang "
+    },
+    {
+     "t": "et al.",
+     "i": true
+    },
+    {
+     "t": ", “Stable hovering of proximity quadrotor UAV in-ground effect via model compensation controller,” "
+    },
+    {
+     "t": "Nonlinear Dyn.",
+     "i": true
+    },
+    {
+     "t": ", vol. 112, pp. 15349–15375, 2024."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[16]\tM. H. Danesh, M. Wabartha, S. Wu, J. Pineau, and H.-C. Lin, “Safe domain randomization via uncertainty-aware out-of-distribution detection and policy adaptation,” arXiv:2507.06111, 2025."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[17]\tE. D. Sontag, “Smooth stabilization implies coprime factorization,” "
+    },
+    {
+     "t": "IEEE Trans. Autom. Control",
+     "i": true
+    },
+    {
+     "t": ", vol. 34, no. 4, pp. 435–443, Apr. 1989."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[18]\tH. K. Khalil, "
+    },
+    {
+     "t": "Nonlinear Systems",
+     "i": true
+    },
+    {
+     "t": ", 3rd ed. Upper Saddle River, NJ, USA: Prentice Hall, 2002."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[19]\tL. D. Brown, T. T. Cai, and A. DasGupta, “Interval estimation for a binomial proportion,” "
+    },
+    {
+     "t": "Statist. Sci.",
+     "i": true
+    },
+    {
+     "t": ", vol. 16, no. 2, pp. 101–133, 2001."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[20]\tB. Efron and R. J. Tibshirani, "
+    },
+    {
+     "t": "An Introduction to the Bootstrap",
+     "i": true
+    },
+    {
+     "t": ". New York, NY, USA: Chapman & Hall, 1993."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[21]\tA. Garofalo, M. Rusci, F. Conti, D. Rossi, and L. Benini, “PULP-NN: Accelerating quantized neural networks on parallel ultra-low-power RISC-V processors,” "
+    },
+    {
+     "t": "Philos. Trans. Roy. Soc. A",
+     "i": true
+    },
+    {
+     "t": ", vol. 378, no. 2164, art. 20190155, 2020."
+    }
+   ]
+  },
+  {
+   "type": "ref",
+   "runs": [
+    {
+     "t": "[22]\tL. Lai, N. Suda, and V. Chandra, “CMSIS-NN: Efficient neural network kernels for Arm Cortex-M CPUs,” arXiv:1801.06601, 2018."
+    }
+   ]
+  }
+ ]
+}

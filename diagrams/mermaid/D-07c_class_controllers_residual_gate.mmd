@@ -1,0 +1,78 @@
+%% D-07c Class diagram - controllers, residual model and gate - ResLand v0.9 (generated from diagrams_def.py; same content as the .drawio file)
+classDiagram
+  direction TB
+  class Controller {
+    <<abstract>>
+    +reset(batch_size, rng)
+    +compute(obs, ref) Command
+  }
+  class PIDCascade {
+    +gains: PIDGains
+    +lateral: LateralGains
+    +limits: Limits | None
+    +compute(obs, ref) Command
+  }
+  class PDCascade {
+    +K_I = 0
+  }
+  class PIDDOBController {
+    +pid: PIDCascade
+    +dob: VerticalDOB
+    +compute(obs, ref) Command
+  }
+  class VerticalDOB {
+    +tau: float = 1.0
+    +update(a_meas, u_z) d_hat
+  }
+  class ResidualAugmentedController {
+    +nominal: Controller
+    +predictor: ResidualPredictor
+    +gate: Gate
+    +history: HistoryBuffer
+    +compute(obs, ref) Command
+  }
+  class HistoryBuffer {
+    +W: int = 4
+    +push(obs, u_nom) H~B, 24~
+  }
+  class ResidualPredictor {
+    +weights: npz
+    +norm_stats: NormStats
+    +load(path)$
+    +predict(H) (tau_hat, a_hat)
+  }
+  class ResidualMLP {
+    +24-64-64-32-2, tanh
+    +forward(x) Tensor
+  }
+  class Trainer {
+    +cfg: TrainingConfig
+    +fit(train, val) TrainingReport
+  }
+  class Gate {
+    <<abstract>>
+    +sigma(H) ndarray
+  }
+  class DistanceGate {
+    +mu, std: ndarray
+    +d0: float
+    +kappa: float
+    +distance(H) ndarray
+  }
+  class ConstantGate {
+    +value: float = 1.0
+  }
+  Controller <|-- PIDCascade
+  PIDCascade <|-- PDCascade
+  Controller <|-- PIDDOBController
+  Controller <|-- ResidualAugmentedController
+  PIDDOBController *-- PIDCascade
+  PIDDOBController *-- VerticalDOB
+  ResidualAugmentedController o-- Controller : nominal
+  ResidualAugmentedController *-- HistoryBuffer
+  ResidualAugmentedController o-- ResidualPredictor
+  ResidualAugmentedController o-- Gate
+  Gate <|-- DistanceGate
+  Gate <|-- ConstantGate
+  Trainer ..> ResidualMLP : trains
+  Trainer ..> ResidualPredictor : exports

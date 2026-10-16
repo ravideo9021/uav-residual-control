@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1270" height="540" viewBox="0 0 1270 540" font-family="Arial, Liberation Sans, Helvetica, sans-serif">
+<defs><marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11" fill="none" stroke="#3b4a60" stroke-width="1.6"/></marker><marker id="block" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11 Z" fill="#3b4a60"/></marker><marker id="inherit" viewBox="0 0 16 16" refX="15" refY="8" markerWidth="14" markerHeight="14" orient="auto-start-reverse"><path d="M1,1 L15,8 L1,15 Z" fill="#ffffff" stroke="#3b4a60" stroke-width="1.4"/></marker><marker id="compose" viewBox="0 0 20 12" refX="1" refY="6" markerWidth="16" markerHeight="10" orient="auto"><path d="M1,6 L10,1 L19,6 L10,11 Z" fill="#3b4a60"/></marker><marker id="aggregate" viewBox="0 0 20 12" refX="1" refY="6" markerWidth="16" markerHeight="10" orient="auto"><path d="M1,6 L10,1 L19,6 L10,11 Z" fill="#ffffff" stroke="#3b4a60" stroke-width="1.3"/></marker></defs>
+<rect width="1270" height="540" fill="#ffffff"/>
+<path d="M300.0,50.5 L240.0,57.5" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-start="url(#aggregate)"/>
+<path d="M600.0,50.5 L660.0,65.0" fill="none" stroke="#3b4a60" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#open)"/>
+<path d="M555.0,20.0 L555.0,8.0 L1150.0,8.0 L1150.0,190.0" fill="none" stroke="#3b4a60" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#open)"/>
+<path d="M330.0,81.0 L196.0,190.0" fill="none" stroke="#3b4a60" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#open)"/>
+<path d="M480.0,81.0 L342.6,190.0" fill="none" stroke="#3b4a60" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#open)"/>
+<path d="M130.0,251.0 L130.0,400.0" fill="none" stroke="#3b4a60" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#open)"/>
+<path d="M371.0,324.0 L364.0,400.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-start="url(#compose)"/>
+<path d="M562.7,324.0 L565.0,400.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-start="url(#compose)"/>
+<path d="M726.0,324.0 L746.0,400.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-start="url(#compose)"/>
+<path d="M903.5,324.0 L942.5,400.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-start="url(#compose)"/>
+<path d="M1010.0,303.9 L1040.0,422.5" fill="none" stroke="#3b4a60" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#open)"/>
+<path d="M1150.0,280.0 L1150.0,400.0" fill="none" stroke="#3b4a60" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#open)"/>
+<rect x="20" y="20" width="220" height="75" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="130.0" y="41" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">ExperimentPlan</text>
+<line x1="20" y1="49" x2="240" y2="49" stroke="#1f4e8c"/>
+<text x="28" y="63.64" font-size="11" fill="#0d2240">conditions: list[Condition]</text>
+<line x1="20" y1="70.64" x2="240" y2="70.64" stroke="#1f4e8c"/>
+<text x="28" y="85.28" font-size="11" fill="#0d2240">from_config(cfg) {static}</text>
+<rect x="300" y="20" width="300" height="61" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="450.0" y="41" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">ExperimentRunner</text>
+<line x1="300" y1="49" x2="600" y2="49" stroke="#1f4e8c"/>
+<line x1="300" y1="56" x2="600" y2="56" stroke="#1f4e8c"/>
+<text x="308" y="70.64" font-size="11" fill="#0d2240">run(plan, on_progress, cancel) RunHandle</text>
+<rect x="660" y="20" width="210" height="90" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="765.0" y="41" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">RunWriter</text>
+<line x1="660" y1="49" x2="870" y2="49" stroke="#1f4e8c"/>
+<text x="668" y="63.64" font-size="11" fill="#0d2240">run_dir: Path</text>
+<line x1="660" y1="70.64" x2="870" y2="70.64" stroke="#1f4e8c"/>
+<text x="668" y="85.28" font-size="11" fill="#0d2240">write_batch(df)</text>
+<text x="668" y="99.92" font-size="11" fill="#0d2240">finalize(manifest)</text>
+<rect x="20" y="190" width="220" height="61" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="130.0" y="211" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">Randomizer</text>
+<line x1="20" y1="219" x2="240" y2="219" stroke="#1f4e8c"/>
+<line x1="20" y1="226" x2="240" y2="226" stroke="#1f4e8c"/>
+<text x="28" y="240.64" font-size="11" fill="#0d2240">sample(cfg, seeds) TrialBatch</text>
+<rect x="300" y="190" width="710" height="134" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="655.0" y="211" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">Simulator</text>
+<line x1="300" y1="219" x2="1010" y2="219" stroke="#1f4e8c"/>
+<text x="308" y="233.64" font-size="11" fill="#0d2240">dynamics: Dynamics</text>
+<text x="308" y="248.27999999999997" font-size="11" fill="#0d2240">disturbance: DisturbanceModel</text>
+<text x="308" y="262.91999999999996" font-size="11" fill="#0d2240">noise: NoiseModel</text>
+<text x="308" y="277.55999999999995" font-size="11" fill="#0d2240">touchdown: TouchdownDetector</text>
+<line x1="300" y1="284.55999999999995" x2="1010" y2="284.55999999999995" stroke="#1f4e8c"/>
+<text x="308" y="299.19999999999993" font-size="11" fill="#0d2240">run(trials, controller: Controller)</text>
+<text x="308" y="313.8399999999999" font-size="11" fill="#0d2240">  -&gt; TrajectoryBatch</text>
+<rect x="1040" y="190" width="220" height="90" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="1150.0" y="211" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">Evaluator</text>
+<line x1="1040" y1="219" x2="1260" y2="219" stroke="#1f4e8c"/>
+<line x1="1040" y1="226" x2="1260" y2="226" stroke="#1f4e8c"/>
+<text x="1048" y="240.64" font-size="11" fill="#0d2240">trial_metrics(traj, thr)</text>
+<text x="1048" y="255.27999999999997" font-size="11" fill="#0d2240">aggregate(trials)</text>
+<text x="1048" y="269.91999999999996" font-size="11" fill="#0d2240">compare(trials, reference)</text>
+<rect x="20" y="400" width="220" height="61" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="130.0" y="421" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">TrialBatch</text>
+<line x1="20" y1="429" x2="240" y2="429" stroke="#1f4e8c"/>
+<text x="28" y="443.64" font-size="11" fill="#0d2240">seeds, v_p, scalings, x0: ndarray</text>
+<line x1="20" y1="450.64" x2="240" y2="450.64" stroke="#1f4e8c"/>
+<rect x="300" y="400" width="160" height="75" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="380.0" y="421" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">Dynamics</text>
+<line x1="300" y1="429" x2="460" y2="429" stroke="#1f4e8c"/>
+<text x="308" y="443.64" font-size="11" fill="#0d2240">dt: float = 0.01</text>
+<line x1="300" y1="450.64" x2="460" y2="450.64" stroke="#1f4e8c"/>
+<text x="308" y="465.28" font-size="11" fill="#0d2240">step(x, cmd, dist, rng)</text>
+<rect x="475" y="400" width="180" height="90" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="565.0" y="421" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">DisturbanceModel</text>
+<line x1="475" y1="429" x2="655" y2="429" stroke="#1f4e8c"/>
+<text x="483" y="443.64" font-size="11" fill="#0d2240">profile: DisturbanceProfile</text>
+<line x1="475" y1="450.64" x2="655" y2="450.64" stroke="#1f4e8c"/>
+<text x="483" y="465.28" font-size="11" fill="#0d2240">tau_dage(z, v_y, v_p, phi)</text>
+<text x="483" y="479.91999999999996" font-size="11" fill="#0d2240">a_ge(z)</text>
+<rect x="670" y="400" width="190" height="75" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="765.0" y="421" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">NoiseModel</text>
+<line x1="670" y1="429" x2="860" y2="429" stroke="#1f4e8c"/>
+<text x="678" y="443.64" font-size="11" fill="#0d2240">sigmas: NoiseConfig</text>
+<line x1="670" y1="450.64" x2="860" y2="450.64" stroke="#1f4e8c"/>
+<text x="678" y="465.28" font-size="11" fill="#0d2240">measure(state, rng) Observation</text>
+<rect x="875" y="400" width="135" height="75" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="942.5" y="421" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">TouchdownDetector</text>
+<line x1="875" y1="429" x2="1010" y2="429" stroke="#1f4e8c"/>
+<text x="883" y="443.64" font-size="11" fill="#0d2240">phi_div: float</text>
+<line x1="875" y1="450.64" x2="1010" y2="450.64" stroke="#1f4e8c"/>
+<text x="883" y="465.28" font-size="11" fill="#0d2240">check(state) flags</text>
+<rect x="1040" y="400" width="220" height="90" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="1150.0" y="421" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">TrajectoryBatch</text>
+<line x1="1040" y1="429" x2="1260" y2="429" stroke="#1f4e8c"/>
+<text x="1048" y="443.64" font-size="11" fill="#0d2240">states, obs, u_nom, u</text>
+<text x="1048" y="458.28" font-size="11" fill="#0d2240">sigma, d, tau_dage, a_ge</text>
+<text x="1048" y="472.91999999999996" font-size="11" fill="#0d2240">outcome, t_touchdown</text>
+<line x1="1040" y1="479.91999999999996" x2="1260" y2="479.91999999999996" stroke="#1f4e8c"/>
+<rect x="606.9" y="28.8" width="46.2" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="630.0" y="42.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">writes</text>
+<rect x="983.3" y="-1.2" width="33.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="1000.0" y="12.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">uses</text>
+<rect x="245.3" y="125.8" width="33.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="262.0" y="139.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">uses</text>
+<rect x="430.1" y="125.8" width="39.8" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="450.0" y="139.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">run()</text>
+<rect x="103.7" y="360.8" width="52.5" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="130.0" y="374.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">creates</text>
+<rect x="1023.7" y="320.8" width="52.5" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="1050.0" y="334.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">creates</text>
+<rect x="1165.1" y="360.8" width="39.8" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="1185.0" y="374.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">reads</text>
+</svg>

@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="650" viewBox="0 0 1120 650" font-family="Arial, Liberation Sans, Helvetica, sans-serif">
+<defs><marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11" fill="none" stroke="#3b4a60" stroke-width="1.6"/></marker><marker id="block" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11 Z" fill="#3b4a60"/></marker><marker id="inherit" viewBox="0 0 16 16" refX="15" refY="8" markerWidth="14" markerHeight="14" orient="auto-start-reverse"><path d="M1,1 L15,8 L1,15 Z" fill="#ffffff" stroke="#3b4a60" stroke-width="1.4"/></marker><marker id="compose" viewBox="0 0 20 12" refX="1" refY="6" markerWidth="16" markerHeight="10" orient="auto"><path d="M1,6 L10,1 L19,6 L10,11 Z" fill="#3b4a60"/></marker><marker id="aggregate" viewBox="0 0 20 12" refX="1" refY="6" markerWidth="16" markerHeight="10" orient="auto"><path d="M1,6 L10,1 L19,6 L10,11 Z" fill="#ffffff" stroke="#3b4a60" stroke-width="1.3"/></marker></defs>
+<rect width="1120" height="650" fill="#ffffff"/>
+<path d="M170.0,259.8 L290.0,255.7" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M292.2,283.2 L170.0,283.2" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M170.0,498.0 L312.0,314.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M345.0,215.0 L345.0,120.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-start="url(#open)" marker-end="url(#open)"/>
+<path d="M400.0,270.0 L520.0,270.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M383.5,314.0 L520.0,505.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M558.5,450.0 L558.5,325.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M591.5,325.0 L591.5,450.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M630.0,483.0 L720.0,430.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M630.0,532.5 L720.0,550.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M762.5,410.0 L624.5,297.5" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M630.0,270.0 L740.0,270.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M850.0,270.0 L900.0,270.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M959.5,250.0 L963.5,170.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M999.8,170.0 L1015.6,250.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M985.0,290.0 L980.0,440.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M985.0,590.0 L980.0,550.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M1035.0,495.0 L1100.0,495.0 L1100.0,25.0 L100.0,25.0 L100.0,240.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<rect x="30" y="240" width="140" height="60" rx="3" fill="#fff4e0" stroke="#b26b00" stroke-width="1.4"/>
+<text x="100.0" y="274.34000000000003" text-anchor="middle" font-size="14" font-weight="normal" fill="#3d2600">Experimenter</text>
+<rect x="30" y="480" width="140" height="60" rx="3" fill="#fff4e0" stroke="#b26b00" stroke-width="1.4"/>
+<text x="100.0" y="514.34" text-anchor="middle" font-size="14" font-weight="normal" fill="#3d2600">ML Developer</text>
+<ellipse cx="345.0" cy="270.0" rx="55.0" ry="55.0" fill="#e7f0fb" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="345.0" y="257.39" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">1.0</text>
+<text x="345.0" y="274.03" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Configure &amp;</text>
+<text x="345.0" y="290.66999999999996" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">validate</text>
+<ellipse cx="575.0" cy="270.0" rx="55.0" ry="55.0" fill="#e7f0fb" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="575.0" y="257.39" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">3.0</text>
+<text x="575.0" y="274.03" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Simulate</text>
+<text x="575.0" y="290.66999999999996" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">trials</text>
+<ellipse cx="575.0" cy="505.0" rx="55.0" ry="55.0" fill="#e7f0fb" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="575.0" y="492.39000000000004" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">2.0</text>
+<text x="575.0" y="509.03000000000003" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Generate data</text>
+<text x="575.0" y="525.6700000000001" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">&amp; train</text>
+<ellipse cx="795.0" cy="270.0" rx="55.0" ry="55.0" fill="#e7f0fb" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="795.0" y="257.39" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">4.0</text>
+<text x="795.0" y="274.03" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Compute trial</text>
+<text x="795.0" y="290.66999999999996" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">metrics</text>
+<ellipse cx="980.0" cy="115.0" rx="55.0" ry="55.0" fill="#e7f0fb" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="980.0" y="102.38999999999999" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">5.0</text>
+<text x="980.0" y="119.02999999999999" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Aggregate &amp;</text>
+<text x="980.0" y="135.67" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">compare</text>
+<ellipse cx="980.0" cy="495.0" rx="55.0" ry="55.0" fill="#e7f0fb" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="980.0" y="482.39000000000004" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">6.0</text>
+<text x="980.0" y="499.03000000000003" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Visualise &amp;</text>
+<text x="980.0" y="515.6700000000001" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">export</text>
+<rect x="270" y="80" width="150" height="40" fill="#eef6ee" stroke="none"/><line x1="270" y1="80" x2="420" y2="80" stroke="#3a7d44" stroke-width="1.6"/><line x1="270" y1="120" x2="420" y2="120" stroke="#3a7d44" stroke-width="1.6"/>
+<text x="345.0" y="104.03" text-anchor="middle" font-size="13" font-weight="normal" fill="#173b1d">D1  configs/</text>
+<rect x="720" y="410" width="170" height="40" fill="#eef6ee" stroke="none"/><line x1="720" y1="410" x2="890" y2="410" stroke="#3a7d44" stroke-width="1.6"/><line x1="720" y1="450" x2="890" y2="450" stroke="#3a7d44" stroke-width="1.6"/>
+<text x="805.0" y="434.03000000000003" text-anchor="middle" font-size="13" font-weight="normal" fill="#173b1d">D2  models/</text>
+<rect x="720" y="530" width="170" height="40" fill="#eef6ee" stroke="none"/><line x1="720" y1="530" x2="890" y2="530" stroke="#3a7d44" stroke-width="1.6"/><line x1="720" y1="570" x2="890" y2="570" stroke="#3a7d44" stroke-width="1.6"/>
+<text x="805.0" y="554.03" text-anchor="middle" font-size="13" font-weight="normal" fill="#173b1d">D3  data/ (datasets)</text>
+<rect x="900" y="250" width="170" height="40" fill="#eef6ee" stroke="none"/><line x1="900" y1="250" x2="1070" y2="250" stroke="#3a7d44" stroke-width="1.6"/><line x1="900" y1="290" x2="1070" y2="290" stroke="#3a7d44" stroke-width="1.6"/>
+<text x="985.0" y="274.03000000000003" text-anchor="middle" font-size="13" font-weight="normal" fill="#173b1d">D4  results/&lt;run_id&gt;/</text>
+<rect x="900" y="590" width="170" height="40" fill="#eef6ee" stroke="none"/><line x1="900" y1="590" x2="1070" y2="590" stroke="#3a7d44" stroke-width="1.6"/><line x1="900" y1="630" x2="1070" y2="630" stroke="#3a7d44" stroke-width="1.6"/>
+<text x="985.0" y="614.03" text-anchor="middle" font-size="13" font-weight="normal" fill="#173b1d">D5  data/paper_reference/</text>
+<rect x="194.2" y="238.8" width="71.6" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="230.0" y="252.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">parameters</text>
+<rect x="194.2" y="283.6" width="71.6" height="32.8" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="230.0" y="297.0" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">validation</text>
+<text x="230.0" y="311.4" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">messages</text>
+<rect x="178.3" y="420.8" width="103.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="230.0" y="434.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">training config</text>
+<rect x="328.3" y="162.8" width="33.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="345.0" y="176.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">YAML</text>
+<rect x="408.3" y="238.6" width="103.4" height="32.8" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="460.0" y="252.0" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">resolved config</text>
+<text x="460.0" y="266.4" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">+ seeds</text>
+<rect x="378.3" y="420.8" width="103.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="430.0" y="434.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">resolved config</text>
+<rect x="473.7" y="371.6" width="52.5" height="32.8" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="500.0" y="385.0" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">PID run</text>
+<text x="500.0" y="399.4" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">request</text>
+<rect x="606.5" y="355.6" width="97.0" height="32.8" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="655.0" y="369.0" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">trajectories +</text>
+<text x="655.0" y="383.4" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">tau_DAGE, a_GE</text>
+<rect x="626.5" y="445.8" width="97.0" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="675.0" y="459.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">model artefact</text>
+<rect x="632.8" y="520.8" width="84.3" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="675.0" y="534.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">windows X, Y</text>
+<rect x="671.5" y="340.8" width="97.0" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="720.0" y="354.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">predictor + d0</text>
+<rect x="633.3" y="245.8" width="103.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="685.0" y="259.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">TrajectoryBatch</text>
+<rect x="849.7" y="228.8" width="52.5" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="876.0" y="242.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">metrics</text>
+<rect x="882.2" y="202.8" width="71.6" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="918.0" y="216.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">trials.csv</text>
+<rect x="995.1" y="193.6" width="109.8" height="32.8" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="1050.0" y="207.0" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">aggregate.csv,</text>
+<text x="1050.0" y="221.4" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">paired_diffs.csv</text>
+<rect x="988.7" y="355.8" width="52.5" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="1015.0" y="369.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">results</text>
+<rect x="1015.8" y="553.6" width="84.3" height="32.8" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="1058.0" y="567.0" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">paper values</text>
+<text x="1058.0" y="581.4" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">(labelled)</text>
+<rect x="503.8" y="15.8" width="192.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="600.0" y="29.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">plots, tables, exported files</text>
+</svg>

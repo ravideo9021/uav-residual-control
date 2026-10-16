@@ -1,0 +1,17 @@
+# Paper-reported values, transcribed from Deo et al. (reference [1]). source = Paper-reported. Read-only; never written into run results.
+# Table V: gate ablation at v_p = 6.0 m/s, 300 trials per cell (see OI-11); d0 scaled relative to 5.60.
+kappa,d0_scale,sigma_bar,rms_phi,envelope_pct,note
+none,,1.000,0.0312,67.0,No gate (sigma = 1)
+0.4,0.6,0.690,0.0950,34.0,
+0.4,0.8,0.813,0.0405,61.7,
+0.4,1.0,0.969,0.0314,63.7,
+0.8,0.6,0.721,0.0897,37.0,
+0.8,0.8,0.858,0.0384,62.7,
+0.8,1.0,0.977,0.0314,63.7,
+1.2,0.6,0.756,0.0829,40.7,
+1.2,0.8,0.887,0.0365,63.0,
+1.2,1.0,0.982,0.0314,63.7,
+2.4,0.6,0.845,0.0565,49.0,
+2.4,0.8,0.932,0.0329,63.7,
+2.4,1.0,0.989,0.0314,64.0,
+baseline_PID,,,0.0729,0.0,Baseline PID (no residual)

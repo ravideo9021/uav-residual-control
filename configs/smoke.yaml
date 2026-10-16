@@ -1,0 +1,6 @@
+# Fast configuration for CI smoke and integration tests (not a paper configuration).
+schema_version: "1.0"
+extends: paper_default.yaml
+residual: {training: {n_trajectories: 20, held_out: 4, n_windows: 5000}}
+plan: {name: custom, controllers: [PID, Res-NG], speeds: [3.0], n_trials: 20, master_seed: 7}
+statistics: {bootstrap_resamples: 1000, bootstrap_seed: 7}

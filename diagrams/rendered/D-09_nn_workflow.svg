@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="575" viewBox="0 0 1100 575" font-family="Arial, Liberation Sans, Helvetica, sans-serif">
+<defs><marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11" fill="none" stroke="#3b4a60" stroke-width="1.6"/></marker><marker id="block" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11 Z" fill="#3b4a60"/></marker><marker id="inherit" viewBox="0 0 16 16" refX="15" refY="8" markerWidth="14" markerHeight="14" orient="auto-start-reverse"><path d="M1,1 L15,8 L1,15 Z" fill="#ffffff" stroke="#3b4a60" stroke-width="1.4"/></marker><marker id="compose" viewBox="0 0 20 12" refX="1" refY="6" markerWidth="16" markerHeight="10" orient="auto"><path d="M1,6 L10,1 L19,6 L10,11 Z" fill="#3b4a60"/></marker><marker id="aggregate" viewBox="0 0 20 12" refX="1" refY="6" markerWidth="16" markerHeight="10" orient="auto"><path d="M1,6 L10,1 L19,6 L10,11 Z" fill="#ffffff" stroke="#3b4a60" stroke-width="1.3"/></marker></defs>
+<rect width="1100" height="575" fill="#ffffff"/>
+<rect x="10" y="10" width="1080" height="335" rx="6" fill="#e7f0fb" stroke="#1f4e8c" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="20" y="29" font-size="13" font-weight="bold" fill="#1f4e8c">Training workflow (offline; CLI: resland generate / train / calibrate)</text>
+<rect x="10" y="360" width="1080" height="205" rx="6" fill="#fff4e0" stroke="#b26b00" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="20" y="379" font-size="13" font-weight="bold" fill="#b26b00">Inference workflow (every step, 100 Hz loop, NumPy)</text>
+<path d="M260.0,92.5 L290.0,92.5" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M520.0,92.5 L550.0,92.5" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M780.0,92.5 L810.0,92.5" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M940.0,140.0 L940.1,180.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M790.0,250.0 L750.0,250.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M670.0,205.0 L670.0,162.0 L832.0,162.0 L832.0,180.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M590.0,250.0 L560.0,250.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M395.0,250.0 L370.0,250.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M200.0,250.0 L185.0,257.5" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M180.0,450.0 L215.0,450.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M385.0,435.0 L425.0,430.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M385.0,468.0 L425.0,515.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M575.0,430.0 L610.0,430.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M760.0,430.0 L795.0,430.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M945.0,430.0 L975.0,438.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M945.0,515.0 L975.0,502.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M102.5,330.0 L102.0,392.0 L685.0,392.0 L685.0,405.0" fill="none" stroke="#3b4a60" stroke-width="1.4" stroke-dasharray="6 4" marker-end="url(#open)"/>
+<rect x="30" y="45" width="230" height="95" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="145.0" y="71.57" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">1. Generate data</text>
+<text x="145.0" y="88.21" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">400 PID trajectories</text>
+<text x="145.0" y="104.85" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">v_p ~ U(0, 4.0) m/s, seed 42</text>
+<text x="145.0" y="121.49" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">per-trial randomisation</text>
+<rect x="290" y="45" width="230" height="95" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="405.0" y="79.88999999999999" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">2. Build windows</text>
+<text x="405.0" y="96.52999999999999" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">H_t (W = 4) → X [N, 24]</text>
+<text x="405.0" y="113.16999999999999" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">targets Y = (τ_DAGE, a_GE)</text>
+<rect x="550" y="45" width="230" height="95" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="665.0" y="79.88999999999999" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">3. Split by trajectory</text>
+<text x="665.0" y="96.52999999999999" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">340 train / 60 held-out</text>
+<text x="665.0" y="113.16999999999999" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">sub-sample 200,000 windows</text>
+<rect x="810" y="45" width="260" height="95" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="940.0" y="79.88999999999999" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">4. Standardise</text>
+<text x="940.0" y="96.52999999999999" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">fit μ, s on training set</text>
+<text x="940.0" y="113.16999999999999" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">(inputs and targets)</text>
+<rect x="790" y="180" width="280" height="140" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="930.0" y="220.75" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">5. Train MLP 24-64-64-32-2, tanh</text>
+<text x="930.0" y="237.39" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">MSE + 1e-5·‖θ‖²</text>
+<text x="930.0" y="254.03" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Adam 8e-4 × 0.94^epoch, batch 256</text>
+<text x="930.0" y="270.67" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">dropout 0.05, input noise 0.02</text>
+<text x="930.0" y="287.31" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">grad-norm clip 5.0, init seed 1</text>
+<polygon points="670.0,205 750,250.0 670.0,295 590,250.0" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="670.0" y="246.04" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">val. MSE improved</text>
+<text x="670.0" y="261.4" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">in last 6 epochs?</text>
+<rect x="395" y="220" width="165" height="60" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="477.5" y="245.71" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">6. Restore</text>
+<text x="477.5" y="262.35" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">best epoch</text>
+<rect x="200" y="215" width="170" height="70" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="285.0" y="237.39" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">7. Calibrate gate</text>
+<text x="285.0" y="254.02999999999997" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">d0 = 99th percentile</text>
+<text x="285.0" y="270.66999999999996" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">of d on held-out</text>
+<path d="M20,194 A82.5,9 0 0 1 185,194 L185,321 A82.5,9 0 0 1 20,321 Z" fill="#eef6ee" stroke="#3a7d44" stroke-width="1.4"/><path d="M20,194 A82.5,9 0 0 0 185,194" fill="none" stroke="#3a7d44" stroke-width="1.4"/>
+<text x="102.5" y="228.82000000000002" text-anchor="middle" font-size="12" font-weight="bold" fill="#173b1d">Model artefact</text>
+<text x="102.5" y="244.18" text-anchor="middle" font-size="11" font-weight="normal" fill="#173b1d">weights.pt / .npz</text>
+<text x="102.5" y="259.54" text-anchor="middle" font-size="11" font-weight="normal" fill="#173b1d">norm_stats.json</text>
+<text x="102.5" y="274.90000000000003" text-anchor="middle" font-size="11" font-weight="normal" fill="#173b1d">gate_calibration.json</text>
+<text x="102.5" y="290.26" text-anchor="middle" font-size="11" font-weight="normal" fill="#173b1d">training_log.csv</text>
+<text x="102.5" y="305.62" text-anchor="middle" font-size="11" font-weight="normal" fill="#173b1d">model_card.md, SHA-256</text>
+<rect x="30" y="420" width="150" height="60" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="105.0" y="445.71000000000004" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">Step k inputs</text>
+<text x="105.0" y="462.35" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">obs_k, u_nom,k</text>
+<rect x="215" y="420" width="170" height="60" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="300.0" y="445.71000000000004" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">HistoryBuffer</text>
+<text x="300.0" y="462.35" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">H_t [B, 24]</text>
+<rect x="425" y="405" width="150" height="50" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="500.0" y="425.71000000000004" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">Standardise</text>
+<text x="500.0" y="442.35" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">(μ, s)</text>
+<rect x="610" y="405" width="150" height="50" rx="3" fill="#e7f0fb" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="685.0" y="425.71000000000004" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">MLP forward</text>
+<text x="685.0" y="442.35" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">(NumPy)</text>
+<rect x="795" y="405" width="150" height="50" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="870.0" y="425.71000000000004" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">De-standardise</text>
+<text x="870.0" y="442.35" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">→ tau_hat, a_hat</text>
+<rect x="425" y="490" width="520" height="50" rx="3" fill="#eef6ee" stroke="#3a7d44" stroke-width="1.4"/>
+<text x="685.0" y="518.72" text-anchor="middle" font-size="12" font-weight="normal" fill="#173b1d">Gate (M5): d(H_t) = max_i |H_t,i − μ_i| / s_i  →  σ = clip(exp(−max(0, d − d0)/κ), 0, 1)</text>
+<rect x="975" y="430" width="105" height="80" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="1027.5" y="457.39000000000004" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">Apply</text>
+<text x="1027.5" y="474.03000000000003" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">u = u_nom</text>
+<text x="1027.5" y="490.6700000000001" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">− σ·r̂</text>
+<rect x="698.3" y="152.8" width="103.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="750.0" y="166.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">yes: next epoch</text>
+<rect x="564.6" y="228.8" width="20.7" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="575.0" y="242.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">no</text>
+<rect x="949.6" y="418.8" width="20.7" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="960.0" y="432.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">r̂</text>
+<rect x="952.8" y="504.8" width="14.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="960.0" y="518.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">σ</text>
+<rect x="419.3" y="382.8" width="281.5" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="560.0" y="396.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">load after SHA-256 check: weights, μ, s, d0</text>
+</svg>

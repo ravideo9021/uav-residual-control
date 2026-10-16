@@ -1,0 +1,26 @@
+%% D-13 Implementation schedule - proposed dates, to be confirmed with the guide - ResLand v0.9
+gantt
+  title ResLand implementation schedule (proposed)
+  dateFormat YYYY-MM-DD
+  axisFormat %d %b
+  section Design
+  P0 Requirements & design (this spec)     :done, p0, 2026-10-05, 2026-10-18
+  section MVP build
+  S1 Config + dynamics core                :s1, 2026-10-19, 14d
+  S2 Controllers + touchdown               :s2, after s1, 14d
+  S3 Runner + evaluation engine            :s3, after s2, 14d
+  B1 Buffer - end-semester exams (TBC)     :crit, b1, after s3, 21d
+  S4 Dataset + training                    :s4, after b1, 14d
+  S5 Residual integration + gate           :s5, after s4, 14d
+  S6 Mismatch, ablation, regression        :s6, after s5, 14d
+  S7 Dashboard screens 1-2                 :s7, after s6, 14d
+  S8 Dashboard screens 3-4 + export        :s8, after s7, 14d
+  section Release
+  S9 System testing + MVP freeze           :s9, after s8, 14d
+  S10 Optional extensions + docs           :s10, after s9, 14d
+  P11 Final report + viva prep             :p11, after s10, 21d
+  section Milestones
+  Eval 2 - design review                   :milestone, m1, 2026-10-19, 0d
+  Baselines reproduced                     :milestone, m2, 2026-11-29, 0d
+  Table III reproduced                     :milestone, m3, 2027-01-17, 0d
+  MVP v1.0 tagged                          :milestone, m4, 2027-03-14, 0d

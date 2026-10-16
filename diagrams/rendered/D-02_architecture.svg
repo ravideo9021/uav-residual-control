@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620" font-family="Arial, Liberation Sans, Helvetica, sans-serif">
+<defs><marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11" fill="none" stroke="#3b4a60" stroke-width="1.6"/></marker><marker id="block" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11 Z" fill="#3b4a60"/></marker><marker id="inherit" viewBox="0 0 16 16" refX="15" refY="8" markerWidth="14" markerHeight="14" orient="auto-start-reverse"><path d="M1,1 L15,8 L1,15 Z" fill="#ffffff" stroke="#3b4a60" stroke-width="1.4"/></marker><marker id="compose" viewBox="0 0 20 12" refX="1" refY="6" markerWidth="16" markerHeight="10" orient="auto"><path d="M1,6 L10,1 L19,6 L10,11 Z" fill="#3b4a60"/></marker><marker id="aggregate" viewBox="0 0 20 12" refX="1" refY="6" markerWidth="16" markerHeight="10" orient="auto"><path d="M1,6 L10,1 L19,6 L10,11 Z" fill="#ffffff" stroke="#3b4a60" stroke-width="1.3"/></marker></defs>
+<rect width="960" height="620" fill="#ffffff"/>
+<rect x="20" y="20" width="680" height="120" rx="6" fill="#e7f0fb" stroke="#1f4e8c" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="30" y="39" font-size="13" font-weight="bold" fill="#1f4e8c">Presentation layer</text>
+<rect x="20" y="160" width="680" height="130" rx="6" fill="#eef6ee" stroke="#3a7d44" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="30" y="179" font-size="13" font-weight="bold" fill="#3a7d44">Application layer</text>
+<rect x="20" y="310" width="680" height="290" rx="6" fill="#fff4e0" stroke="#b26b00" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="30" y="329" font-size="13" font-weight="bold" fill="#b26b00">Domain layer</text>
+<rect x="720" y="20" width="220" height="580" rx="6" fill="#f3f3f3" stroke="#777777" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="730" y="39" font-size="13" font-weight="bold" fill="#777777">Infrastructure layer</text>
+<path d="M165.0,122.0 L330.0,195.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M449.0,122.0 L410.0,195.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M597.5,122.0 L595.0,195.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M270.0,235.0 L240.0,235.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M470.0,235.0 L500.0,235.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M330.0,275.0 L130.0,345.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M220.0,384.6 L300.0,385.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M220.0,510.0 L300.0,510.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M410.0,455.0 L410.0,425.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M520.0,510.0 L550.0,510.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M700.0,80.0 L735.0,88.8" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M700.0,199.0 L735.0,157.8" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M700.0,257.5 L745.0,278.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M700.0,391.2 L745.0,333.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M700.0,518.8 L745.0,475.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<rect x="40" y="52" width="250" height="70" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="165.0" y="74.39" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">CLI entry points</text>
+<text x="165.0" y="91.03" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">generate · train · calibrate</text>
+<text x="165.0" y="107.67" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">run · reproduce</text>
+<rect x="350" y="52" width="330" height="70" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="515.0" y="74.39" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">M9 User Interface (Streamlit)</text>
+<text x="515.0" y="91.03" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Setup · Simulation · Comparison</text>
+<text x="515.0" y="107.67" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Results &amp; Analysis</text>
+<rect x="40" y="195" width="200" height="80" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="140.0" y="222.39" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">M7 Evaluation Engine</text>
+<text x="140.0" y="239.02999999999997" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">metrics · Wilson CI</text>
+<text x="140.0" y="255.67" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">paired bootstrap</text>
+<rect x="270" y="195" width="200" height="80" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="370.0" y="222.39" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">M6 Experiment Runner</text>
+<text x="370.0" y="239.02999999999997" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">plans · randomiser</text>
+<text x="370.0" y="255.67" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">paired seeds · batches</text>
+<rect x="500" y="195" width="190" height="80" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="595.0" y="222.39" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">M8 Visualization</text>
+<text x="595.0" y="239.02999999999997" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">&amp; Reporting: Plotly,</text>
+<text x="595.0" y="255.67" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Matplotlib, export</text>
+<rect x="40" y="345" width="180" height="220" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="130.0" y="400.79" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">M2 Dynamics Sim.</text>
+<text x="130.0" y="417.43" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">z, v_z, y, v_y, phi, p</text>
+<text x="130.0" y="434.07000000000005" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">dt 0.01 s, T 12 s</text>
+<text x="130.0" y="450.71000000000004" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">DAGE + ground effect</text>
+<text x="130.0" y="467.35" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">sensor/process noise</text>
+<text x="130.0" y="483.99" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">touchdown,</text>
+<text x="130.0" y="500.63" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">divergence</text>
+<text x="130.0" y="517.27" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">vectorised trials</text>
+<rect x="300" y="345" width="220" height="80" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="410.0" y="372.39000000000004" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">M3 Baseline Controllers</text>
+<text x="410.0" y="389.03000000000003" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">PD · PID · PID+DOB</text>
+<text x="410.0" y="405.6700000000001" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Controller interface</text>
+<rect x="300" y="455" width="220" height="110" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="410.0" y="480.75" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">M4 Residual Learning</text>
+<text x="410.0" y="497.39" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">dataset · trainer</text>
+<text x="410.0" y="514.03" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">MLP 24-64-64-32-2</text>
+<text x="410.0" y="530.67" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">NumPy predictor</text>
+<text x="410.0" y="547.31" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">ResidualAugmentedCtrl</text>
+<rect x="550" y="455" width="140" height="110" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="620.0" y="489.07000000000005" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">M5 Gate</text>
+<text x="620.0" y="505.71000000000004" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">d(H), sigma(d)</text>
+<text x="620.0" y="522.35" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">d0 calibration</text>
+<text x="620.0" y="538.99" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">ConstantGate</text>
+<rect x="735" y="60" width="190" height="115" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="830.0" y="88.25" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">M1 Configuration</text>
+<text x="830.0" y="104.89" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Manager</text>
+<text x="830.0" y="121.53" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">YAML schema</text>
+<text x="830.0" y="138.17000000000002" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">validation · seeds</text>
+<text x="830.0" y="154.81" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">presets</text>
+<path d="M745,254 A85.0,9 0 0 1 915,254 L915,346 A85.0,9 0 0 1 745,346 Z" fill="#eef6ee" stroke="#3a7d44" stroke-width="1.4"/><path d="M745,254 A85.0,9 0 0 0 915,254" fill="none" stroke="#3a7d44" stroke-width="1.4"/>
+<text x="830.0" y="293.39000000000004" text-anchor="middle" font-size="13" font-weight="bold" fill="#173b1d">Storage</text>
+<text x="830.0" y="310.03000000000003" text-anchor="middle" font-size="12" font-weight="normal" fill="#173b1d">configs/ models/</text>
+<text x="830.0" y="326.6700000000001" text-anchor="middle" font-size="12" font-weight="normal" fill="#173b1d">data/ results/</text>
+<rect x="745" y="440" width="170" height="70" rx="3" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="830.0" y="470.71000000000004" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d2240">Logging</text>
+<text x="830.0" y="487.35" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">run.log, manifest.json</text>
+<rect x="98.3" y="288.8" width="103.4" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="150.0" y="302.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">Simulator.run()</text>
+<rect x="227.4" y="360.8" width="65.2" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="260.0" y="374.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">compute()</text>
+<rect x="227.4" y="484.8" width="65.2" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="260.0" y="498.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">compute()</text>
+<rect x="428.7" y="430.8" width="52.5" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="455.0" y="444.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">nominal</text>
+</svg>

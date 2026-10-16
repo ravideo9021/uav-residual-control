@@ -1,0 +1,108 @@
+%% D-11 Requirements traceability diagram: FR groups -> modules -> test levels (generated from spec_data.py) - ResLand v0.9
+flowchart LR
+  subgraph RQ["Functional requirement groups (70 FRs)"]
+    CFG["FR-CFG (5)<br/>Experiment configuration"]
+    INIT["FR-INIT (3)<br/>UAV state initialisation"]
+    SIM["FR-SIM (6)<br/>Reduced-order dynamics simulation"]
+    DIST["FR-DIST (4)<br/>DAGE disturbance configuration"]
+    CTRL["FR-CTRL (5)<br/>PID and PD control"]
+    DOB["FR-DOB (2)<br/>Disturbance-observer baseline"]
+    TRN["FR-TRN (4)<br/>Residual dataset and training"]
+    RES["FR-RES (5)<br/>Residual neural-network inference"]
+    GATE["FR-GATE (5)<br/>State-distance gating"]
+    MC["FR-MC (3)<br/>Monte Carlo experiment execution"]
+    TD["FR-TD (2)<br/>Touchdown detection"]
+    ENV["FR-ENV (4)<br/>Landing-envelope evaluation"]
+    CMP["FR-CMP (3)<br/>Controller comparison"]
+    VIS["FR-VIS (3)<br/>Trajectory visualisation"]
+    RPT["FR-RPT (3)<br/>Results tables and statistical summaries"]
+    EXP["FR-EXP (4)<br/>Saving and exporting results"]
+    ERR["FR-ERR (4)<br/>Error handling and reproducible execution"]
+    UI["FR-UI (5)<br/>Dashboard user interface"]
+  end
+  subgraph MD["Modules"]
+    M1["M1 Experiment Configuration Manager"]
+    M2["M2 UAV Dynamics Simulator"]
+    M3["M3 Baseline Controllers"]
+    M4["M4 Residual Learning"]
+    M5["M5 Residual-Authority Gate"]
+    M6["M6 Experiment Runner"]
+    M7["M7 Evaluation Engine"]
+    M8["M8 Visualization and Reporting"]
+    M9["M9 User Interface"]
+  end
+  subgraph TS["Verification (56 test cases)"]
+    UT["Unit tests (UT): 30"]
+    IT["Integration tests (IT): 9"]
+    ST["System tests (ST): 8"]
+    RT["Regression tests (RT): 3"]
+    EV["Experimental validation (EV): 6"]
+  end
+  CFG --> M1
+  CFG --> M6
+  CMP --> M7
+  CMP --> M8
+  CTRL --> M3
+  CTRL --> M4
+  DIST --> M1
+  DIST --> M2
+  DOB --> M3
+  ENV --> M7
+  ERR --> M1
+  ERR --> M2
+  ERR --> M6
+  EXP --> M6
+  EXP --> M8
+  EXP --> M9
+  GATE --> M5
+  GATE --> M6
+  GATE --> M7
+  INIT --> M6
+  INIT --> M8
+  MC --> M6
+  MC --> M9
+  RES --> M4
+  RPT --> M7
+  RPT --> M8
+  RPT --> M9
+  SIM --> M2
+  TD --> M2
+  TD --> M7
+  TRN --> M4
+  UI --> M9
+  VIS --> M8
+  M1 -.-> EV
+  M1 -.-> IT
+  M1 -.-> RT
+  M1 -.-> ST
+  M1 -.-> UT
+  M2 -.-> EV
+  M2 -.-> IT
+  M2 -.-> RT
+  M2 -.-> UT
+  M3 -.-> IT
+  M3 -.-> UT
+  M4 -.-> EV
+  M4 -.-> IT
+  M4 -.-> RT
+  M4 -.-> UT
+  M5 -.-> EV
+  M5 -.-> IT
+  M5 -.-> ST
+  M5 -.-> UT
+  M6 -.-> EV
+  M6 -.-> IT
+  M6 -.-> RT
+  M6 -.-> ST
+  M6 -.-> UT
+  M7 -.-> IT
+  M7 -.-> UT
+  M8 -.-> IT
+  M8 -.-> ST
+  M8 -.-> UT
+  M9 -.-> IT
+  M9 -.-> ST
+  classDef default fill:#ffffff,stroke:#1f4e8c,color:#0d2240;
+  style RQ fill:#e7f0fb,stroke:#1f4e8c
+  style MD fill:#fff7e6,stroke:#b26b00
+  style TS fill:#eef6ee,stroke:#3a7d44

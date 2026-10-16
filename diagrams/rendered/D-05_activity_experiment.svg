@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="660" viewBox="0 0 1180 660" font-family="Arial, Liberation Sans, Helvetica, sans-serif">
+<defs><marker id="open" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="10" markerHeight="10" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11" fill="none" stroke="#3b4a60" stroke-width="1.6"/></marker><marker id="block" viewBox="0 0 12 12" refX="11" refY="6" markerWidth="9" markerHeight="9" orient="auto-start-reverse"><path d="M1,1 L11,6 L1,11 Z" fill="#3b4a60"/></marker><marker id="inherit" viewBox="0 0 16 16" refX="15" refY="8" markerWidth="14" markerHeight="14" orient="auto-start-reverse"><path d="M1,1 L15,8 L1,15 Z" fill="#ffffff" stroke="#3b4a60" stroke-width="1.4"/></marker><marker id="compose" viewBox="0 0 20 12" refX="1" refY="6" markerWidth="16" markerHeight="10" orient="auto"><path d="M1,6 L10,1 L19,6 L10,11 Z" fill="#3b4a60"/></marker><marker id="aggregate" viewBox="0 0 20 12" refX="1" refY="6" markerWidth="16" markerHeight="10" orient="auto"><path d="M1,6 L10,1 L19,6 L10,11 Z" fill="#ffffff" stroke="#3b4a60" stroke-width="1.3"/></marker></defs>
+<rect width="1180" height="660" fill="#ffffff"/>
+<rect x="10" y="10" width="1160" height="200" rx="6" fill="#e7f0fb" stroke="#1f4e8c" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="20" y="29" font-size="13" font-weight="bold" fill="#1f4e8c">Preparation and validation (M9, M1)</text>
+<rect x="10" y="225" width="1160" height="170" rx="6" fill="#fff4e0" stroke="#b26b00" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="20" y="244" font-size="13" font-weight="bold" fill="#b26b00">Execution loop (M6 → M2, M3-M5, M7)</text>
+<rect x="10" y="410" width="1160" height="240" rx="6" fill="#eef6ee" stroke="#3a7d44" stroke-width="1.2" stroke-dasharray="6 4"/>
+<text x="20" y="429" font-size="13" font-weight="bold" fill="#3a7d44">Aggregation and reporting (M7, M8, M9)</text>
+<path d="M54.0,97.0 L75.0,97.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M275.0,97.0 L305.0,97.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M475.0,97.0 L505.0,97.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M560.0,132.0 L560.0,150.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M480.0,173.0 L175.0,173.0 L175.0,127.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M615.0,97.0 L655.0,97.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M855.0,97.0 L890.0,97.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M1080.0,97.0 L1120.0,97.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M755.0,147.0 L755.0,260.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M640.0,295.0 L600.0,295.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M330.0,295.0 L290.0,295.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M175.0,330.0 L175.0,440.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M235.0,475.0 L290.0,475.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M375.0,435.0 L370.5,340.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M460.0,475.0 L510.0,475.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M730.0,475.0 L770.0,475.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M175.0,510.0 L175.0,555.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M175.0,595.0 L175.0,628.0 L820.0,628.0 L820.0,505.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M1020.0,475.0 L1045.0,475.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M1100.0,510.0 L1100.0,560.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M1072.5,492.5 L892.0,573.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<path d="M930.0,585.0 L904.0,585.0" fill="none" stroke="#3b4a60" stroke-width="1.4" marker-end="url(#open)"/>
+<circle cx="42.0" cy="97.0" r="12.0" fill="#0d2240"/>
+<text x="42.0" y="101.33999999999999" text-anchor="middle" font-size="14" font-weight="normal" fill="#0d2240"></text>
+<rect x="75" y="67" width="200" height="60" rx="14" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="175.0" y="84.38999999999999" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">Load preset / saved config;</text>
+<text x="175.0" y="101.02999999999999" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">edit controllers, speeds,</text>
+<text x="175.0" y="117.66999999999999" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">profile, seed, N</text>
+<rect x="305" y="75" width="170" height="44" rx="14" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="390.0" y="101.03" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">Validate configuration</text>
+<polygon points="560.0,62 615,97.0 560.0,132 505,97.0" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="560.0" y="101.03" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">Valid?</text>
+<rect x="480" y="150" width="160" height="46" rx="14" fill="#fdecec" stroke="#b3261e" stroke-width="1.4"/>
+<text x="560.0" y="169.04" text-anchor="middle" font-size="12" font-weight="normal" fill="#5c0f0b">Show field-level errors;</text>
+<text x="560.0" y="184.39999999999998" text-anchor="middle" font-size="12" font-weight="normal" fill="#5c0f0b">Run disabled</text>
+<polygon points="755.0,47 855,97.0 755.0,147 655,97.0" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="755.0" y="85.36000000000001" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Residual controller</text>
+<text x="755.0" y="100.72000000000001" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">and model artefact</text>
+<text x="755.0" y="116.08000000000001" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">invalid?</text>
+<rect x="890" y="62" width="190" height="70" rx="14" fill="#fdecec" stroke="#b3261e" stroke-width="1.4"/>
+<text x="985.0" y="85.36000000000001" text-anchor="middle" font-size="12" font-weight="normal" fill="#5c0f0b">MissingModelError:</text>
+<text x="985.0" y="100.72000000000001" text-anchor="middle" font-size="12" font-weight="normal" fill="#5c0f0b">train / calibrate via CLI</text>
+<text x="985.0" y="116.08000000000001" text-anchor="middle" font-size="12" font-weight="normal" fill="#5c0f0b">(UC-04, UC-05)</text>
+<circle cx="1132.0" cy="97.0" r="12.0" fill="#ffffff" stroke="#0d2240" stroke-width="2"/><circle cx="1132.0" cy="97.0" r="7.0" fill="#0d2240"/>
+<text x="1132.0" y="101.33999999999999" text-anchor="middle" font-size="14" font-weight="normal" fill="#0d2240"></text>
+<rect x="640" y="260" width="230" height="70" rx="14" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="755.0" y="282.39000000000004" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">Expand plan into conditions;</text>
+<text x="755.0" y="299.03000000000003" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">derive paired seeds;</text>
+<text x="755.0" y="315.6700000000001" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">save config.resolved.yaml</text>
+<rect x="330" y="250" width="270" height="90" rx="14" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="465.0" y="274.07000000000005" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">For next condition / batch:</text>
+<text x="465.0" y="290.71000000000004" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">sample trials → simulate at 100 Hz</text>
+<text x="465.0" y="307.35" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">until touchdown, T = 12 s or</text>
+<text x="465.0" y="323.99000000000007" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">divergence → per-trial metrics</text>
+<rect x="60" y="260" width="230" height="70" rx="14" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="175.0" y="282.39000000000004" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">Append batch atomically</text>
+<text x="175.0" y="299.03000000000003" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">to trials.csv;</text>
+<text x="175.0" y="315.6700000000001" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">publish progress</text>
+<polygon points="175.0,440 235,475.0 175.0,510 115,475.0" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="175.0" y="479.03000000000003" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">Cancel?</text>
+<polygon points="375.0,435 460,475.0 375.0,515 290,475.0" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="375.0" y="471.03999999999996" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">More batches or</text>
+<text x="375.0" y="486.4" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">conditions?</text>
+<rect x="510" y="445" width="220" height="60" rx="14" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="620.0" y="471.03999999999996" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Aggregate: means, Wilson 95% CI,</text>
+<text x="620.0" y="486.4" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">paired bootstrap vs PID, sigma_bar</text>
+<rect x="770" y="445" width="250" height="60" rx="14" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="895.0" y="463.35999999999996" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Write aggregate.csv, paired_diffs.csv,</text>
+<text x="895.0" y="478.71999999999997" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">manifest.json; display results</text>
+<text x="895.0" y="494.0799999999999" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">with provenance labels</text>
+<polygon points="1100.0,440 1155,475.0 1100.0,510 1045,475.0" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="1100.0" y="479.03000000000003" text-anchor="middle" font-size="13" font-weight="normal" fill="#0d2240">Export?</text>
+<rect x="95" y="555" width="160" height="40" rx="14" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="175.0" y="578.72" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Status = CANCELLED</text>
+<rect x="930" y="560" width="200" height="50" rx="14" fill="#ffffff" stroke="#1f4e8c" stroke-width="1.4"/>
+<text x="1030.0" y="581.04" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">Export CSV / PNG /</text>
+<text x="1030.0" y="596.4" text-anchor="middle" font-size="12" font-weight="normal" fill="#0d2240">SVG / summary</text>
+<circle cx="892.0" cy="585.0" r="12.0" fill="#ffffff" stroke="#0d2240" stroke-width="2"/><circle cx="892.0" cy="585.0" r="7.0" fill="#0d2240"/>
+<text x="892.0" y="589.3399999999999" text-anchor="middle" font-size="14" font-weight="normal" fill="#0d2240"></text>
+<rect x="571.6" y="131.8" width="20.7" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="582.0" y="145.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">no</text>
+<rect x="621.5" y="74.8" width="27.1" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="635.0" y="88.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">yes</text>
+<rect x="858.5" y="74.8" width="27.1" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="872.0" y="88.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">yes</text>
+<rect x="766.6" y="190.8" width="20.7" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="777.0" y="204.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">no</text>
+<rect x="251.6" y="452.8" width="20.7" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="262.0" y="466.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">no</text>
+<rect x="384.5" y="378.8" width="27.1" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="398.0" y="392.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">yes</text>
+<rect x="474.6" y="452.8" width="20.7" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="485.0" y="466.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">no</text>
+<rect x="184.5" y="522.8" width="27.1" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="198.0" y="536.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">yes</text>
+<rect x="1108.5" y="525.8" width="27.1" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="1122.0" y="539.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">yes</text>
+<rect x="974.6" y="510.8" width="20.7" height="18.4" fill="#ffffff" fill-opacity="0.92" rx="2"/>
+<text x="985.0" y="524.2" text-anchor="middle" font-size="12" font-style="italic" fill="#2b3a50">no</text>
+</svg>

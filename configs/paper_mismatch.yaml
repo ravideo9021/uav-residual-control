@@ -1,0 +1,10 @@
+# Mismatch plan (paper Sec. VII-D, Table IV): inherits paper_default; evaluation uses the 'mismatch' profile.
+schema_version: "1.0"
+extends: paper_default.yaml
+plan:
+  name: mismatch
+  controllers: [PD, PID, Res-NG, Res-G]
+  speeds: [1.5, 3.0, 5.0]
+  n_trials: 500
+  train_profile: nominal
+  eval_profile: mismatch

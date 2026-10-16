@@ -1,0 +1,16 @@
+%% D-10 Experiment execution workflow (plans) - ResLand v0.9
+flowchart TB
+  P{{"Experiment plan (M6)"}}
+  P --> SW["<b>speed_sweep</b> (Table III)<br/>PD, PID, PID+DOB, Res-NG, Res-G<br/>v_p in {0, 1.5, 3.0, 5.0, 6.0} m/s<br/>N = 500 → 25 conditions"]
+  P --> MM["<b>mismatch</b> (Table IV)<br/>PD, PID, Res-NG, Res-G<br/>v_p in {1.5, 3.0, 5.0} m/s<br/>train = nominal, eval = mismatch<br/>N = 500 → 12 conditions"]
+  P --> GA["<b>gate_ablation</b> (Table V)<br/>Res-G at v_p = 6.0 m/s<br/>kappa in {0.4, 0.8, 1.2, 2.4}<br/>d0 x {0.6, 0.8, 1.0} + ungated<br/>N = 300 → 13 conditions"]
+  P --> CU["<b>custom</b><br/>dashboard-defined<br/>controllers, speeds,<br/>profile, N"]
+  SW --> C["Conditions × paired seeds<br/>(same seeds for every controller in a condition)"]
+  MM --> C
+  GA --> C
+  CU --> C
+  C --> B["Batched, vectorised simulation (M2 + controllers)<br/>→ per-trial metrics (M7) → trials.csv"]
+  B --> AG["Aggregate: means, Wilson 95% CI,<br/>paired bootstrap vs PID, sigma_bar"]
+  AG --> T["Tables III / IV / V layout (M8)<br/>labelled 'Reproduced' beside 'Paper-reported'"]
+  AG --> DB["Dashboard views (M9)<br/>and exports"]
+  classDef default fill:#ffffff,stroke:#1f4e8c,color:#0d2240;

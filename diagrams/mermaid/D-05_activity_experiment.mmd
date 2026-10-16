@@ -1,0 +1,43 @@
+%% D-05 UML activity diagram - complete experiment - Mermaid auto-layout alternative generated from the same definition as the draw.io file
+flowchart TD
+  S(("start"))
+  A1("Load preset / saved config;<br/>edit controllers, speeds,<br/>profile, seed, N")
+  A3("Validate configuration")
+  D1{"Valid?"}
+  A4("Show field-level errors;<br/>Run disabled")
+  D3{"Residual controller<br/>and model artefact<br/>invalid?"}
+  A5("MissingModelError:<br/>train / calibrate via CLI<br/>(UC-04, UC-05)")
+  E1((("end")))
+  A6("Expand plan into conditions;<br/>derive paired seeds;<br/>save config.resolved.yaml")
+  A9("For next condition / batch:<br/>sample trials → simulate at 100 Hz<br/>until touchdown, T = 12 s or<br/>divergence → per-trial metrics")
+  A11("Append batch atomically<br/>to trials.csv;<br/>publish progress")
+  D4{"Cancel?"}
+  D5{"More batches or<br/>conditions?"}
+  A12("Aggregate: means, Wilson 95% CI,<br/>paired bootstrap vs PID, sigma_bar")
+  A13("Write aggregate.csv, paired_diffs.csv,<br/>manifest.json; display results<br/>with provenance labels")
+  D6{"Export?"}
+  A14("Status = CANCELLED")
+  A16("Export CSV / PNG /<br/>SVG / summary")
+  E2((("end")))
+  S --> A1
+  A1 --> A3
+  A3 --> D1
+  D1 -->|"no"| A4
+  A4 --> A1
+  D1 -->|"yes"| D3
+  D3 -->|"yes"| A5
+  A5 --> E1
+  D3 -->|"no"| A6
+  A6 --> A9
+  A9 --> A11
+  A11 --> D4
+  D4 -->|"no"| D5
+  D5 -->|"yes"| A9
+  D5 -->|"no"| A12
+  A12 --> A13
+  D4 -->|"yes"| A14
+  A14 --> A13
+  A13 --> D6
+  D6 -->|"yes"| A16
+  D6 -->|"no"| E2
+  A16 --> E2
